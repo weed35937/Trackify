@@ -7,7 +7,8 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit -<code>srce/App.js</code> and save to reload.
+          Edit -<code>srce/App.js</code>
+          and save to reload.
         </p>
         <p>{`Server is running on ${process.env.REACT_APP_SERVER_URL}`}</p>
         <a

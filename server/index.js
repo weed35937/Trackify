@@ -30,7 +30,7 @@ const connect = () => {
         });
 };
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     const status = err.status || 500;
     const message = err.message || "Something went wrong";
     return res.status(status).json({

@@ -1,47 +1,47 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "jest": true
-  },
-  "extends": [
-    "react-app",
-    "react-app/jest",
-    "airbnb",
-    "plugin:react/recommended"
-  ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest": true
     },
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
-  "plugins": ["react", "prettier"],
-  "rules": {
-    "quotes": [
-      "error",
-      "double",
-      {
-        "avoidEscape": true
-      }
+    "extends": [
+        "react-app",
+        "react-app/jest",
+        "airbnb",
+        "plugin:react/recommended"
     ],
-    "comma-dangle": [
-      "error",
-      {
-        "arrays": "never",
-        "objects": "never",
-        "imports": "never",
-        "exports": "never",
-        "functions": "never"
-      }
-    ],
-    "object-curly-newline": ["error", "never"],
-    "react/jsx-uses-react": ["off"],
-    "react/react-in-jsx-scope": ["off"],
-    "react/jsx-one-expression-per-line": ["off"],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/jsx-props-no-spreading": ["warn"],
-    "no-shadow": ["off"]
-  }
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": ["react", "prettier"],
+    "rules": {
+        "quotes": [
+            "error",
+            "double",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "never",
+                "objects": "never",
+                "imports": "never",
+                "exports": "never",
+                "functions": "never"
+            }
+        ],
+        "object-curly-newline": ["error", "never"],
+        "react/jsx-uses-react": ["off"],
+        "react/react-in-jsx-scope": ["off"],
+        "react/jsx-one-expression-per-line": ["off"],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-props-no-spreading": ["warn"],
+        "no-shadow": ["off"]
+    }
 }

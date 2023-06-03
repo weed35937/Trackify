@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  client:
+    # stdin_open: true
+    # tty: true
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client/src:/app/src
+    environment:
+      - REACT_APP_SERVER_URL=http://localhost:8800 dev
+    #env_file:
+    # - ./.env

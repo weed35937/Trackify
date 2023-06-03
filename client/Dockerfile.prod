@@ -1,0 +1,12 @@
+FROM node:alpine as build
+WORKDIR /app
+COPY package.json /app
+COPY package-lock.json /app
+RUN npm i
+COPY . .
+ARG REACT_APP_SERVER_URL
+ENV REACT_APP_SERVER_URL=$REACT_APP_SERVER_URL
+RUN npm run build
+
+FROM nginx
+COPY --from=build /app/build /usr/share/nginx/html

@@ -6,13 +6,29 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.prod
-      args:
-        - REACT_APP_SERVER_URL=value
+      # args:
+      #   - REACT_APP_SERVER_URL=value
     # ports:
     #   - "3000:3000"
     # volumes:
     #   - ./client/src:/app/src
     # environment:
     #   - REACT_APP_SERVER_URL=http://localhost:8800
+    #env_file:
+    # - ./.env
+  
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.prod
+    # ports:
+    #   - "8800:8800"
+    # volumes:
+    #   - ./server/src:/app/src
+    # environment:
+    #   - PORT=8800
+    #   - MONGO_URL=mongodb://mongo:27017/notes
+    #   - MONGO_INITDB_ROOT_USERNAME=root
+    #   - MONGO_INITDB_ROOT_PASSWORD=example
     #env_file:
     # - ./.env

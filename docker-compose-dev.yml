@@ -10,7 +10,18 @@ services:
       - "3000:3000"
     volumes:
       - ./client/src:/app/src
-    environment:
-      - REACT_APP_SERVER_URL=http://localhost:8800 dev
-    #env_file:
-    # - ./.env
+    # environment:
+    #   - REACT_APP_SERVER_URL=http://localhost:8800
+    env_file:
+      - ./client/.env
+  
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8800:8800"
+    volumes:
+      - ./server:/app
+    env_file:
+      - ./server/.env

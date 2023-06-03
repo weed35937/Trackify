@@ -23,11 +23,12 @@ Taskify is a web application designed to streamline task management and enhance 
 
 ## Getting Started
 
-Clone the repository: `git clone https://github.com/rishavchanda/taskify.git`
-
 ### Pre-requisites
 1. Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
 2. Create a [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account and set up a cluster.
+
+### Clone the repository
+1. Clone the repository: `git clone https://github.com/rishavchanda/taskify.git`
 
 ### Configure the client
 

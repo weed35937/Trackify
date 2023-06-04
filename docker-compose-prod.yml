@@ -21,7 +21,5 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "8800:8800"
-    environment:
-      - PORT=8800
     env_file:
       - ./server/.env

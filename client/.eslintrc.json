@@ -37,7 +37,7 @@
         "functions": "never"
       }
     ],
-    "object-curly-newline": ["error", "never"],
+    "object-curly-newline": ["off"],
     "react/jsx-uses-react": ["off"],
     "react/react-in-jsx-scope": ["off"],
     "react/jsx-one-expression-per-line": ["off"],
@@ -46,6 +46,9 @@
     "no-shadow": ["off"],
     "func-style": ["off"],
     "arrow-body-style": "off",
-    "react/function-component-definition": "off"
+    "react/function-component-definition": "off",
+    "no-unused-vars": "warn",
+    "import/no-duplicates": "off",
+    "import/no-unresolved": "off"
   }
 }

@@ -17,7 +17,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier"],
+  "plugins": ["react", "prettier", "prefer-arrow"],
   "rules": {
     "indent": ["off"],
     "quotes": [
@@ -43,6 +43,9 @@
     "react/jsx-one-expression-per-line": ["off"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": ["warn"],
-    "no-shadow": ["off"]
+    "no-shadow": ["off"],
+    "func-style": ["off"],
+    "arrow-body-style": "off",
+    "react/function-component-definition": "off"
   }
 }

@@ -52,6 +52,7 @@
     "import/no-unresolved": "off",
     "operator-linebreak": "off",
     "implicit-arrow-linebreak": ["off"],
-    "no-return-await": ["off"]
+    "no-return-await": ["off"],
+    "no-extraneous-dependencies": ["off"]
   }
 }

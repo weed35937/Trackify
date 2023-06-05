@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import {
   EmailRounded,
   PasswordRounded,
@@ -9,6 +10,8 @@ import {
 } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
 import { AdminLogin, AdminRegister, EmployeeLogin } from "../api";
+import { loginSuccess } from "../redux/reducers/userSlice";
+import { openSnackbar } from "../redux/reducers/snackbarSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -164,6 +167,7 @@ const SignIn = () => {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState("admin");
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState({
     email: ""
   }); // error message for validation checks.
@@ -239,13 +243,19 @@ const SignIn = () => {
         AdminLogin(formData)
           .then((res) => {
             if (res.status === 200) {
+              dispatch(loginSuccess(res.data));
+              dispatch(
+                openSnackbar({
+                  message: "Login Successful",
+                  severity: "success"
+                })
+              );
               setLoading(false);
               setButtonDisabled(false);
               setErrorMessage({
                 ...errorMessage,
                 apierror: ""
               });
-              console.log(res.data);
             }
           })
           .catch((err) => {

@@ -130,6 +130,7 @@ const SignUp = () => {
     email: "",
     password: ""
   });
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -212,6 +213,22 @@ const SignUp = () => {
         setErrorMessage({
           ...errorMessage,
           username: ""
+        });
+      }
+    }
+
+    if (name === "Confirm password") {
+      setConfirmPassword(value);
+      if (value !== formData.password) {
+        setErrorMessage({
+          ...errorMessage,
+          confirm_password: "Password does not match"
+        });
+        setButtonDisabled(true);
+      } else {
+        setErrorMessage({
+          ...errorMessage,
+          confirm_password: ""
         });
       }
     }
@@ -334,6 +351,35 @@ const SignUp = () => {
             // Show error message if there is one
             errorMessage?.password && (
               <Error style={{ color: "red" }}>{errorMessage.password}</Error>
+            )
+          }
+          <OutlinedInput>
+            <PasswordRounded />
+            <Input
+              placeholder="ConfirmPassword"
+              name="Confirm password"
+              type={showPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={handleInputChange}
+            />
+            {showPassword ? (
+              <Visibility
+                sx={{ fontSize: "20px" }}
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            ) : (
+              <VisibilityOff
+                sx={{ fontSize: "20px" }}
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            )}
+          </OutlinedInput>
+          {
+            // Show error message if there is one
+            errorMessage?.confirm_password && (
+              <Error style={{ color: "red" }}>
+                {errorMessage.confirm_password}
+              </Error>
             )
           }
           {

@@ -29,7 +29,7 @@ function App() {
             {role}
           </div>
         )}
-        <SignIn />
+        <SignUp />
       </Container>
     </ThemeProvider>
   );

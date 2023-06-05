@@ -53,6 +53,8 @@
     "operator-linebreak": "off",
     "implicit-arrow-linebreak": ["off"],
     "no-return-await": ["off"],
-    "no-extraneous-dependencies": ["off"]
+    "no-extraneous-dependencies": ["off"],
+    "react/prop-types": "off",
+    "no-param-reassign": ["off"]
   }
 }

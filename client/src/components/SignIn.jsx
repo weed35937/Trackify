@@ -15,14 +15,6 @@ import { openSnackbar } from "../redux/reducers/snackbarSlice";
 
 const Container = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Wrapper = styled.div`
-  width: 100%;
   max-width: 500px;
   padding: 22px 28px 40px 28px;
   background-color: ${({ theme }) => theme.card};
@@ -161,7 +153,8 @@ const TextButton = styled.span`
   font-weight: 600;
 `;
 
-const SignIn = () => {
+const SignIn = (props) => {
+  const { setOpenSignUp } = props;
   // hooks
   const [showPassword, setShowPassword] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -293,81 +286,77 @@ const SignIn = () => {
 
   return (
     <Container data-testid="signup">
-      <Wrapper>
-        <Title>SignIn</Title>
-        <Toggle>
-          <ToggleOption
-            selected={selectedOption === "admin"}
-            onClick={() => handleOptionClick("admin")}
-          >
-            Admin
-          </ToggleOption>
-          <ToggleOption
-            selected={selectedOption === "employee"}
-            onClick={() => handleOptionClick("employee")}
-          >
-            Employee
-          </ToggleOption>
-        </Toggle>
-        <Form>
-          <OutlinedInput>
-            <EmailRounded />
-            <Input
-              placeholder="Email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-          </OutlinedInput>
-          {
-            // Show error message if there is one
-            errorMessage?.email && (
-              <Error style={{ color: "red" }}>{errorMessage.email}</Error>
-            )
-          }
-          <OutlinedInput>
-            <PasswordRounded />
-            <Input
-              placeholder="Password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              value={formData.password}
-              onChange={handleInputChange}
-            />
-            {showPassword ? (
-              <Visibility
-                sx={{ fontSize: "20px" }}
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            ) : (
-              <VisibilityOff
-                sx={{ fontSize: "20px" }}
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            )}
-          </OutlinedInput>
-          {
-            // Show error message if there is one from the server
-            errorMessage?.apierror && (
-              <Error style={{ color: "red" }}>{errorMessage.apierror}</Error>
-            )
-          }
-          <ForgotPassword>Forgot password ?</ForgotPassword>
-        </Form>
-        <Button
-          onClick={(e) => handleSubmit(e)}
-          buttonDisabled={buttonDisabled}
+      <Title>SignIn</Title>
+      <Toggle>
+        <ToggleOption
+          selected={selectedOption === "admin"}
+          onClick={() => handleOptionClick("admin")}
         >
-          {loading ? (
-            <CircularProgress size={24} color="inherit" />
+          Admin
+        </ToggleOption>
+        <ToggleOption
+          selected={selectedOption === "employee"}
+          onClick={() => handleOptionClick("employee")}
+        >
+          Employee
+        </ToggleOption>
+      </Toggle>
+      <Form>
+        <OutlinedInput>
+          <EmailRounded />
+          <Input
+            placeholder="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+          />
+        </OutlinedInput>
+        {
+          // Show error message if there is one
+          errorMessage?.email && (
+            <Error style={{ color: "red" }}>{errorMessage.email}</Error>
+          )
+        }
+        <OutlinedInput>
+          <PasswordRounded />
+          <Input
+            placeholder="Password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            value={formData.password}
+            onChange={handleInputChange}
+          />
+          {showPassword ? (
+            <Visibility
+              sx={{ fontSize: "20px" }}
+              onClick={() => setShowPassword(!showPassword)}
+            />
           ) : (
-            <>Sign In</>
+            <VisibilityOff
+              sx={{ fontSize: "20px" }}
+              onClick={() => setShowPassword(!showPassword)}
+            />
           )}
-        </Button>
-        <Text>
-          Don&apos;t have an account ? <TextButton> SignUp</TextButton>
-        </Text>
-      </Wrapper>
+        </OutlinedInput>
+        {
+          // Show error message if there is one from the server
+          errorMessage?.apierror && (
+            <Error style={{ color: "red" }}>{errorMessage.apierror}</Error>
+          )
+        }
+        <ForgotPassword>Forgot password ?</ForgotPassword>
+      </Form>
+      <Button onClick={(e) => handleSubmit(e)} buttonDisabled={buttonDisabled}>
+        {loading ? (
+          <CircularProgress size={24} color="inherit" />
+        ) : (
+          <>Sign In</>
+        )}
+      </Button>
+      <Text>
+        Don&apos;t have an account ?{" "}
+        <TextButton onClick={() => setOpenSignUp(true)}> SignUp</TextButton>
+      </Text>
     </Container>
   );
 };

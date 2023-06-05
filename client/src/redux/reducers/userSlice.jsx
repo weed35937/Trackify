@@ -2,9 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentUser: null,
-  role: null,
-  loading: false,
-  error: false
+  role: null
 };
 
 export const userSlice = createSlice({
@@ -12,28 +10,18 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
-      state.loading = false;
       state.currentUser = action.payload.user;
       state.role = action.payload.user.role;
       localStorage.setItem("trackify-token", action.payload.token);
     },
     logout: (state) => {
       state.currentUser = null;
-      state.loading = false;
-      state.error = false;
+      state.role = null;
       localStorage.removeItem("trackify-token");
     }
   }
 });
 
-export const {
-  loginStart,
-  loginSuccess,
-  loginFailure,
-  logout,
-  displayPodcastFailure,
-  subscription,
-  verified
-} = userSlice.actions;
+export const { loginSuccess, logout } = userSlice.actions;
 
 export default userSlice.reducer;

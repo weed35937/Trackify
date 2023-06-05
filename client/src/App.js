@@ -2,9 +2,11 @@ import React from "react";
 import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { useSelector } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { darkTheme, lightTheme } from "./utils/Themes";
-import SignUp from "./components/SignUp";
-import SignIn from "./components/SignIn";
+import AdminDashboard from "./pages/AdminDashboard";
+import EmployeeDashboard from "./pages/EmployeeDashboard";
+import Authentication from "./pages/Authentication";
 
 const Container = styled.div`
   height: 100vh;
@@ -22,14 +24,20 @@ function App() {
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
-        {currentUser && (
-          <div>
-            {currentUser.username}
-            <br />
-            {role}
-          </div>
+        {currentUser ? (
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  role === "admin" ? <AdminDashboard /> : <EmployeeDashboard />
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        ) : (
+          <Authentication />
         )}
-        <SignUp />
       </Container>
     </ThemeProvider>
   );

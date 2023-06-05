@@ -7,6 +7,8 @@ import {
   Visibility,
   VisibilityOff
 } from "@mui/icons-material";
+import { CircularProgress } from "@mui/material";
+import { AdminRegister } from "../api";
 
 const Container = styled.div`
   width: 100%;
@@ -93,12 +95,9 @@ const Button = styled.button`
   ${({ buttonDisabled }) =>
     buttonDisabled &&
     `
-    background-color: #ccc;
-    color: #fff;
+    background-color: #cccccc;
+    color: #666666;
     cursor: not-allowed;
-    &:hover {
-      background-color: #ccc;
-    }
   `}
 `;
 
@@ -120,6 +119,7 @@ const SignUp = () => {
   // hooks
   const [showPassword, setShowPassword] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState({
     username: "",
     email: "",
@@ -241,9 +241,35 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setErrorMessage({
+      ...errorMessage,
+      apierror: ""
+    });
+
     // If there is no error message, then submit the form
     if (!buttonDisabled) {
-      console.log(formData);
+      setLoading(true);
+      setButtonDisabled(true);
+      AdminRegister(formData)
+        .then((res) => {
+          if (res.status === 200) {
+            setLoading(false);
+            setButtonDisabled(false);
+            setErrorMessage({
+              ...errorMessage,
+              apierror: ""
+            });
+            console.log(res.data);
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+          setButtonDisabled(false);
+          setErrorMessage({
+            ...errorMessage,
+            apierror: err.response.data.message
+          });
+        });
     }
   };
 
@@ -310,12 +336,22 @@ const SignUp = () => {
               <Error style={{ color: "red" }}>{errorMessage.password}</Error>
             )
           }
+          {
+            // Show error message if there is one from the server
+            errorMessage?.apierror && (
+              <Error style={{ color: "red" }}>{errorMessage.apierror}</Error>
+            )
+          }
         </Form>
         <Button
           onClick={(e) => handleSubmit(e)}
           buttonDisabled={buttonDisabled}
         >
-          Create Account
+          {loading ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            <>Create Account</>
+          )}
         </Button>
         <Text>
           Already have an account? <TextButton>SignIn</TextButton>

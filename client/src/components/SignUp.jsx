@@ -233,6 +233,11 @@ const SignUp = ({ setOpenSignUp }) => {
       ...prevData,
       [name]: value
     }));
+
+    setErrorMessage({
+      ...errorMessage,
+      apierror: ""
+    });
   };
 
   useEffect(() => {
@@ -253,11 +258,6 @@ const SignUp = ({ setOpenSignUp }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setErrorMessage({
-      ...errorMessage,
-      apierror: ""
-    });
 
     // If there is no error message, then submit the form
     if (!buttonDisabled) {

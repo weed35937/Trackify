@@ -10,3 +10,11 @@ export const AdminLogin = async (data) =>
   await API.post("/auth/admin/login", data);
 export const EmployeeLogin = async (data) =>
   await API.post("/auth/employee/login", data);
+
+export const employeeRegister = async (data, token) =>
+  await API.post(
+    "/admin/employeeregister",
+    data,
+    { headers: { Authorization: `Bearer ${token}` } },
+    { withCredentials: true }
+  );

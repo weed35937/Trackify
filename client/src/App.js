@@ -3,6 +3,9 @@ import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./redux/store";
 import { darkTheme, lightTheme } from "./utils/Themes";
 import AdminDashboard from "./pages/AdminDashboard";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
@@ -25,25 +28,33 @@ function App() {
   const { currentUser, role } = useSelector((state) => state.user);
 
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <Container>
-        {currentUser ? (
-          <BrowserRouter>
-            <Navbar />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  role === "admin" ? <AdminDashboard /> : <EmployeeDashboard />
-                }
-              />
-            </Routes>
-          </BrowserRouter>
-        ) : (
-          <Authentication />
-        )}
-      </Container>
-    </ThemeProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+          <Container>
+            {currentUser ? (
+              <BrowserRouter>
+                <Navbar />
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      role === "admin" ? (
+                        <AdminDashboard />
+                      ) : (
+                        <EmployeeDashboard />
+                      )
+                    }
+                  />
+                </Routes>
+              </BrowserRouter>
+            ) : (
+              <Authentication />
+            )}
+          </Container>
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 

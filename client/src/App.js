@@ -8,6 +8,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
 import Authentication from "./pages/Authentication";
 import Navbar from "./components/Navbar";
+import ToastMessage from "./components/ToastMessage";
 
 const Container = styled.div`
   width: 100%;
@@ -23,6 +24,7 @@ function App() {
   // hooks
   const [darkMode, setDarkMode] = useState(true);
   const { currentUser, role } = useSelector((state) => state.user);
+  const { open, message, severity } = useSelector((state) => state.snackbar);
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
@@ -41,6 +43,9 @@ function App() {
           </BrowserRouter>
         ) : (
           <Authentication />
+        )}
+        {open && (
+          <ToastMessage open={open} message={message} severity={severity} />
         )}
       </Container>
     </ThemeProvider>

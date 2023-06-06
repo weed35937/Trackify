@@ -263,13 +263,19 @@ const SignIn = (props) => {
         EmployeeLogin(formData)
           .then((res) => {
             if (res.status === 200) {
+              dispatch(loginSuccess(res.data));
+              dispatch(
+                openSnackbar({
+                  message: "Login Successful",
+                  severity: "success"
+                })
+              );
               setLoading(false);
               setButtonDisabled(false);
               setErrorMessage({
                 ...errorMessage,
                 apierror: ""
               });
-              console.log(res.data);
             }
           })
           .catch((err) => {

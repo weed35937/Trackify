@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import {
   EmailRounded,
   PasswordRounded,
@@ -8,6 +9,8 @@ import {
   VisibilityOff
 } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
+import { openSnackbar } from "../redux/reducers/snackbarSlice";
+import { loginSuccess } from "../redux/reducers/userSlice";
 import { AdminRegister } from "../api";
 
 const Container = styled.div`
@@ -109,6 +112,7 @@ const TextButton = styled.span`
 
 const SignUp = ({ setOpenSignUp }) => {
   // hooks
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -262,13 +266,19 @@ const SignUp = ({ setOpenSignUp }) => {
       AdminRegister(formData)
         .then((res) => {
           if (res.status === 200) {
+            dispatch(loginSuccess(res.data));
+            dispatch(
+              openSnackbar({
+                message: "Login Successful",
+                severity: "success"
+              })
+            );
             setLoading(false);
             setButtonDisabled(false);
             setErrorMessage({
               ...errorMessage,
               apierror: ""
             });
-            console.log(res.data);
           }
         })
         .catch((err) => {

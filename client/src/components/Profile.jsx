@@ -1,14 +1,15 @@
 import { Avatar, Popover } from "@mui/material";
 import React from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 import { LogoutRounded } from "@mui/icons-material";
 import { logout } from "../redux/reducers/userSlice";
 
 const Container = styled.div`
   width: 100%;
-  min-width: 300px;
+  min-width: 320px;
   background: ${({ theme }) => theme.bgLight};
   color: ${({ theme }) => theme.text_primary};
   display: flex;
@@ -24,31 +25,13 @@ const Container = styled.div`
 `;
 
 const Details = styled.div`
-  padding: 16px;
+  width: 100%;
+  padding: 0px 12px 8px 12px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: end;
   justify-content: center;
   gap: 12px;
-`;
-
-const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-`;
-
-const Email = styled.span`
-  margin-right: 10px;
-  font-size: 14px;
-  color: ${({ theme }) => theme.text_secondary};
-`;
-const UserName = styled.span`
-  font-weight: 500;
-  margin-right: 10px;
-  font-size: 22px;
 `;
 
 const Role = styled.span`
@@ -56,8 +39,26 @@ const Role = styled.span`
   color: ${({ theme }) => theme.primary};
   border-radius: 8px;
   background: ${({ theme }) => theme.primary + 10};
-  padding: 4px 12px;
-  margin-top: 4px;
+  padding: 2px 8px;
+  margin-bottom: 4px;
+`;
+
+const Info = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  margin-top: -60px;
+  gap: 2px;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.text_secondary + 10};
+  padding: 26px 12px 12px 12px;
+`;
+
+const Text = styled.span`
+  font-size: 14px;
+  color: ${({ theme }) => theme.text_secondary};
 `;
 
 const HR = styled.div`
@@ -89,6 +90,7 @@ const LogoutButton = styled.div`
 
 const Profile = ({ open, handleClose, anchorEl, id }) => {
   const { currentUser, role } = useSelector((state) => state.user);
+  const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -96,6 +98,8 @@ const Profile = ({ open, handleClose, anchorEl, id }) => {
     dispatch(logout());
     navigate("/");
   };
+
+  const userRole = role.charAt(0).toUpperCase() + role.slice(1);
 
   return (
     <Popover
@@ -112,13 +116,42 @@ const Profile = ({ open, handleClose, anchorEl, id }) => {
       <Container>
         <Details>
           <Avatar
-            style={{ width: "100px", height: "100px" }}
+            style={{
+              width: "100px",
+              height: "100px",
+              margin: "0px 10px 0px 0px",
+              border: `6px solid ${theme.bgLight}`
+            }}
             src={currentUser?.img}
           />
           <Info>
-            <UserName>{currentUser?.username}</UserName>
-            <Email>{currentUser?.email}</Email>
-            <Role>{role}</Role>
+            <Role>{userRole}</Role>
+            <Text>
+              <b>Name: &nbsp;</b>
+              {` ${currentUser.username}`}
+            </Text>{" "}
+            <Text>
+              <b>Email: &nbsp;</b>
+              <span style={{ color: "#3483eb" }}>
+                {` ${currentUser.email}`}
+              </span>
+            </Text>
+            {role === "employee" && (
+              <>
+                <Text>
+                  <b>Contact No: &nbsp;</b>
+                  {` ${currentUser.contact_number}`}
+                </Text>
+                <Text>
+                  <b>Department: &nbsp;</b>
+                  {` ${currentUser.department}`}
+                </Text>
+                <Text>
+                  <b>Joining Date: &nbsp;</b>
+                  {` ${moment(currentUser.joining_date).format("DD-MM-YYYY")}`}
+                </Text>
+              </>
+            )}
           </Info>
         </Details>
         <HR />

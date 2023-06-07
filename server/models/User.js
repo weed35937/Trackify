@@ -5,49 +5,53 @@ const UserSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
-      unique: false,
+      unique: false
     },
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: true
     },
     password: {
       type: String,
-      required: true,
+      required: true
     },
     img: {
       type: String,
-      default: null,
+      default: null
     },
     role: {
       type: String,
-      default: "admin",
+      default: "admin"
+    },
+    active: {
+      type: Boolean,
+      default: true
     },
     contact_number: {
       type: String,
-      default: null,
+      default: null
     },
     department: {
       type: String,
-      default: null,
+      default: null
     },
     joining_date: {
       type: Date,
-      default: null,
+      default: null
     },
     employees: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "User",
-      default: [],
+      default: []
     },
     tasks: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Tasks",
-      default: [],
-    },
+      default: []
+    }
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export default mongoose.model("User", UserSchema);

@@ -7,6 +7,7 @@ import {
   verifyOTP,
   createResetSession,
   resetPassword,
+  findUserByEmail
 } from "../controllers/auth.js";
 import { localVariables } from "../middleware/verifyEmail.js";
 
@@ -19,5 +20,6 @@ router.get("/admin/verifyotp", verifyOTP);
 router.get("/admin/createResetSession", createResetSession);
 router.put("/admin/forgetpassword", resetPassword);
 router.post("/employee/login", EmployeeLogin);
+router.get("/admin/findbyemail", findUserByEmail);
 
 export default router;

@@ -12,10 +12,10 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.EMAIL_USERNAME,
-    pass: process.env.EMAIL_PASSWORD,
+    pass: process.env.EMAIL_PASSWORD
   },
   port: 465,
-  host: "smtp.gmail.com",
+  host: "smtp.gmail.com"
 });
 
 export const AdminRegister = async (req, res, next) => {
@@ -40,11 +40,11 @@ export const AdminRegister = async (req, res, next) => {
       username,
       email,
       password: hashedPassword,
-      role: "admin",
+      role: "admin"
     });
     const createdUser = await user.save();
     const token = jwt.sign({ id: createdUser._id }, process.env.JWT, {
-      expiresIn: "9999 years",
+      expiresIn: "9999 years"
     });
     res.status(200).json({ token, user });
   } catch (error) {
@@ -75,7 +75,7 @@ export const AdminLogin = async (req, res, next) => {
     //check if user is admin
     if (user.role !== "admin") {
       return next(
-        createError(403, "You are not an admin login as an employee"),
+        createError(403, "You are not an admin login as an employee")
       );
     }
 
@@ -86,7 +86,7 @@ export const AdminLogin = async (req, res, next) => {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT, {
-      expiresIn: "9999 years",
+      expiresIn: "9999 years"
     });
 
     const adminUser = {
@@ -95,7 +95,7 @@ export const AdminLogin = async (req, res, next) => {
       email: user.email,
       role: user.role,
       img: user.img,
-      employees: user.employees,
+      employees: user.employees
     };
     res.status(200).json({ token, user: adminUser });
   } catch (error) {
@@ -126,7 +126,7 @@ export const EmployeeLogin = async (req, res, next) => {
     //check if user is admin
     if (user.role !== "employee") {
       return next(
-        createError(403, "You are not an employee login as an admin"),
+        createError(403, "You are not an employee login as an admin")
       );
     }
 
@@ -137,7 +137,7 @@ export const EmployeeLogin = async (req, res, next) => {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT, {
-      expiresIn: "9999 years",
+      expiresIn: "9999 years"
     });
 
     const employeeUser = {
@@ -149,7 +149,7 @@ export const EmployeeLogin = async (req, res, next) => {
       contact_number: user.contact_number,
       department: user.department,
       joining_date: user.joining_date,
-      tasks: user.tasks,
+      tasks: user.tasks
     };
 
     res.status(200).json({ token, user: employeeUser });
@@ -163,7 +163,7 @@ export const generateOTP = async (req, res) => {
     upperCaseAlphabets: false,
     specialChars: false,
     lowerCaseAlphabets: false,
-    digits: true,
+    digits: true
   });
   const { email } = req.query;
   const { name } = req.query;
@@ -190,7 +190,7 @@ export const generateOTP = async (req, res) => {
     <br>
     <p style="font-size: 16px; color: #666; margin-bottom: 20px; text-align: center;">Best regards,<br>The Trackify Team</p>
 </div>
-        `,
+        `
   };
 
   const resetPasswordOtp = {
@@ -215,7 +215,7 @@ export const generateOTP = async (req, res) => {
                 <br>
                 <p style="font-size: 16px; color: #666; margin-bottom: 20px; text-align: center;">Best regards,<br>The Trackify Team</p>
             </div>
-        `,
+        `
   };
   if (reason === "FORGOTPASSWORD") {
     transporter.sendMail(resetPasswordOtp, (err) => {
@@ -243,7 +243,7 @@ export const verifyOTP = async (req, res, next) => {
     req.app.locals.resetSession = true;
     return res.status(200).send({ message: "OTP verified" });
   }
-  return next(createError(201, "Wrong OTP"));
+  return next(createError(403, "Wrong OTP"));
 };
 
 export const createResetSession = async (req, res, next) => {
@@ -265,7 +265,7 @@ export const resetPassword = async (req, res, next) => {
       if (user) {
         if (user.role !== "admin")
           return next(
-            createError(403, "You are not an admin login as an admin"),
+            createError(403, "You are not an admin login as an admin")
           );
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(password, salt);
@@ -273,7 +273,7 @@ export const resetPassword = async (req, res, next) => {
           .then(() => {
             req.app.locals.resetSession = false;
             return res.status(200).send({
-              message: "Password reset successful",
+              message: "Password reset successful"
             });
           })
           .catch((err) => {
@@ -281,10 +281,28 @@ export const resetPassword = async (req, res, next) => {
           });
       } else {
         return res.status(202).send({
-          message: "User not found",
+          message: "User not found"
         });
       }
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const findUserByEmail = async (req, res, next) => {
+  const { email } = req.query;
+  try {
+    const user = await User.findOne({ email: email });
+    if (user.role === "admin") {
+      return res.status(200).send({
+        message: "User found"
+      });
+    } else if (user.role === "employee") {
+      return next(createError(404, "You are an employee login as an employee"));
+    } else {
+      return next(createError(404, "User not found"));
+    }
   } catch (err) {
     next(err);
   }

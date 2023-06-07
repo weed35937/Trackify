@@ -83,19 +83,16 @@ const Button = styled.button`
   outline: none;
   padding: 14px;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.primary};
+  background: ${({ theme }) => theme.button};
   color: ${({ theme }) => theme.text_primary};
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  &:hover {
-    background-color: ${({ theme }) => theme.primary_hover};
-  }
   ${({ buttonDisabled }) =>
     buttonDisabled &&
     `
-    background-color: #cccccc;
+    background: #cccccc;
     color: #666666;
     cursor: not-allowed;
   `}
@@ -216,11 +213,6 @@ const EmployeeRegister = () => {
     }
 
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    setErrorMessage({
-      ...errorMessage,
-      apierror: ""
-    });
   };
 
   useEffect(() => {
@@ -373,7 +365,16 @@ const EmployeeRegister = () => {
           )
         }
       </Form>
-      <Button onClick={(e) => handleSubmit(e)} buttonDisabled={buttonDisabled}>
+      <Button
+        onClick={(e) => {
+          setErrorMessage({
+            ...errorMessage,
+            apierror: ""
+          });
+          handleSubmit(e);
+        }}
+        buttonDisabled={buttonDisabled}
+      >
         {loading ? (
           <CircularProgress size={24} color="inherit" />
         ) : (

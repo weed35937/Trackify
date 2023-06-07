@@ -6,7 +6,9 @@ export const darkTheme = {
   text_secondary: "#b1b2b3",
   card: "#171721",
   card_light: "#191924",
-  button: "#854CE6",
+  button:
+    "-webkit-linear-gradient(225deg, rgb(132, 0, 255) 0%, rgb(230, 0, 255) 100%);",
+  disabled: "#b1b2b3",
   white: "#FFFFFF",
   black: "#000000"
 };
@@ -15,8 +17,10 @@ export const lightTheme = {
   bg: "#FFFFFF",
   bgLight: "#f0f0f0",
   primary: "#be1adb",
+  button:
+    "-webkit-linear-gradient(225deg, rgb(132, 0, 255) 0%, rgb(230, 0, 255) 100%);",
+  disabled: "#b1b2b3",
   text_primary: "#111111",
   text_secondary: "#48494a",
-  card: "#FFFFFF",
-  button: "#5c5b5b"
+  card: "#FFFFFF"
 };

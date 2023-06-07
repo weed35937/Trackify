@@ -121,19 +121,16 @@ const Button = styled.button`
   outline: none;
   padding: 14px;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.primary};
+  background: ${({ theme }) => theme.button};
   color: ${({ theme }) => theme.text_primary};
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  &:hover {
-    background-color: ${({ theme }) => theme.primary_hover};
-  }
   ${({ buttonDisabled }) =>
     buttonDisabled &&
     `
-    background-color: #cccccc;
+    background: #cccccc;
     color: #666666;
     cursor: not-allowed;
   `}
@@ -213,11 +210,6 @@ const SignIn = (props) => {
       ...prevData,
       [name]: value
     }));
-
-    setErrorMessage({
-      ...errorMessage,
-      apierror: ""
-    });
   };
 
   useEffect(() => {
@@ -372,7 +364,13 @@ const SignIn = (props) => {
               )}
             </Form>
             <Button
-              onClick={(e) => handleSubmit(e)}
+              onClick={(e) => {
+                setErrorMessage({
+                  ...errorMessage,
+                  apierror: ""
+                });
+                handleSubmit(e);
+              }}
               buttonDisabled={buttonDisabled}
             >
               {loading ? (
@@ -385,7 +383,7 @@ const SignIn = (props) => {
               Don&apos;t have an account ?{" "}
               <TextButton onClick={() => setOpenSignUp(true)}>
                 {" "}
-                SignUp
+                Sign Up
               </TextButton>
             </Text>
           </div>

@@ -78,19 +78,16 @@ const Button = styled.button`
   outline: none;
   padding: 14px;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.primary};
+  background: ${({ theme }) => theme.button};
   color: ${({ theme }) => theme.text_primary};
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  &:hover {
-    background-color: ${({ theme }) => theme.primary_hover};
-  }
   ${({ buttonDisabled }) =>
     buttonDisabled &&
     `
-    background-color: #cccccc;
+    background: #cccccc;
     color: #666666;
     cursor: not-allowed;
   `}
@@ -243,7 +240,8 @@ const SignUp = ({ setOpenSignUp }) => {
       !errorMessage.password &&
       formData.username &&
       formData.email &&
-      formData.password
+      formData.password &&
+      confirmPassword === formData.password
     ) {
       setButtonDisabled(false);
     } else {
@@ -361,21 +359,10 @@ const SignUp = ({ setOpenSignUp }) => {
           <Input
             placeholder="Confirm Password"
             name="Confirm password"
-            type={showPassword ? "text" : "password"}
+            type="text"
             value={confirmPassword}
             onChange={handleInputChange}
           />
-          {showPassword ? (
-            <Visibility
-              sx={{ fontSize: "20px" }}
-              onClick={() => setShowPassword(!showPassword)}
-            />
-          ) : (
-            <VisibilityOff
-              sx={{ fontSize: "20px" }}
-              onClick={() => setShowPassword(!showPassword)}
-            />
-          )}
         </OutlinedInput>
         {
           // Show error message if there is one
@@ -410,7 +397,7 @@ const SignUp = ({ setOpenSignUp }) => {
       </Button>
       <Text>
         Already have an account?{" "}
-        <TextButton onClick={() => setOpenSignUp(false)}>SignIn</TextButton>
+        <TextButton onClick={() => setOpenSignUp(false)}>Sign In</TextButton>
       </Text>
     </Container>
   );

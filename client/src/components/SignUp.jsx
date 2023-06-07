@@ -233,11 +233,6 @@ const SignUp = ({ setOpenSignUp }) => {
       ...prevData,
       [name]: value
     }));
-
-    setErrorMessage({
-      ...errorMessage,
-      apierror: ""
-    });
   };
 
   useEffect(() => {
@@ -284,10 +279,17 @@ const SignUp = ({ setOpenSignUp }) => {
         .catch((err) => {
           setLoading(false);
           setButtonDisabled(false);
-          setErrorMessage({
-            ...errorMessage,
-            apierror: err.response.data.message
-          });
+          if (err.response) {
+            setErrorMessage({
+              ...errorMessage,
+              apierror: err.response.data.message
+            });
+          } else {
+            setErrorMessage({
+              ...errorMessage,
+              apierror: err.message
+            });
+          }
         });
     }
   };
@@ -390,7 +392,16 @@ const SignUp = ({ setOpenSignUp }) => {
           )
         }
       </Form>
-      <Button onClick={(e) => handleSubmit(e)} buttonDisabled={buttonDisabled}>
+      <Button
+        onClick={(e) => {
+          setErrorMessage({
+            ...errorMessage,
+            apierror: ""
+          });
+          handleSubmit(e);
+        }}
+        buttonDisabled={buttonDisabled}
+      >
         {loading ? (
           <CircularProgress size={24} color="inherit" />
         ) : (

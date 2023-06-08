@@ -24,6 +24,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: all 0.3s ease;
 `;
 
 const Title = styled.h1`
@@ -287,109 +288,101 @@ const SignIn = (props) => {
   };
 
   return (
-    <div>
+    <Container data-testid="signup">
       {showForgotPassword ? (
         <ForgetPassword setShowForgotPassword={setShowForgotPassword} />
       ) : (
-        <Container data-testid="signup">
-          <div>
-            <Title>SignIn</Title>
-            <Toggle>
-              <ToggleOption
-                selected={selectedOption === "admin"}
-                onClick={() => handleOptionClick("admin")}
-              >
-                Admin
-              </ToggleOption>
-              <ToggleOption
-                selected={selectedOption === "employee"}
-                onClick={() => handleOptionClick("employee")}
-              >
-                Employee
-              </ToggleOption>
-            </Toggle>
-            <Form>
-              <OutlinedInput>
-                <EmailRounded />
-                <Input
-                  placeholder="Email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                />
-              </OutlinedInput>
-              {
-                // Show error message if there is one
-                errorMessage?.email && (
-                  <Error style={{ color: "red" }}>{errorMessage.email}</Error>
-                )
-              }
-              <OutlinedInput>
-                <PasswordRounded />
-                <Input
-                  placeholder="Password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  value={formData.password}
-                  onChange={handleInputChange}
-                />
-                {showPassword ? (
-                  <Visibility
-                    sx={{ fontSize: "20px" }}
-                    onClick={() => setShowPassword(!showPassword)}
-                  />
-                ) : (
-                  <VisibilityOff
-                    sx={{ fontSize: "20px" }}
-                    onClick={() => setShowPassword(!showPassword)}
-                  />
-                )}
-              </OutlinedInput>
-              {
-                // Show error message if there is one from the server
-                errorMessage?.apierror && (
-                  <Error style={{ color: "red" }}>
-                    {errorMessage.apierror}
-                  </Error>
-                )
-              }
-              {selectedOption === "admin" && (
-                <ForgotPassword
-                  onClick={() => {
-                    setShowForgotPassword(true);
-                  }}
-                >
-                  Forgot password ?
-                </ForgotPassword>
-              )}
-            </Form>
-            <Button
-              onClick={(e) => {
-                setErrorMessage({
-                  ...errorMessage,
-                  apierror: ""
-                });
-                handleSubmit(e);
-              }}
-              buttonDisabled={buttonDisabled}
+        <div>
+          <Title>SignIn</Title>
+          <Toggle>
+            <ToggleOption
+              selected={selectedOption === "admin"}
+              onClick={() => handleOptionClick("admin")}
             >
-              {loading ? (
-                <CircularProgress size={24} color="inherit" />
+              Admin
+            </ToggleOption>
+            <ToggleOption
+              selected={selectedOption === "employee"}
+              onClick={() => handleOptionClick("employee")}
+            >
+              Employee
+            </ToggleOption>
+          </Toggle>
+          <Form>
+            <OutlinedInput>
+              <EmailRounded />
+              <Input
+                placeholder="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+            </OutlinedInput>
+            {
+              // Show error message if there is one
+              errorMessage?.email && (
+                <Error style={{ color: "red" }}>{errorMessage.email}</Error>
+              )
+            }
+            <OutlinedInput>
+              <PasswordRounded />
+              <Input
+                placeholder="Password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+              {showPassword ? (
+                <Visibility
+                  sx={{ fontSize: "20px" }}
+                  onClick={() => setShowPassword(!showPassword)}
+                />
               ) : (
-                <>Sign In</>
+                <VisibilityOff
+                  sx={{ fontSize: "20px" }}
+                  onClick={() => setShowPassword(!showPassword)}
+                />
               )}
-            </Button>
-            <Text>
-              Don&apos;t have an account ?{" "}
-              <TextButton onClick={() => setOpenSignUp(true)}>
-                {" "}
-                Sign Up
-              </TextButton>
-            </Text>
-          </div>
-        </Container>
+            </OutlinedInput>
+            {
+              // Show error message if there is one from the server
+              errorMessage?.apierror && (
+                <Error style={{ color: "red" }}>{errorMessage.apierror}</Error>
+              )
+            }
+            {selectedOption === "admin" && (
+              <ForgotPassword
+                onClick={() => {
+                  setShowForgotPassword(true);
+                }}
+              >
+                Forgot password ?
+              </ForgotPassword>
+            )}
+          </Form>
+          <Button
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+            buttonDisabled={buttonDisabled}
+          >
+            {loading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              <>Sign In</>
+            )}
+          </Button>
+          <Text>
+            Don&apos;t have an account ?{" "}
+            <TextButton onClick={() => setOpenSignUp(true)}>
+              {" "}
+              Sign Up
+            </TextButton>
+          </Text>
+        </div>
       )}
-    </div>
+    </Container>
   );
 };
 

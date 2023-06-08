@@ -4,6 +4,7 @@ import { Avatar } from "@mui/material";
 import DropdownIcon from "@mui/icons-material/ArrowDropDown";
 import { useSelector } from "react-redux";
 import UserProfile from "./Profile";
+import Logo from "../Images/Logo.svg";
 
 const Container = styled.div`
   width: 100%;
@@ -21,9 +22,29 @@ const Container = styled.div`
 const LogoText = styled.div`
   font-size: 28px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
   text-transform: uppercase;
+  background: linear-gradient(
+    225deg,
+    rgb(132, 0, 255) 0%,
+    rgb(230, 0, 255) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
   @media only screen and (max-width: 600px) {
     font-size: 24px;
+  }
+`;
+
+const LogoImg = styled.img`
+  height: 36px;
+  margin-right: 10px;
+  @media only screen and (max-width: 600px) {
+    width: 30px;
+    height: 30px;
   }
 `;
 
@@ -68,7 +89,10 @@ const Navbar = () => {
 
   return (
     <Container>
-      <LogoText>Trackify</LogoText>
+      <LogoText>
+        <LogoImg src={Logo} />
+        Trackify
+      </LogoText>
       <User aria-describedby={id} onClick={handleClick}>
         <Avatar src={currentUser?.img} />
         <UserName>{currentUser?.username}</UserName>

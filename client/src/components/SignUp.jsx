@@ -11,7 +11,8 @@ import {
 import { CircularProgress } from "@mui/material";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
 import { loginSuccess } from "../redux/reducers/userSlice";
-import { AdminRegister } from "../api";
+import { AdminRegister, findUserByEmail } from "../api";
+import OTP from "./OTP";
 
 const Container = styled.div`
   width: 100%;
@@ -24,6 +25,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: all 0.3s ease;
 `;
 
 const Title = styled.h1`
@@ -35,7 +37,7 @@ const Title = styled.h1`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  padding: 18px 0px;
+  padding: 18px 0px 12px 0px;
   gap: 10px;
 `;
 
@@ -124,6 +126,10 @@ const SignUp = ({ setOpenSignUp }) => {
     password: ""
   });
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Verify OTP
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [showOtp, setShowOtp] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -256,18 +262,19 @@ const SignUp = ({ setOpenSignUp }) => {
     if (!buttonDisabled) {
       setLoading(true);
       setButtonDisabled(true);
-      AdminRegister(formData)
+      findUserByEmail(formData.email)
         .then((res) => {
           if (res.status === 200) {
-            dispatch(loginSuccess(res.data));
-            dispatch(
-              openSnackbar({
-                message: "Login Successful",
-                severity: "success"
-              })
-            );
-            setLoading(false);
             setButtonDisabled(false);
+            setLoading(false);
+            setErrorMessage({
+              ...errorMessage,
+              apierror: "Email already in use"
+            });
+          } else if (res.status === 402) {
+            setShowOtp(true);
+            setButtonDisabled(true);
+            setLoading(false);
             setErrorMessage({
               ...errorMessage,
               apierror: ""
@@ -275,130 +282,186 @@ const SignUp = ({ setOpenSignUp }) => {
           }
         })
         .catch((err) => {
-          setLoading(false);
           setButtonDisabled(false);
           if (err.response) {
+            setLoading(false);
             setErrorMessage({
               ...errorMessage,
               apierror: err.response.data.message
             });
           } else {
-            setErrorMessage({
-              ...errorMessage,
-              apierror: err.message
-            });
+            dispatch(
+              openSnackbar({
+                message: err.message,
+                severity: "error"
+              })
+            );
           }
         });
     }
   };
 
-  return (
-    <Container data-testid="signup">
-      <Title>SignUp</Title>
-      <Form>
-        <OutlinedInput>
-          <PersonRounded />
-          <Input
-            placeholder="Username"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
-            maxLength={16}
-          />
-        </OutlinedInput>
-        {
-          // Show error message if there is one
-          errorMessage?.username && (
-            <Error style={{ color: "red" }}>{errorMessage.username}</Error>
-          )
-        }
-        <OutlinedInput>
-          <EmailRounded />
-          <Input
-            placeholder="Email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-        </OutlinedInput>
-        {
-          // Show error message if there is one
-          errorMessage?.email && (
-            <Error style={{ color: "red" }}>{errorMessage.email}</Error>
-          )
-        }
-        <OutlinedInput>
-          <PasswordRounded />
-          <Input
-            placeholder="Password"
-            name="password"
-            type={showPassword ? "text" : "password"}
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-          {showPassword ? (
-            <Visibility
-              sx={{ fontSize: "20px" }}
-              onClick={() => setShowPassword(!showPassword)}
-            />
-          ) : (
-            <VisibilityOff
-              sx={{ fontSize: "20px" }}
-              onClick={() => setShowPassword(!showPassword)}
-            />
-          )}
-        </OutlinedInput>
-        {
-          // Show error message if there is one
-          errorMessage?.password && (
-            <Error style={{ color: "red" }}>{errorMessage.password}</Error>
-          )
-        }
-        <OutlinedInput>
-          <PasswordRounded />
-          <Input
-            placeholder="Confirm Password"
-            name="Confirm password"
-            type="text"
-            value={confirmPassword}
-            onChange={handleInputChange}
-          />
-        </OutlinedInput>
-        {
-          // Show error message if there is one
-          errorMessage?.confirm_password && (
-            <Error style={{ color: "red" }}>
-              {errorMessage.confirm_password}
-            </Error>
-          )
-        }
-        {
-          // Show error message if there is one from the server
-          errorMessage?.apierror && (
-            <Error style={{ color: "red" }}>{errorMessage.apierror}</Error>
-          )
-        }
-      </Form>
-      <Button
-        onClick={(e) => {
+  const createAccount = () => {
+    setLoading(true);
+    setButtonDisabled(true);
+    AdminRegister(formData)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(loginSuccess(res.data));
+          dispatch(
+            openSnackbar({
+              message: "Login Successful",
+              severity: "success"
+            })
+          );
+          setLoading(false);
+          setButtonDisabled(false);
           setErrorMessage({
             ...errorMessage,
             apierror: ""
           });
-          handleSubmit(e);
-        }}
-        buttonDisabled={buttonDisabled}
-      >
-        {loading ? (
-          <CircularProgress size={24} color="inherit" />
-        ) : (
-          <>Create Account</>
-        )}
-      </Button>
-      <Text>
-        Already have an account?{" "}
-        <TextButton onClick={() => setOpenSignUp(false)}>Sign In</TextButton>
-      </Text>
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        setButtonDisabled(false);
+        if (err.response) {
+          setErrorMessage({
+            ...errorMessage,
+            apierror: err.response.data.message
+          });
+        } else {
+          setErrorMessage({
+            ...errorMessage,
+            apierror: err.message
+          });
+        }
+      });
+  };
+
+  useEffect(() => {
+    if (otpVerified) {
+      setShowOtp(false);
+      createAccount();
+    }
+  }, [otpVerified]);
+
+  return (
+    <Container data-testid="signup">
+      {!showOtp ? (
+        <div>
+          <Title>SignUp</Title>
+          <Form>
+            <OutlinedInput>
+              <PersonRounded />
+              <Input
+                placeholder="Username"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+                maxLength={16}
+              />
+            </OutlinedInput>
+            {
+              // Show error message if there is one
+              errorMessage?.username && (
+                <Error style={{ color: "red" }}>{errorMessage.username}</Error>
+              )
+            }
+            <OutlinedInput>
+              <EmailRounded />
+              <Input
+                placeholder="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+            </OutlinedInput>
+            {
+              // Show error message if there is one
+              errorMessage?.email && (
+                <Error style={{ color: "red" }}>{errorMessage.email}</Error>
+              )
+            }
+            <OutlinedInput>
+              <PasswordRounded />
+              <Input
+                placeholder="Password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+              {showPassword ? (
+                <Visibility
+                  sx={{ fontSize: "20px" }}
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              ) : (
+                <VisibilityOff
+                  sx={{ fontSize: "20px" }}
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              )}
+            </OutlinedInput>
+            {
+              // Show error message if there is one
+              errorMessage?.password && (
+                <Error style={{ color: "red" }}>{errorMessage.password}</Error>
+              )
+            }
+            <OutlinedInput>
+              <PasswordRounded />
+              <Input
+                placeholder="Confirm Password"
+                name="Confirm password"
+                type="text"
+                value={confirmPassword}
+                onChange={handleInputChange}
+              />
+            </OutlinedInput>
+            {
+              // Show error message if there is one
+              errorMessage?.confirm_password && (
+                <Error style={{ color: "red" }}>
+                  {errorMessage.confirm_password}
+                </Error>
+              )
+            }
+            {
+              // Show error message if there is one from the server
+              errorMessage?.apierror && (
+                <Error style={{ color: "red" }}>{errorMessage.apierror}</Error>
+              )
+            }
+          </Form>
+          <Button
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+            buttonDisabled={buttonDisabled}
+          >
+            {loading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              <>Create Account</>
+            )}
+          </Button>
+          <Text>
+            Already have an account?{" "}
+            <TextButton onClick={() => setOpenSignUp(false)}>
+              Sign In
+            </TextButton>
+          </Text>
+        </div>
+      ) : (
+        <OTP
+          email={formData.email}
+          name={formData.email}
+          otpVerified={otpVerified}
+          setOtpVerified={setOtpVerified}
+        />
+      )}
     </Container>
   );
 };

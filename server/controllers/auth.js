@@ -294,14 +294,16 @@ export const findUserByEmail = async (req, res, next) => {
   const { email } = req.query;
   try {
     const user = await User.findOne({ email: email });
-    if (user.role === "admin") {
+    if (user?.role === "admin") {
       return res.status(200).send({
         message: "User found"
       });
-    } else if (user.role === "employee") {
+    } else if (user?.role === "employee") {
       return next(createError(404, "You are an employee login as an employee"));
     } else {
-      return next(createError(404, "User not found"));
+      return res.status(402).send({
+        message: "User doesnot exist"
+      });
     }
   } catch (err) {
     next(err);

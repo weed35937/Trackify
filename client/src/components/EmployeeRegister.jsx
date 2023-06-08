@@ -20,10 +20,10 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.card};
   color: ${({ theme }) => theme.text_secondary + 99};
   border-radius: 16px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   gap: 10px;
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h1`
@@ -84,7 +84,7 @@ const Button = styled.button`
   padding: 14px;
   border-radius: 10px;
   background: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.text_primary};
+  color: white;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -96,13 +96,6 @@ const Button = styled.button`
     color: #666666;
     cursor: not-allowed;
   `}
-`;
-
-const Text = styled.p`
-  font-size: 16px;
-  text-align: center;
-  color: ${({ theme }) => theme.text_secondary};
-  margin-top: 16px;
 `;
 
 const EmployeeRegister = () => {
@@ -244,7 +237,6 @@ const EmployeeRegister = () => {
       employeeRegister(formData, token)
         .then((res) => {
           if (res.status === 200) {
-            console.log(res.data);
             dispatch(
               openSnackbar({
                 message: "Employee added Successful",

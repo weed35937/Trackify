@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useTheme } from "styled-components";
 import OtpInput from "react-otp-input";
@@ -20,7 +20,7 @@ const Button = styled.button`
   padding: 14px;
   border-radius: 10px;
   background: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.text_primary};
+  color: white;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -51,7 +51,7 @@ const Error = styled.div`
   font-size: 12px;
   margin: 2px 2px 8px 2px;
   display: block;
-  ${({ error, theme }) =>
+  ${({ error }) =>
     error === "" &&
     `    display: none;
     `}
@@ -72,7 +72,7 @@ const Resend = styled.div`
   cursor: pointer;
 `;
 
-const OTP = ({ email, name, otpVerified, setOtpVerified, reason }) => {
+const OTP = ({ email, name, setOtpVerified, reason }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -214,7 +214,7 @@ const OTP = ({ email, name, otpVerified, setOtpVerified, reason }) => {
   useEffect(() => {
     clearTimer(getDeadTime());
     sendOtp();
-  }, []);
+  });
 
   useEffect(() => {
     if (timer === "00:00") {
@@ -274,6 +274,7 @@ const OTP = ({ email, name, otpVerified, setOtpVerified, reason }) => {
               color: theme.text_primary
             }}
             containerStyle={{ padding: "8px 2px", justifyContent: "center" }}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             renderInput={(props) => <input {...props} />}
           />
           <Error error={otpError}>

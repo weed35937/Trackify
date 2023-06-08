@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import {
@@ -81,7 +81,7 @@ const Button = styled.button`
   padding: 14px;
   border-radius: 10px;
   background: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.text_primary};
+  color: white;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -253,7 +253,7 @@ const SignUp = ({ setOpenSignUp }) => {
     } else {
       setButtonDisabled(true);
     }
-  }, [errorMessage, formData]);
+  }, [confirmPassword, errorMessage, formData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -290,6 +290,7 @@ const SignUp = ({ setOpenSignUp }) => {
               apierror: err.response.data.message
             });
           } else {
+            setLoading(false);
             dispatch(
               openSnackbar({
                 message: err.message,
@@ -302,6 +303,7 @@ const SignUp = ({ setOpenSignUp }) => {
   };
 
   const createAccount = () => {
+    setShowOtp(false);
     setLoading(true);
     setButtonDisabled(true);
     AdminRegister(formData)
@@ -341,10 +343,9 @@ const SignUp = ({ setOpenSignUp }) => {
 
   useEffect(() => {
     if (otpVerified) {
-      setShowOtp(false);
       createAccount();
     }
-  }, [otpVerified]);
+  });
 
   return (
     <Container data-testid="signup">

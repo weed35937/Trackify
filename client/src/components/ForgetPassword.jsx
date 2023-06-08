@@ -1,5 +1,5 @@
 import { CircularProgress } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import {
@@ -70,7 +70,7 @@ const Button = styled.button`
   padding: 14px;
   border-radius: 10px;
   background: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.text_primary};
+  color: white;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -84,12 +84,6 @@ const Button = styled.button`
   `}
 `;
 
-const Text = styled.p`
-  font-size: 16px;
-  text-align: center;
-  color: ${({ theme }) => theme.text_secondary};
-  margin-top: 16px;
-`;
 const ForgetPassword = ({ setShowForgotPassword }) => {
   // Hooks
   const [errorMessage, setErrorMessage] = useState({
@@ -258,39 +252,40 @@ const ForgetPassword = ({ setShowForgotPassword }) => {
   }, [errorMessage, formData]);
 
   const performResetPassword = async () => {
-    if (otpVerified) {
-      setShowOTP(false);
-      setLoading(true);
-      setResetDisabled(true);
-      await resetPassword(formData.email, formData.password)
-        .then((res) => {
-          if (res.status === 200) {
-            dispatch(
-              openSnackbar({
-                message: "Password Reset Successfully",
-                severity: "success"
-              })
-            );
-            setShowForgotPassword(false);
-            setOtpVerified(false);
-            setLoading(true);
-          }
-        })
-        .catch((err) => {
+    setShowOTP(false);
+    setLoading(true);
+    setResetDisabled(true);
+    await resetPassword(formData.email, formData.password)
+      .then((res) => {
+        if (res.status === 200) {
           dispatch(
             openSnackbar({
-              message: err.message,
-              severity: "error"
+              message: "Password Reset Successfully",
+              severity: "success"
             })
           );
-          setShowOTP(false);
+          setShowForgotPassword(false);
+          setLoading(true);
           setOtpVerified(false);
-        });
-    }
+        }
+      })
+      .catch((err) => {
+        dispatch(
+          openSnackbar({
+            message: err.message,
+            severity: "error"
+          })
+        );
+        setShowOTP(false);
+        setOtpVerified(false);
+      });
   };
+
   useEffect(() => {
-    performResetPassword();
-  }, [otpVerified]);
+    if (otpVerified) {
+      performResetPassword();
+    }
+  });
 
   return (
     <Container>

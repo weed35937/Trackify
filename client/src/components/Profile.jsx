@@ -1,16 +1,19 @@
 import { Avatar, Popover } from "@mui/material";
-import React from "react";
 import styled, { useTheme } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { LogoutRounded } from "@mui/icons-material";
-import { logout } from "../redux/reducers/userSlice";
+import {
+  DarkModeRounded,
+  LightModeRounded,
+  LogoutRounded
+} from "@mui/icons-material";
+import { logout, setDarkMode } from "../redux/reducers/userSlice";
 
 const Container = styled.div`
   width: 100%;
   min-width: 320px;
-  background: ${({ theme }) => theme.bgLight};
+  background: ${({ theme }) => theme.card};
   color: ${({ theme }) => theme.text_primary};
   display: flex;
   flex-direction: column;
@@ -67,7 +70,16 @@ const HR = styled.div`
   background: ${({ theme }) => theme.text_secondary + 50};
 `;
 
-const LogoutButton = styled.div`
+const Flex = styled.div`
+  width: 100%;
+  padding: 0px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+`;
+
+const Button = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,7 +92,7 @@ const LogoutButton = styled.div`
   border: 1px solid ${({ theme }) => theme.text_secondary};
   padding: 6px 12px;
   border-radius: 6px;
-  transition: ease-in-out 0.1s;
+  transition: ease-in-out 0.2s;
   &:hover {
     color: ${({ theme }) => theme.text_primary};
     border: 1px solid ${({ theme }) => theme.text_primary};
@@ -88,8 +100,8 @@ const LogoutButton = styled.div`
   }
 `;
 
-const Profile = ({ open, handleClose, anchorEl, id }) => {
-  const { currentUser, role } = useSelector((state) => state.user);
+const Profile = ({ open, handleClose, anchorEl }) => {
+  const { currentUser, role, darkMode } = useSelector((state) => state.user);
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -120,7 +132,7 @@ const Profile = ({ open, handleClose, anchorEl, id }) => {
               width: "100px",
               height: "100px",
               margin: "0px 10px 0px 0px",
-              border: `6px solid ${theme.bgLight}`
+              border: `6px solid ${theme.card}`
             }}
             src={currentUser?.img}
           />
@@ -155,10 +167,25 @@ const Profile = ({ open, handleClose, anchorEl, id }) => {
           </Info>
         </Details>
         <HR />
-        <LogoutButton onClick={handleLogout}>
-          <LogoutRounded />
-          <span>Logout</span>
-        </LogoutButton>
+        <Flex>
+          <Button onClick={() => dispatch(setDarkMode(!darkMode))}>
+            {!darkMode ? (
+              <>
+                <DarkModeRounded />
+                Dark Mode
+              </>
+            ) : (
+              <>
+                <LightModeRounded />
+                Light Mode
+              </>
+            )}
+          </Button>
+          <Button onClick={handleLogout}>
+            <LogoutRounded />
+            <span>Logout</span>
+          </Button>
+        </Flex>
       </Container>
     </Popover>
   );

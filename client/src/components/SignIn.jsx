@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import {
@@ -123,7 +123,7 @@ const Button = styled.button`
   padding: 14px;
   border-radius: 10px;
   background: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.text_primary};
+  color: white;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -249,12 +249,22 @@ const SignIn = (props) => {
             }
           })
           .catch((err) => {
-            setLoading(false);
             setButtonDisabled(false);
-            setErrorMessage({
-              ...errorMessage,
-              apierror: err.response.data.message
-            });
+            if (err.response) {
+              setLoading(false);
+              setErrorMessage({
+                ...errorMessage,
+                apierror: err.response.data.message
+              });
+            } else {
+              setLoading(false);
+              dispatch(
+                openSnackbar({
+                  message: err.message,
+                  severity: "error"
+                })
+              );
+            }
           });
       } else {
         EmployeeLogin(formData)
@@ -276,12 +286,22 @@ const SignIn = (props) => {
             }
           })
           .catch((err) => {
-            setLoading(false);
             setButtonDisabled(false);
-            setErrorMessage({
-              ...errorMessage,
-              apierror: err.response.data.message
-            });
+            if (err.response) {
+              setLoading(false);
+              setErrorMessage({
+                ...errorMessage,
+                apierror: err.response.data.message
+              });
+            } else {
+              setLoading(false);
+              dispatch(
+                openSnackbar({
+                  message: err.message,
+                  severity: "error"
+                })
+              );
+            }
           });
       }
     }

@@ -1,10 +1,11 @@
 export const darkTheme = {
-  bg: "#1C1C27",
+  bg: "#15171E",
   bgLight: "#1C1E27",
+  bgDark: "#15171E",
   primary: "#854CE6",
   text_primary: "#F2F3F4",
   text_secondary: "#b1b2b3",
-  card: "#171721",
+  card: "#1C1E27",
   card_light: "#191924",
   button:
     "-webkit-linear-gradient(225deg, rgb(132, 0, 255) 0%, rgb(230, 0, 255) 100%);",
@@ -16,15 +17,15 @@ export const darkTheme = {
 };
 
 export const lightTheme = {
-  bg: "#FFFFFF",
-  bgLight: "#f0f0f0",
-  primary: "#be1adb",
+  bg: "#f9f9f9",
+  bgLight: "#FFFFFF",
+  primary: "#854CE6",
   button:
     "linear-gradient(225deg, rgb(132, 0, 255) 0%, rgb(230, 0, 255) 100%);",
   gradient_primary:
     "-webkit-linear-gradient(225deg, rgb(132, 0, 255) 0%, rgb(230, 0, 255) 100%);",
   disabled: "#b1b2b3",
-  text_primary: "#111111",
-  text_secondary: "#48494a",
+  text_primary: "#404040",
+  text_secondary: "#616060",
   card: "#FFFFFF"
 };

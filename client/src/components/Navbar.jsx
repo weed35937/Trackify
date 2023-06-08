@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
+import { Link } from "react-router-dom";
 import DropdownIcon from "@mui/icons-material/ArrowDropDown";
 import { useSelector } from "react-redux";
 import UserProfile from "./Profile";
@@ -8,6 +9,7 @@ import Logo from "../Images/Logo.svg";
 
 const Container = styled.div`
   width: 100%;
+  background: ${({ theme }) => theme.bgLight};
   color: ${({ theme }) => theme.text_primary};
   display: flex;
   align-items: center;
@@ -19,7 +21,7 @@ const Container = styled.div`
   }
 `;
 
-const LogoText = styled.div`
+const LogoText = styled(Link)`
   font-size: 28px;
   font-weight: bold;
   display: flex;
@@ -79,17 +81,9 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
-  // Open the notification dialog
-  const [anchorEl2, setAnchorEl2] = useState(null);
-  const open2 = Boolean(anchorEl2);
-  const id2 = open2 ? "simple-popover" : undefined;
-  const notificationClick = (event) => {
-    setAnchorEl2(event.currentTarget);
-  };
-
   return (
     <Container>
-      <LogoText>
+      <LogoText to="/">
         <LogoImg src={Logo} />
         Trackify
       </LogoText>

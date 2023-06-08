@@ -38,18 +38,18 @@ const LoginText = styled.div`
   font-size: 14px;
   font-weight: 500;
   color: ${({ theme }) => theme.text_secondary};
-  margin: 0px 26px 0px 26px;
+  margin: 2px 2px 0px 2px;
 `;
 const Span = styled.span`
   color: ${({ theme }) => theme.primary};
   font-size: 12px;
-  margin: 0px 26px 0px 26px;
+  margin: 0px 2px 0px 2px;
 `;
 
 const Error = styled.div`
   color: red;
   font-size: 12px;
-  margin: 2px 26px 8px 26px;
+  margin: 2px 2px 8px 2px;
   display: block;
   ${({ error, theme }) =>
     error === "" &&
@@ -59,14 +59,14 @@ const Error = styled.div`
 
 const Timer = styled.div`
   color: ${({ theme }) => theme.text_secondary};
-  font-size: 12px;
+  font-size: 16px;
   margin: 2px 26px 8px 26px;
   display: block;
 `;
 
 const Resend = styled.div`
   color: ${({ theme }) => theme.primary};
-  font-size: 14px;
+  font-size: 16px;
   margin: 2px 26px 8px 26px;
   display: block;
   cursor: pointer;
@@ -264,8 +264,8 @@ const OTP = ({ email, name, otpVerified, setOtpVerified, reason }) => {
             shouldAutoFocus
             inputStyle={{
               fontSize: "22px",
-              width: "38px",
-              height: "38px",
+              width: "48px",
+              height: "48px",
               borderRadius: "5px",
               border: "1px solid #ccc",
               textAlign: "center",

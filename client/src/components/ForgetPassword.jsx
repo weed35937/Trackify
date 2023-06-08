@@ -14,16 +14,6 @@ import { findUserByEmail, resetPassword } from "../api";
 import OTP from "./OTP";
 
 const Container = styled.div`
-  width: 100%;
-  max-width: 500px;
-  padding: 22px 28px 40px 28px;
-  background-color: ${({ theme }) => theme.card};
-  color: ${({ theme }) => theme.text_secondary + 99};
-  border-radius: 16px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   position: relative;
 `;
 
@@ -310,8 +300,8 @@ const ForgetPassword = ({ setShowForgotPassword }) => {
           <CloseRounded
             style={{
               position: "absolute",
-              top: "24px",
-              right: "30px",
+              top: "6px",
+              right: "10px",
               cursor: "pointer"
             }}
             onClick={() => setShowForgotPassword(false)}
@@ -388,10 +378,6 @@ const ForgetPassword = ({ setShowForgotPassword }) => {
           <Button
             buttonDisabled={resetDisabled}
             onClick={() => {
-              setErrorMessage({
-                ...errorMessage,
-                apierror: ""
-              });
               sendOtp();
             }}
             disabled={resetDisabled}

@@ -8,6 +8,8 @@ export const darkTheme = {
   card_light: "#191924",
   button:
     "-webkit-linear-gradient(225deg, rgb(132, 0, 255) 0%, rgb(230, 0, 255) 100%);",
+  gradient_primary:
+    "-webkit-linear-gradient(225deg,rgb(132, 0, 255) 0%,rgb(230, 0, 255) 100%);",
   disabled: "#b1b2b3",
   white: "#FFFFFF",
   black: "#000000"
@@ -18,6 +20,8 @@ export const lightTheme = {
   bgLight: "#f0f0f0",
   primary: "#be1adb",
   button:
+    "linear-gradient(225deg, rgb(132, 0, 255) 0%, rgb(230, 0, 255) 100%);",
+  gradient_primary:
     "-webkit-linear-gradient(225deg, rgb(132, 0, 255) 0%, rgb(230, 0, 255) 100%);",
   disabled: "#b1b2b3",
   text_primary: "#111111",

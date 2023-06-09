@@ -16,7 +16,7 @@ import { logout, setDarkMode } from "../redux/reducers/userSlice";
 import Logo from "../Images/Logo.svg";
 
 const Container = styled.div`
-  flex: 0.6;
+  flex: 0.65;
   flex-direction: column;
   height: 100vh;
   display: flex;

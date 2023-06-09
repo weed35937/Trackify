@@ -20,6 +20,7 @@ const Container = styled.div`
   color: ${({ theme }) => theme.text_primary};
   overflow-x: hidden;
   overflow-y: hidden;
+  transition: all 0.2s ease;
 `;
 
 const Wrapper = styled.div`

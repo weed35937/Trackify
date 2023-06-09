@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
@@ -11,7 +11,10 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: all 0.6s ease;
+  @media only screen and (max-width: 600px) {
+    padding: 24px 12px;
+    justify-content: start;
+  }
 `;
 
 const Logotext = styled.div`
@@ -31,7 +34,7 @@ const Logotext = styled.div`
   text-fill-color: transparent;
   margin-bottom: 4px;
   @media only screen and (max-width: 600px) {
-    font-size: 36px;
+    font-size: 34px;
   }
 `;
 
@@ -49,7 +52,7 @@ const WelcomeText = styled.div`
   margin-bottom: 36px;
   color: ${({ theme }) => theme.text_primary + 80};
   @media only screen and (max-width: 600px) {
-    font-size: 22px;
+    font-size: 14px;
   }
 `;
 

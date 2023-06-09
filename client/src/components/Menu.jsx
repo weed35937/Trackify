@@ -72,12 +72,8 @@ const LogoText = styled(Link)`
 `;
 
 const LogoImg = styled.img`
-  height: 36px;
+  height: 30px;
   margin-right: 10px;
-  @media only screen and (max-width: 600px) {
-    width: 30px;
-    height: 30px;
-  }
 `;
 
 const Close = styled.div`
@@ -136,8 +132,8 @@ const Button = styled.div`
   justify-content: center;
   gap: 6px;
   cursor: pointer;
-  font-size: 18px;
-  padding: 20px 22px;
+  font-size: 16px;
+  padding: 18px 22px;
   border-radius: 8px;
   transition: 0.3s ease-in-out;
   margin: 0px 10px;

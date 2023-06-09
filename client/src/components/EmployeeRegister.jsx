@@ -42,6 +42,9 @@ const Container = styled.div`
   gap: 10px;
   position: relative;
   outline: none;
+  @media (max-width: 600px) {
+    padding: 22px 20px 40px 20px;
+  }
 `;
 
 const Title = styled.h1`

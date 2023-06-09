@@ -26,6 +26,9 @@ const Container = styled.div`
   flex-direction: column;
   gap: 10px;
   transition: all 0.3s ease;
+  @media (max-width: 600px) {
+    padding: 22px 22px 40px 22px;
+  }
 `;
 
 const Title = styled.h1`

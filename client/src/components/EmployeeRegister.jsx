@@ -1,29 +1,47 @@
 import {
   BusinessRounded,
   CallRounded,
+  CloseRounded,
   DateRangeRounded,
   EmailRounded,
   PasswordRounded,
   PersonRounded
 } from "@mui/icons-material";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { employeeRegister } from "../api/index";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
 
-const Container = styled.div`
+const Body = styled.div`
   width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+  transition: all 0.5s ease;
+`;
+
+const Container = styled.div`
   max-width: 500px;
+  width: 100%;
+  border-radius: 16px;
+  margin: 50px 20px;
   padding: 22px 28px 40px 28px;
-  background-color: ${({ theme }) => theme.card};
+  background: ${({ theme }) => theme.card};
   color: ${({ theme }) => theme.text_secondary + 99};
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  outline: none;
 `;
 
 const Title = styled.h1`
@@ -98,7 +116,7 @@ const Button = styled.button`
   `}
 `;
 
-const EmployeeRegister = () => {
+const EmployeeRegister = ({ setOpenEmployeeRegister }) => {
   // Hooks
   const dispatch = useDispatch();
   const token = localStorage.getItem("trackify-token");
@@ -249,131 +267,167 @@ const EmployeeRegister = () => {
               ...errorMessage,
               apierror: ""
             });
+            setOpenEmployeeRegister(false);
           }
         })
         .catch((err) => {
-          setLoading(false);
           setButtonDisabled(false);
-          setErrorMessage({
-            ...errorMessage,
-            apierror: err.response?.data?.message
-          });
+          if (err.response) {
+            setLoading(false);
+            setErrorMessage({
+              ...errorMessage,
+              apierror: err.response.data.message
+            });
+          } else {
+            setLoading(false);
+            dispatch(
+              openSnackbar({
+                message: err.message,
+                severity: "error"
+              })
+            );
+          }
         });
     }
   };
 
   return (
-    <Container>
-      <Title>Register Employee</Title>
-      <Form>
-        <OutlinedInput>
-          <PersonRounded />
-          <Input
-            type="text"
-            placeholder="Employee Name"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
-          />
-        </OutlinedInput>
-        {
-          // Show error message if there is one
-          errorMessage?.username && (
-            <Error style={{ color: "red" }}>{errorMessage.username}</Error>
-          )
-        }
-        <OutlinedInput>
-          <EmailRounded />
-          <Input
-            type="text"
-            placeholder="Employee Email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-        </OutlinedInput>
-        {
-          // Show error message if there is one
-          errorMessage?.email && (
-            <Error style={{ color: "red" }}>{errorMessage.email}</Error>
-          )
-        }
-        <OutlinedInput>
-          <CallRounded />
-          <Input
-            type="text"
-            pattern="\d*"
-            maxLength="10"
-            placeholder="Contact Number"
-            name="contact_number"
-            value={formData.contact_number}
-            onChange={handleInputChange}
-          />
-        </OutlinedInput>
-        <DisplayFlex>
-          <OutlinedInput>
-            <BusinessRounded />
-            <Input
-              type="text"
-              placeholder="Department"
-              name="department"
-              value={formData.department}
-              onChange={handleInputChange}
-            />
-          </OutlinedInput>
-          <OutlinedInput>
-            <DateRangeRounded />
-            <Input
-              type={formData.joining_date ? "date" : "text"}
-              onFocus={(e) => (e.target.type = "date")}
-              onBlur={(e) => (e.target.type = "text")}
-              placeholder="Joining Date"
-              name="joining_date"
-              value={formData.joining_date}
-              onChange={handleInputChange}
-            />
-          </OutlinedInput>
-        </DisplayFlex>
-        <OutlinedInput>
-          <PasswordRounded />
-          <Input
-            type="text"
-            placeholder="Password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </OutlinedInput>
-        {
-          // Show error message if there is one
-          errorMessage?.password && (
-            <Error style={{ color: "red" }}>{errorMessage.password}</Error>
-          )
-        }
-        {
-          // Show error message if there is one from the server
-          errorMessage?.apierror && (
-            <Error style={{ color: "red" }}>{errorMessage.apierror}</Error>
-          )
-        }
-      </Form>
-      <Button
-        onClick={(e) => {
-          setErrorMessage({
-            ...errorMessage,
-            apierror: ""
-          });
-          handleSubmit(e);
+    <Body>
+      <Modal
+        open
+        onClose={() => {
+          setOpenEmployeeRegister(false);
         }}
-        buttonDisabled={buttonDisabled}
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
       >
-        {loading ? (
-          <CircularProgress size={24} color="inherit" />
-        ) : (
-          <>Create Account</>
-        )}
-      </Button>
-    </Container>
+        <Container>
+          <Title>Register Employee</Title>
+          <CloseRounded
+            style={{
+              position: "absolute",
+              top: "16px",
+              right: "26px",
+              cursor: "pointer",
+              fontSize: "28px"
+            }}
+            onClick={() => setOpenEmployeeRegister(false)}
+          />
+          <Form>
+            <OutlinedInput>
+              <PersonRounded />
+              <Input
+                type="text"
+                placeholder="Employee Name"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+              />
+            </OutlinedInput>
+            {
+              // Show error message if there is one
+              errorMessage?.username && (
+                <Error style={{ color: "red" }}>{errorMessage.username}</Error>
+              )
+            }
+            <OutlinedInput>
+              <EmailRounded />
+              <Input
+                type="text"
+                placeholder="Employee Email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+            </OutlinedInput>
+            {
+              // Show error message if there is one
+              errorMessage?.email && (
+                <Error style={{ color: "red" }}>{errorMessage.email}</Error>
+              )
+            }
+            <OutlinedInput>
+              <CallRounded />
+              <Input
+                type="text"
+                pattern="\d*"
+                maxLength="10"
+                placeholder="Contact Number"
+                name="contact_number"
+                value={formData.contact_number}
+                onChange={handleInputChange}
+              />
+            </OutlinedInput>
+            <DisplayFlex>
+              <OutlinedInput>
+                <BusinessRounded />
+                <Input
+                  type="text"
+                  placeholder="Department"
+                  name="department"
+                  value={formData.department}
+                  onChange={handleInputChange}
+                />
+              </OutlinedInput>
+              <OutlinedInput>
+                <DateRangeRounded />
+                <Input
+                  type={formData.joining_date ? "date" : "text"}
+                  onFocus={(e) => (e.target.type = "date")}
+                  onBlur={(e) => (e.target.type = "text")}
+                  placeholder="Joining Date"
+                  name="joining_date"
+                  value={formData.joining_date}
+                  onChange={handleInputChange}
+                />
+              </OutlinedInput>
+            </DisplayFlex>
+            <OutlinedInput>
+              <PasswordRounded />
+              <Input
+                type="text"
+                placeholder="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+            </OutlinedInput>
+            {
+              // Show error message if there is one
+              errorMessage?.password && (
+                <Error style={{ color: "red" }}>{errorMessage.password}</Error>
+              )
+            }
+            {
+              // Show error message if there is one from the server
+              errorMessage?.apierror && (
+                <Error style={{ color: "red" }}>{errorMessage.apierror}</Error>
+              )
+            }
+          </Form>
+          <Button
+            onClick={(e) => {
+              setErrorMessage({
+                ...errorMessage,
+                apierror: ""
+              });
+              handleSubmit(e);
+            }}
+            buttonDisabled={buttonDisabled}
+          >
+            {loading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              <>Create Account</>
+            )}
+          </Button>
+        </Container>
+      </Modal>
+    </Body>
   );
 };
 

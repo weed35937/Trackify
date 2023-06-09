@@ -11,6 +11,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     padding: 6px 10px;
   }
+  background: ${({ theme }) => theme.background};
 `;
 
 const AdminDashboard = () => {

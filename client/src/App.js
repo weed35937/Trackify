@@ -11,6 +11,7 @@ import ToastMessage from "./components/ToastMessage";
 import { setDarkMode } from "./redux/reducers/userSlice";
 import Menu from "./components/Menu";
 import EmployeeRegister from "./components/EmployeeRegister";
+import BottomNav from "./components/BottomNav";
 
 const Container = styled.div`
   width: 100%;
@@ -24,6 +25,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 3;
@@ -84,6 +86,7 @@ function App() {
                 />
                 {/* <Route path="*" element={} /> */}
               </Routes>
+              <BottomNav />
               {openEmployeeRegister && (
                 <EmployeeRegister
                   setOpenEmployeeRegister={setOpenEmployeeRegister}

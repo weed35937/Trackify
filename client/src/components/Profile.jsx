@@ -15,12 +15,13 @@ const Container = styled.div`
   min-width: 320px;
   background: ${({ theme }) => theme.card};
   color: ${({ theme }) => theme.text_primary};
+  border: 0.5px solid ${({ theme }) => theme.text_secondary + 20};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 12px 0px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
   gap: 10px;
   @media only screen and (max-width: 600px) {
     padding: 18px 20px;
@@ -98,6 +99,24 @@ const Button = styled.div`
     border: 1px solid ${({ theme }) => theme.text_primary};
     background: ${({ theme }) => theme.text_secondary + 10};
   }
+  @media only screen and (max-width: 600px) {
+    font-size: 14px;
+  }
+`;
+
+const TextButton = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 10px 0px 0px 0px;
+  color: ${({ theme }) => theme.text_primary};
+  font-size: 12px;
+  text-align: center;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const Profile = ({ open, handleClose, anchorEl }) => {
@@ -113,6 +132,22 @@ const Profile = ({ open, handleClose, anchorEl }) => {
 
   const userRole = role.charAt(0).toUpperCase() + role.slice(1);
 
+  // generate color for avatar
+  const generateColor = (name) => {
+    const nameHash = name
+      .toLowerCase()
+      .split("")
+      .reduce((hash, char) => {
+        const charCode = char.charCodeAt(0);
+        return (((hash % 65536) * 65536) % 2147483648) + charCode;
+      }, 0);
+
+    const hue = nameHash % 360;
+    const saturation = 75; // Random value between 25 and 100
+    const lightness = 40; // Random value between 20 and 80
+
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  };
   return (
     <Popover
       anchorReference="anchorPosition"
@@ -123,6 +158,11 @@ const Profile = ({ open, handleClose, anchorEl }) => {
         vertical: "top",
         horizontal: "right"
       }}
+      PaperProps={{
+        style: {
+          borderRadius: 8 // Adjust the value as per your desired border radius
+        }
+      }}
       anchorPosition={{ top: 80, left: 1800 }}
     >
       <Container>
@@ -132,10 +172,14 @@ const Profile = ({ open, handleClose, anchorEl }) => {
               width: "100px",
               height: "100px",
               margin: "0px 10px 0px 0px",
-              border: `6px solid ${theme.card}`
+              border: `6px solid ${theme.card}`,
+              fontSize: "36px",
+              background: generateColor(currentUser?.username)
             }}
             src={currentUser?.img}
-          />
+          >
+            {currentUser?.username[0]}
+          </Avatar>
           <Info>
             <Role>{userRole}</Role>
             <Text>
@@ -164,6 +208,10 @@ const Profile = ({ open, handleClose, anchorEl }) => {
                 </Text>
               </>
             )}
+            <HR style={{ marginTop: "12px" }} />
+            <TextButton onClick={() => navigate("/profile")}>
+              View Profile
+            </TextButton>
           </Info>
         </Details>
         <HR />

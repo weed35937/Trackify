@@ -23,7 +23,7 @@ const Container = styled.div`
   box-sizing: border-box;
   align-items: flex-start;
   background-color: ${({ theme }) => theme.menubar};
-  color: ${({ theme }) => theme.text_primary};
+  color: ${({ theme }) => theme.menu_primary_text};
   @media (max-width: 1100px) {
     position: fixed;
     z-index: 1000;
@@ -89,7 +89,7 @@ const Close = styled.div`
 
 const NavLinkItem = styled(NavLink)`
   display: flex;
-  color: ${({ theme }) => theme.text_secondary};
+  color: ${({ theme }) => theme.menu_secondary_text};
   align-items: center;
   gap: 16px;
   cursor: pointer;
@@ -99,7 +99,7 @@ const NavLinkItem = styled(NavLink)`
   transition: 0.3s ease-in-out;
   margin: 0px 10px;
   &:hover {
-    background-color: ${({ theme }) => theme.text_secondary + 10};
+    background-color: ${({ theme }) => theme.menu_secondary_text + 10};
   }
   &.active {
     background-color: ${({ theme }) => theme.primary + 10};
@@ -109,7 +109,7 @@ const NavLinkItem = styled(NavLink)`
 
 const Item = styled.div`
   display: flex;
-  color: ${({ theme }) => theme.text_secondary};
+  color: ${({ theme }) => theme.menu_secondary_text};
   align-items: center;
   gap: 16px;
   cursor: pointer;
@@ -119,19 +119,19 @@ const Item = styled.div`
   transition: 0.3s ease-in-out;
   margin: 0px 10px;
   &:hover {
-    background-color: ${({ theme }) => theme.text_secondary + 10};
+    background-color: ${({ theme }) => theme.menu_secondary_text + 10};
   }
 `;
 
 const Hr = styled.div`
   height: 1px;
   margin: 15px 0px 15px 0px;
-  background: ${({ theme }) => theme.text_secondary + 30};
+  background: ${({ theme }) => theme.menu_secondary_text + 30};
 `;
 
 const Button = styled.div`
   display: flex;
-  color: ${({ theme }) => theme.text_secondary};
+  color: ${({ theme }) => theme.menu_primary_text};
   align-items: center;
   justify-content: center;
   gap: 6px;
@@ -142,15 +142,15 @@ const Button = styled.div`
   transition: 0.3s ease-in-out;
   margin: 0px 10px;
   font-weight: 500;
-  background-color: ${({ theme }) => theme.text_secondary + 20};
+  background-color: ${({ theme }) => theme.menu_secondary_text + 20};
   &:hover {
-    background-color: ${({ theme }) => theme.text_secondary + 30};
+    background-color: ${({ theme }) => theme.menu_secondary_text + 30};
   }
 `;
 
 const Title = styled.div`
   font-size: 18px;
-  color: ${({ theme }) => theme.textSoft + 99};
+  color: ${({ theme }) => theme.menu_primary_text};
   margin-bottom: 12px;
   padding: 2px 26px;
   display: flex;

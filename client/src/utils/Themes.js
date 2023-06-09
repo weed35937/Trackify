@@ -4,6 +4,8 @@ export const darkTheme = {
   bgDark: "#15171E",
   primary: "#854CE6",
   menubar: "#12141c",
+  menu_primary_text: "#F2F3F4",
+  menu_secondary_text: "#b1b2b3",
   text_primary: "#F2F3F4",
   text_secondary: "#b1b2b3",
   card: "#1C1E27",
@@ -26,7 +28,9 @@ export const lightTheme = {
   gradient_primary:
     "-webkit-linear-gradient(225deg, rgb(132, 0, 255) 0%, rgb(230, 0, 255) 100%);",
   disabled: "#b1b2b3",
-  menubar: "#FFFFFF",
+  menubar: "#191c29",
+  menu_primary_text: "#F2F3F4",
+  menu_secondary_text: "#b1b2b3",
   text_primary: "#404040",
   text_secondary: "#616060",
   card: "#FFFFFF"

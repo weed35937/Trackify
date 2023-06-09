@@ -34,8 +34,10 @@ html {
   background: #626970;
 }
 
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-  display: none;
-  -webkit-appearance: none;
+input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+  width: 100%;
 }

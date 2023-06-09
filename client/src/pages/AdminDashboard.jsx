@@ -1,21 +1,20 @@
-import React from "react";
 import styled from "styled-components";
-import EmployeeRegister from "../components/EmployeeRegister";
 
 const Container = styled.div`
-  width: 100%;
+  padding: 20px 30px;
+  padding-bottom: 200px;
   height: 100%;
+  overflow-y: scroll;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  @media (max-width: 768px) {
+    padding: 6px 10px;
+  }
 `;
 
 const AdminDashboard = () => {
-  return (
-    <Container>
-      <EmployeeRegister />
-    </Container>
-  );
+  return <Container>Admin Dashboard</Container>;
 };
 
 export default AdminDashboard;

@@ -33,3 +33,9 @@ export const employeeRegister = async (data, token) =>
 
 export const findUserByEmail = async (email) =>
   await API.get(`/auth/admin/findbyemail?email=${email}`);
+
+// Employee Routes
+export const createNewTask = async (data, token) =>
+  await API.post("/employee/createtask", data, {
+    headers: { Authorization: `Bearer ${token}` }
+  });

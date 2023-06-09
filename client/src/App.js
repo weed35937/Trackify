@@ -11,7 +11,8 @@ import ToastMessage from "./components/ToastMessage";
 import { setDarkMode } from "./redux/reducers/userSlice";
 import Menu from "./components/Menu";
 import EmployeeRegister from "./components/EmployeeRegister";
-import BottomNav from "./components/BottomNav";
+import CreateTask from "./components/CreateTask";
+// import BottomNav from "./components/BottomNav";
 
 const Container = styled.div`
   width: 100%;
@@ -39,6 +40,7 @@ function App() {
   const { open, message, severity } = useSelector((state) => state.snackbar);
   const [menuOpen, setMenuOpen] = useState(true);
   const [openEmployeeRegister, setOpenEmployeeRegister] = useState(false);
+  const [openCreateTask, setOpenCreateTask] = useState(false);
   const dispatch = useDispatch();
 
   // set default dark mode
@@ -71,6 +73,7 @@ function App() {
               <Menu
                 setMenuOpen={setMenuOpen}
                 setOpenEmployeeRegister={setOpenEmployeeRegister}
+                setOpenCreateTask={setOpenCreateTask}
               />
             )}
             <Wrapper>
@@ -93,6 +96,9 @@ function App() {
                 <EmployeeRegister
                   setOpenEmployeeRegister={setOpenEmployeeRegister}
                 />
+              )}
+              {openCreateTask && (
+                <CreateTask setOpenCreateTask={setOpenCreateTask} />
               )}
             </Wrapper>
           </BrowserRouter>

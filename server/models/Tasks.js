@@ -7,7 +7,7 @@ const TasksSchema = new mongoose.Schema(
     start_time: { type: Date, required: true, default: Date.now() },
     time_taken: { type: Number, required: true, default: 0 }
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export default mongoose.model("Tasks", TasksSchema);

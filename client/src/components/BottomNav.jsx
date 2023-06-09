@@ -10,7 +10,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
-  background: ${({ theme }) => theme.bgLight};
+  background: transparent;
   padding: 1px 0;
   display: flex;
   flex-direction: column;
@@ -35,10 +35,10 @@ const NavLinkItem = styled(NavLink)`
   display: flex;
   color: ${({ theme }) => theme.menu_secondary_text};
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   cursor: pointer;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 12px;
   padding: 18px 22px;
   &.active {
     color: ${({ theme }) => theme.primary} !important;
@@ -74,7 +74,7 @@ const BottomNav = () => {
           exact
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <DashboardRounded sx={{ fontSize: "28px" }} />
+          <DashboardRounded sx={{ fontSize: "26px" }} />
           Dashboard
         </NavLinkItem>
         {role === "admin" && (
@@ -83,7 +83,7 @@ const BottomNav = () => {
             exact
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <PeopleAltRounded sx={{ fontSize: "28px" }} />
+            <PeopleAltRounded sx={{ fontSize: "26px" }} />
             Employees
           </NavLinkItem>
         )}
@@ -94,7 +94,7 @@ const BottomNav = () => {
             exact
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <ChecklistRounded sx={{ fontSize: "28px" }} />
+            <ChecklistRounded sx={{ fontSize: "26px" }} />
             Tasks
           </NavLinkItem>
         )}
@@ -105,8 +105,8 @@ const BottomNav = () => {
         >
           <Avatar
             style={{
-              height: "28px",
-              width: "28px",
+              height: "26px",
+              width: "26px",
               fontSize: "12px",
               borderRadius: "6px",
               background: generateColor(currentUser?.username)

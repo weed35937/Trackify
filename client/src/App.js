@@ -25,9 +25,11 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
+  height: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   flex: 3;
 `;
 
@@ -86,7 +88,7 @@ function App() {
                 />
                 {/* <Route path="*" element={} /> */}
               </Routes>
-              <BottomNav />
+              {/* <BottomNav /> */}
               {openEmployeeRegister && (
                 <EmployeeRegister
                   setOpenEmployeeRegister={setOpenEmployeeRegister}

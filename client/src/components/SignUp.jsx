@@ -416,7 +416,7 @@ const SignUp = ({ setOpenSignUp }) => {
               <Input
                 placeholder="Confirm Password"
                 name="Confirm password"
-                type="text"
+                type="password"
                 value={confirmPassword}
                 onChange={handleInputChange}
               />

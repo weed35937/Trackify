@@ -11,8 +11,10 @@ import { CircularProgress, Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import DatePicker from "react-datepicker";
 import { employeeRegister } from "../api/index";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Body = styled.div`
   width: 100%;
@@ -378,14 +380,23 @@ const EmployeeRegister = ({ setOpenEmployeeRegister }) => {
               </OutlinedInput>
               <OutlinedInput>
                 <DateRangeRounded />
-                <Input
-                  type={formData.joining_date ? "date" : "text"}
-                  onFocus={(e) => (e.target.type = "date")}
-                  onBlur={(e) => (e.target.type = "text")}
-                  placeholder="Joining Date"
-                  name="joining_date"
-                  value={formData.joining_date}
-                  onChange={handleInputChange}
+                <DatePicker
+                  selected={formData.joining_date}
+                  onChange={(date) => {
+                    setFormData({ ...formData, joining_date: date });
+                  }}
+                  onFocus={(e) => {
+                    e.target.readOnly = true;
+                  }}
+                  onBlur={(e) => {
+                    e.target.readOnly = false;
+                  }}
+                  placeholderText="Joining Date"
+                  maxDate={new Date()}
+                  dateFormat="dd-MM-yyyy"
+                  showYearDropdown
+                  scrollableYearDropdown
+                  style={{ color: "inherit !important;" }}
                 />
               </OutlinedInput>
             </DisplayFlex>

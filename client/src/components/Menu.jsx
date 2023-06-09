@@ -154,7 +154,7 @@ const Title = styled.div`
   gap: 12px;
 `;
 
-const Menu = ({ setMenuOpen, setOpenEmployeeRegister }) => {
+const Menu = ({ setMenuOpen, setOpenEmployeeRegister, setOpenCreateTask }) => {
   const { role, darkMode } = useSelector((state) => state.user);
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -251,7 +251,7 @@ const Menu = ({ setMenuOpen, setOpenEmployeeRegister }) => {
           </Button>
         )}
         {role === "employee" && (
-          <Button>
+          <Button onClick={() => setOpenCreateTask(true)}>
             <AddRounded sx={{ fontSize: "26px", fontWeight: 600 }} />
             New Task
           </Button>

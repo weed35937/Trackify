@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -9,21 +9,31 @@ import Authentication from "./pages/Authentication";
 import Navbar from "./components/Navbar";
 import ToastMessage from "./components/ToastMessage";
 import { setDarkMode } from "./redux/reducers/userSlice";
+import Menu from "./components/Menu";
+import EmployeeRegister from "./components/EmployeeRegister";
 
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
-  flex-direction: column;
   background: ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.text_primary};
   overflow-x: hidden;
+  overflow-y: hidden;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 3;
 `;
 
 function App() {
   // hooks
   const { currentUser, role, darkMode } = useSelector((state) => state.user);
   const { open, message, severity } = useSelector((state) => state.snackbar);
+  const [menuOpen, setMenuOpen] = useState(true);
+  const [openEmployeeRegister, setOpenEmployeeRegister] = useState(false);
   const dispatch = useDispatch();
 
   // set default dark mode
@@ -33,20 +43,52 @@ function App() {
     }
   });
 
+  // set the menuOpen state to false if the screen size is less than 768px
+  useEffect(() => {
+    const resize = () => {
+      if (window.innerWidth < 1110) {
+        setMenuOpen(false);
+      } else {
+        setMenuOpen(true);
+      }
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
+
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
         {currentUser ? (
           <BrowserRouter>
-            <Navbar />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  role === "admin" ? <AdminDashboard /> : <EmployeeDashboard />
-                }
+            {menuOpen && (
+              <Menu
+                setMenuOpen={setMenuOpen}
+                setOpenEmployeeRegister={setOpenEmployeeRegister}
               />
-            </Routes>
+            )}
+            <Wrapper>
+              <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    role === "admin" ? (
+                      <AdminDashboard />
+                    ) : (
+                      <EmployeeDashboard />
+                    )
+                  }
+                />
+                {/* <Route path="*" element={} /> */}
+              </Routes>
+              {openEmployeeRegister && (
+                <EmployeeRegister
+                  setOpenEmployeeRegister={setOpenEmployeeRegister}
+                />
+              )}
+            </Wrapper>
           </BrowserRouter>
         ) : (
           <Authentication />

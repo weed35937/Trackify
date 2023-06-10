@@ -73,6 +73,7 @@ const Resend = styled.div`
 `;
 
 const OTP = ({ email, name, setOtpVerified, reason }) => {
+  // Hooks
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -86,6 +87,7 @@ const OTP = ({ email, name, setOtpVerified, reason }) => {
 
   const Ref = useRef(null);
 
+  // Counter for timer
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date());
     const seconds = Math.floor((total / 1000) % 60);
@@ -112,12 +114,8 @@ const OTP = ({ email, name, setOtpVerified, reason }) => {
   };
 
   const clearTimer = (e) => {
-    // If you adjust it you should also need to
-    // adjust the Endtime formula we are about
-    // to code next
     setTimer("01:00");
 
-    // If you try to remove this line the
     // updating of timer Variable will be
     // after 1000ms or 1sec
     if (Ref.current) clearInterval(Ref.current);
@@ -129,13 +127,11 @@ const OTP = ({ email, name, setOtpVerified, reason }) => {
 
   const getDeadTime = () => {
     const deadline = new Date();
-
-    // This is where you need to adjust if
-    // you entend to add more time
     deadline.setSeconds(deadline.getSeconds() + 60);
     return deadline;
   };
 
+  // Sends the otp to the user email id
   const sendOtp = async () => {
     await generateOtp(email, name, reason)
       .then((res) => {
@@ -179,6 +175,7 @@ const OTP = ({ email, name, setOtpVerified, reason }) => {
     sendOtp();
   };
 
+  // Validate the entered otp
   const validateOtp = () => {
     setOtpLoading(true);
     setDisabled(true);
@@ -216,6 +213,7 @@ const OTP = ({ email, name, setOtpVerified, reason }) => {
     sendOtp();
   });
 
+  // Check if the timer is 00:00 then hide the timer
   useEffect(() => {
     if (timer === "00:00") {
       setShowTimer(false);
@@ -224,6 +222,7 @@ const OTP = ({ email, name, setOtpVerified, reason }) => {
     }
   }, [timer]);
 
+  // Check if the otp is 6 digits then enable the submit button
   useEffect(() => {
     if (otp.length === 6) {
       setDisabled(false);

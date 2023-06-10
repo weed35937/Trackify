@@ -1,10 +1,10 @@
-import User from "../models/User.js";
 import bcrypt from "bcrypt";
-import { createError } from "../error.js";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import otpGenerator from "otp-generator";
+import { createError } from "../error.js";
+import User from "../models/User.js";
 
 dotenv.config();
 
@@ -72,7 +72,7 @@ export const AdminLogin = async (req, res, next) => {
       return next(createError(404, "User not found"));
     }
 
-    //check if user is admin
+    // check if user is admin
     if (user.role !== "admin") {
       return next(
         createError(403, "You are not an admin login as an employee")
@@ -123,7 +123,7 @@ export const EmployeeLogin = async (req, res, next) => {
       return next(createError(404, "User not found"));
     }
 
-    //check if user is admin
+    // check if user is admin
     if (user.role !== "employee") {
       return next(
         createError(403, "You are not an employee login as an admin")
@@ -256,20 +256,20 @@ export const createResetSession = async (req, res, next) => {
 };
 
 export const resetPassword = async (req, res, next) => {
-  if (!req.app.locals.resetSession)
-    return res.status(440).send({ message: "Session expired" });
+  if (!req.app.locals.resetSession) return res.status(440).send({ message: "Session expired" });
 
   const { email, password } = req.body;
   try {
     await User.findOne({ email }).then((user) => {
       if (user) {
-        if (user.role !== "admin")
-          return next(
+        if (user.role !== "admin") {
+ return next(
             createError(403, "You are not an admin login as an admin")
           );
+}
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(password, salt);
-        User.updateOne({ email: email }, { $set: { password: hashedPassword } })
+        User.updateOne({ email }, { $set: { password: hashedPassword } })
           .then(() => {
             req.app.locals.resetSession = false;
             return res.status(200).send({
@@ -293,18 +293,17 @@ export const resetPassword = async (req, res, next) => {
 export const findUserByEmail = async (req, res, next) => {
   const { email } = req.query;
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
     if (user?.role === "admin") {
       return res.status(200).send({
         message: "User found"
       });
-    } else if (user?.role === "employee") {
+    } if (user?.role === "employee") {
       return next(createError(404, "You are an employee login as an employee"));
-    } else {
+    }
       return res.status(402).send({
         message: "User doesnot exist"
       });
-    }
   } catch (err) {
     next(err);
   }

@@ -100,6 +100,7 @@ const NavLinkItem = styled(NavLink)`
   &.active {
     background-color: ${({ theme }) => theme.primary + 10};
     color: ${({ theme }) => theme.primary} !important;
+    font-weight: 500;
   }
 `;
 
@@ -155,10 +156,13 @@ const Title = styled.div`
 `;
 
 const Menu = ({ setMenuOpen, setOpenEmployeeRegister, setOpenCreateTask }) => {
+  // Hooks
   const { role, darkMode } = useSelector((state) => state.user);
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Functions
   const logoutUser = () => {
     dispatch(logout());
     navigate("/");

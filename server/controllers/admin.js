@@ -1,19 +1,24 @@
-import User from "../models/User.js";
-import { createError } from "../error.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+// eslint-disable-next-line import/extensions
+import User from "../models/User.js";
+// eslint-disable-next-line import/extensions
+import { createError } from "../error.js";
 
 dotenv.config();
 
+// eslint-disable-next-line import/prefer-default-export, consistent-return
 export const EmployeeRegister = async (req, res, next) => {
   try {
     const {
       email,
       password,
       username,
+      // eslint-disable-next-line camelcase
       contact_number,
       department,
-      joining_date,
+      // eslint-disable-next-line camelcase
+      joining_date
     } = req.body;
 
     const { id } = req.user;
@@ -47,14 +52,16 @@ export const EmployeeRegister = async (req, res, next) => {
       email,
       password: hashedPassword,
       role: "employee",
+      // eslint-disable-next-line camelcase
       contact_number,
       department,
-      joining_date,
+      // eslint-disable-next-line camelcase
+      joining_date
     });
 
     const createdUser = await user.save();
 
-    await admin.employees.push(createdUser._id);
+    admin.employees.push(createdUser._id);
     await admin.save();
 
     res.status(200).json({ employee: createdUser });

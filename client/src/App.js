@@ -92,15 +92,15 @@ function App() {
                 {/* <Route path="*" element={} /> */}
               </Routes>
               {/* <BottomNav /> */}
-              {openEmployeeRegister && (
-                <EmployeeRegister
-                  setOpenEmployeeRegister={setOpenEmployeeRegister}
-                />
-              )}
-              {openCreateTask && (
-                <CreateTask setOpenCreateTask={setOpenCreateTask} />
-              )}
             </Wrapper>
+            {openEmployeeRegister && (
+              <EmployeeRegister
+                setOpenEmployeeRegister={setOpenEmployeeRegister}
+              />
+            )}
+            {openCreateTask && (
+              <CreateTask setOpenCreateTask={setOpenCreateTask} />
+            )}
           </BrowserRouter>
         ) : (
           <Authentication />

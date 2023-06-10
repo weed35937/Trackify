@@ -19,7 +19,7 @@ const Container = styled.div`
   padding: 22px 28px 40px 28px;
   background-color: ${({ theme }) => theme.card};
   color: ${({ theme }) => theme.text_secondary + 99};
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -178,6 +178,7 @@ const SignIn = (props) => {
     setSelectedOption(option);
   };
 
+  // handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 

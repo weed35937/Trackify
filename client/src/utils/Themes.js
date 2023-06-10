@@ -32,6 +32,6 @@ export const lightTheme = {
   menu_primary_text: "#F2F3F4",
   menu_secondary_text: "#b1b2b3",
   text_primary: "#404040",
-  text_secondary: "#616060",
+  text_secondary: "#4d4c4c",
   card: "#FFFFFF"
 };

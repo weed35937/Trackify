@@ -33,12 +33,11 @@ const Body = styled.div`
 const Container = styled.div`
   max-width: 500px;
   width: 100%;
-  border-radius: 16px;
+  border-radius: 8px;
   margin: 50px 20px;
   padding: 22px 28px 40px 28px;
   background: ${({ theme }) => theme.card};
-  color: ${({ theme }) => theme.text_secondary + 99};
-  border-radius: 16px;
+  color: ${({ theme }) => theme.text_secondary};
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -143,6 +142,7 @@ const EmployeeRegister = ({ setOpenEmployeeRegister }) => {
   });
 
   // Functions
+  // Set the texts input fields and performs all validation
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -250,6 +250,7 @@ const EmployeeRegister = ({ setOpenEmployeeRegister }) => {
     }
   }, [errorMessage, formData]);
 
+  // Performs the form submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -318,7 +319,8 @@ const EmployeeRegister = ({ setOpenEmployeeRegister }) => {
               top: "16px",
               right: "26px",
               cursor: "pointer",
-              fontSize: "28px"
+              fontSize: "28px",
+              color: "inherit"
             }}
             onClick={() => setOpenEmployeeRegister(false)}
           />

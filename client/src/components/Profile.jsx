@@ -120,11 +120,13 @@ const TextButton = styled.div`
 `;
 
 const Profile = ({ open, handleClose, anchorEl }) => {
+  // Hooks
   const { currentUser, role, darkMode } = useSelector((state) => state.user);
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Functions
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
@@ -148,6 +150,7 @@ const Profile = ({ open, handleClose, anchorEl }) => {
 
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
+
   return (
     <Popover
       anchorReference="anchorPosition"

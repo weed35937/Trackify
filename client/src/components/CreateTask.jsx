@@ -31,12 +31,11 @@ const Body = styled.div`
 const Container = styled.div`
   max-width: 500px;
   width: 100%;
-  border-radius: 16px;
+  border-radius: 8px;
   margin: 50px 20px;
   padding: 22px 28px 40px 28px;
   background: ${({ theme }) => theme.card};
-  color: ${({ theme }) => theme.text_secondary + 99};
-  border-radius: 16px;
+  color: ${({ theme }) => theme.text_secondary};
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -172,6 +171,7 @@ const CreateTask = ({ setOpenCreateTask }) => {
   });
 
   // Functions
+  // Sets the input fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -192,6 +192,7 @@ const CreateTask = ({ setOpenCreateTask }) => {
     }
   }, [formData]);
 
+  // Submits the form data
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -260,7 +261,8 @@ const CreateTask = ({ setOpenCreateTask }) => {
               top: "16px",
               right: "26px",
               cursor: "pointer",
-              fontSize: "28px"
+              fontSize: "28px",
+              color: "inherit"
             }}
             onClick={() => setOpenCreateTask(false)}
           />

@@ -106,6 +106,7 @@ const ForgetPassword = ({ setShowForgotPassword }) => {
   const [showOTP, setShowOTP] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
 
+  // Sends Otp to the user registered email id
   const sendOtp = () => {
     if (!resetDisabled) {
       setResetDisabled(true);
@@ -138,6 +139,7 @@ const ForgetPassword = ({ setShowForgotPassword }) => {
     }
   };
 
+  // Sets the form input fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -251,6 +253,7 @@ const ForgetPassword = ({ setShowForgotPassword }) => {
     }
   }, [errorMessage, formData]);
 
+  // After otv is verified this function resets the user updated password
   const performResetPassword = async () => {
     setShowOTP(false);
     setLoading(true);

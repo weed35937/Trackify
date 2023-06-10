@@ -94,6 +94,7 @@ const UserName = styled.span`
 `;
 
 const Navbar = ({ setMenuOpen, menuOpen }) => {
+  // Hooks
   const { currentUser } = useSelector((state) => state.user);
   const location = useLocation();
 
@@ -101,6 +102,8 @@ const Navbar = ({ setMenuOpen, menuOpen }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+
+  // Functions
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

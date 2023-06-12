@@ -38,13 +38,24 @@ const Details = styled.div`
   gap: 12px;
 `;
 
-const Role = styled.span`
-  font-size: 14px;
+const Tags = styled.div`
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+  @media (max-width: 768px) {
+    gap: 6px;
+  }
+`;
+
+const Tag = styled.span`
+  padding: 6px 10px;
+  border-radius: 5px;
+  background: ${({ theme }) => theme.primary + 20};
   color: ${({ theme }) => theme.primary};
-  border-radius: 8px;
-  background: ${({ theme }) => theme.primary + 10};
-  padding: 2px 8px;
-  margin-bottom: 4px;
+  font-size: 12px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const Info = styled.div`
@@ -184,7 +195,28 @@ const Profile = ({ open, handleClose, anchorEl }) => {
             {currentUser?.username[0]}
           </Avatar>
           <Info>
-            <Role>{userRole}</Role>
+            <Tags>
+              <Tag>{userRole}</Tag>
+              {currentUser.active ? (
+                <Tag
+                  style={{
+                    background: `${theme.green + 20}`,
+                    color: `${theme.green}`
+                  }}
+                >
+                  Active
+                </Tag>
+              ) : (
+                <Tag
+                  style={{
+                    background: `${theme.yellow + 20}`,
+                    color: `${theme.yellow}`
+                  }}
+                >
+                  Deactivated
+                </Tag>
+              )}
+            </Tags>
             <Text>
               <b>Name: &nbsp;</b>
               {` ${currentUser.username}`}

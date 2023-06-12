@@ -103,7 +103,7 @@ const Button = styled.button`
   outline: none;
   padding: 14px;
   border-radius: 10px;
-  background: ${({ theme }) => theme.button};
+  background: ${({ theme }) => theme.primary};
   color: white;
   font-size: 14px;
   font-weight: 600;

@@ -84,14 +84,14 @@ const Desc = styled.span`
 const Tags = styled.div`
   display: flex;
   gap: 10px;
-  margin-top: 8px;
+  margin-top: 12px;
   @media (max-width: 768px) {
     gap: 6px;
   }
 `;
 
 const Tag = styled.span`
-  padding: 4px 10px;
+  padding: 8px 12px;
   border-radius: 5px;
   background: ${({ theme }) => theme.primary + 20};
   color: ${({ theme }) => theme.primary};
@@ -173,7 +173,6 @@ const InputFLex = styled.div`
 
 const TextButton = styled.div`
   width: 100%;
-  height: 100%;
   font-size: 14px;
   color: ${({ theme }) => theme.primary};
   background: transparent;
@@ -201,7 +200,7 @@ const Button = styled.button`
   transition: all 0.3s ease;
 `;
 
-const Profile = ({ setOpenUpdateDetails }) => {
+const Profile = ({ setOpenUpdateDetails, setOpenChangePassword }) => {
   const { currentUser, role } = useSelector((state) => state.user);
   const theme = useTheme();
 
@@ -241,14 +240,25 @@ const Profile = ({ setOpenUpdateDetails }) => {
             <Desc style={{ color: "#3483eb" }}>{currentUser?.email}</Desc>
             <Tags>
               <Tag>{userRole}</Tag>
-              <Tag
-                style={{
-                  background: `${theme.green + 20}`,
-                  color: `${theme.green}`
-                }}
-              >
-                Active
-              </Tag>
+              {currentUser.active ? (
+                <Tag
+                  style={{
+                    background: `${theme.green + 20}`,
+                    color: `${theme.green}`
+                  }}
+                >
+                  Active
+                </Tag>
+              ) : (
+                <Tag
+                  style={{
+                    background: `${theme.yellow + 20}`,
+                    color: `${theme.yellow}`
+                  }}
+                >
+                  Deactivated
+                </Tag>
+              )}
             </Tags>
           </ProfileInfo>
         </Flex>
@@ -322,7 +332,9 @@ const Profile = ({ setOpenUpdateDetails }) => {
                 }}
                 value="124359809"
               />
-              <TextButton>Change Password ?</TextButton>
+              <TextButton onClick={() => setOpenChangePassword(true)}>
+                Change Password ?
+              </TextButton>
             </InputFIleds>
           </Fileds>
           <Button

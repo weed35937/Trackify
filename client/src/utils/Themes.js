@@ -16,7 +16,9 @@ export const darkTheme = {
     "-webkit-linear-gradient(225deg,rgb(132, 0, 255) 0%,rgb(230, 0, 255) 100%);",
   disabled: "#b1b2b3",
   white: "#FFFFFF",
-  black: "#000000"
+  black: "#000000",
+  green: "#12ff75",
+  yellow: "#ffcc00"
 };
 
 export const lightTheme = {
@@ -33,5 +35,7 @@ export const lightTheme = {
   menu_secondary_text: "#b1b2b3",
   text_primary: "#404040",
   text_secondary: "#4d4c4c",
-  card: "#FFFFFF"
+  card: "#FFFFFF",
+  green: "#00ff6a",
+  yellow: "#e8ba00"
 };

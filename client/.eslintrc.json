@@ -56,6 +56,7 @@
     "import/no-extraneous-dependencies": ["off"],
     "react/prop-types": "off",
     "no-param-reassign": ["off"],
-    "no-return-assign": ["off"]
+    "no-return-assign": ["off"],
+    "react/jsx-wrap-multilines": ["off"]
   }
 }

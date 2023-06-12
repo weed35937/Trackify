@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import otpGenerator from "otp-generator";
-import { createError } from "../error.js";
-import User from "../models/User.js";
+import { createError } from "../error";
+import User from "../models/User";
 
 dotenv.config();
 
@@ -46,7 +46,7 @@ export const AdminRegister = async (req, res, next) => {
     const token = jwt.sign({ id: createdUser._id }, process.env.JWT, {
       expiresIn: "9999 years"
     });
-    res.status(200).json({ token, user });
+    return res.status(200).json({ token, user });
   } catch (error) {
     return next(error);
   }
@@ -97,7 +97,7 @@ export const AdminLogin = async (req, res, next) => {
       img: user.img,
       employees: user.employees
     };
-    res.status(200).json({ token, user: adminUser });
+    return res.status(200).json({ token, user: adminUser });
   } catch (error) {
     return next(error);
   }
@@ -152,13 +152,13 @@ export const EmployeeLogin = async (req, res, next) => {
       tasks: user.tasks
     };
 
-    res.status(200).json({ token, user: employeeUser });
+    return res.status(200).json({ token, user: employeeUser });
   } catch (error) {
     return next(error);
   }
 };
 
-export const generateOTP = async (req, res) => {
+export const generateOTP = async (req, res, next) => {
   req.app.locals.OTP = await otpGenerator.generate(6, {
     upperCaseAlphabets: false,
     specialChars: false,
@@ -220,24 +220,23 @@ export const generateOTP = async (req, res) => {
   if (reason === "FORGOTPASSWORD") {
     transporter.sendMail(resetPasswordOtp, (err) => {
       if (err) {
-        next(err);
-      } else {
-        return res.status(200).send({ message: "OTP sent" });
+        return next(err);
       }
+      return res.status(200).send({ message: "OTP sent" });
     });
   } else {
     transporter.sendMail(verifyOtp, (err) => {
       if (err) {
-        next(err);
-      } else {
-        return res.status(200).send({ message: "OTP sent" });
+        return next(err);
       }
+      return res.status(200).send({ message: "OTP sent" });
     });
   }
 };
 
 export const verifyOTP = async (req, res, next) => {
   const { code } = req.query;
+  // eslint-disable-next-line radix
   if (parseInt(code) === parseInt(req.app.locals.OTP)) {
     req.app.locals.OTP = null;
     req.app.locals.resetSession = true;
@@ -246,7 +245,7 @@ export const verifyOTP = async (req, res, next) => {
   return next(createError(403, "Wrong OTP"));
 };
 
-export const createResetSession = async (req, res, next) => {
+export const createResetSession = async (req, res) => {
   if (req.app.locals.resetSession) {
     req.app.locals.resetSession = false;
     return res.status(200).send({ message: "Access granted" });
@@ -256,17 +255,19 @@ export const createResetSession = async (req, res, next) => {
 };
 
 export const resetPassword = async (req, res, next) => {
-  if (!req.app.locals.resetSession) return res.status(440).send({ message: "Session expired" });
+  if (!req.app.locals.resetSession) {
+    return res.status(440).send({ message: "Session expired" });
+  }
 
   const { email, password } = req.body;
   try {
     await User.findOne({ email }).then((user) => {
       if (user) {
         if (user.role !== "admin") {
- return next(
+          return next(
             createError(403, "You are not an admin login as an admin")
           );
-}
+        }
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(password, salt);
         User.updateOne({ email }, { $set: { password: hashedPassword } })
@@ -279,14 +280,16 @@ export const resetPassword = async (req, res, next) => {
           .catch((err) => {
             next(err);
           });
-      } else {
-        return res.status(202).send({
-          message: "User not found"
-        });
       }
+      return res.status(202).send({
+        message: "User not found"
+      });
+    });
+    return res.status(202).send({
+      message: "User not found"
     });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -298,13 +301,14 @@ export const findUserByEmail = async (req, res, next) => {
       return res.status(200).send({
         message: "User found"
       });
-    } if (user?.role === "employee") {
+    }
+    if (user?.role === "employee") {
       return next(createError(404, "You are an employee login as an employee"));
     }
-      return res.status(402).send({
-        message: "User doesnot exist"
-      });
+    return res.status(402).send({
+      message: "User doesnot exist"
+    });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };

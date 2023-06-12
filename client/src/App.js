@@ -12,6 +12,8 @@ import { setDarkMode } from "./redux/reducers/userSlice";
 import Menu from "./components/Menu";
 import EmployeeRegister from "./components/EmployeeRegister";
 import CreateTask from "./components/CreateTask";
+import Profile from "./pages/Profile";
+import UpdateDetails from "./components/UpdateDetails";
 // import BottomNav from "./components/BottomNav";
 
 const Container = styled.div`
@@ -40,6 +42,7 @@ function App() {
   const { open, message, severity } = useSelector((state) => state.snackbar);
   const [menuOpen, setMenuOpen] = useState(true);
   const [openEmployeeRegister, setOpenEmployeeRegister] = useState(false);
+  const [openUpdateDetails, setOpenUpdateDetails] = useState(false);
   const [openCreateTask, setOpenCreateTask] = useState(false);
   const dispatch = useDispatch();
 
@@ -89,6 +92,12 @@ function App() {
                     )
                   }
                 />
+                <Route
+                  path="/profile"
+                  element={
+                    <Profile setOpenUpdateDetails={setOpenUpdateDetails} />
+                  }
+                />
                 {/* <Route path="*" element={} /> */}
               </Routes>
               {/* <BottomNav /> */}
@@ -100,6 +109,9 @@ function App() {
             )}
             {openCreateTask && (
               <CreateTask setOpenCreateTask={setOpenCreateTask} />
+            )}
+            {openUpdateDetails && (
+              <UpdateDetails setOpenUpdateDetails={setOpenUpdateDetails} />
             )}
           </BrowserRouter>
         ) : (

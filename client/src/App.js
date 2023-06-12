@@ -14,6 +14,7 @@ import EmployeeRegister from "./components/EmployeeRegister";
 import CreateTask from "./components/CreateTask";
 import Profile from "./pages/Profile";
 import UpdateDetails from "./components/UpdateDetails";
+import ChangePassword from "./components/ChangePassword";
 // import BottomNav from "./components/BottomNav";
 
 const Container = styled.div`
@@ -44,6 +45,7 @@ function App() {
   const [openEmployeeRegister, setOpenEmployeeRegister] = useState(false);
   const [openUpdateDetails, setOpenUpdateDetails] = useState(false);
   const [openCreateTask, setOpenCreateTask] = useState(false);
+  const [openChangePassword, setOpenChangePassword] = useState(false);
   const dispatch = useDispatch();
 
   // set default dark mode
@@ -95,7 +97,10 @@ function App() {
                 <Route
                   path="/profile"
                   element={
-                    <Profile setOpenUpdateDetails={setOpenUpdateDetails} />
+                    <Profile
+                      setOpenUpdateDetails={setOpenUpdateDetails}
+                      setOpenChangePassword={setOpenChangePassword}
+                    />
                   }
                 />
                 {/* <Route path="*" element={} /> */}
@@ -112,6 +117,9 @@ function App() {
             )}
             {openUpdateDetails && (
               <UpdateDetails setOpenUpdateDetails={setOpenUpdateDetails} />
+            )}
+            {openChangePassword && (
+              <ChangePassword setOpenChangePassword={setOpenChangePassword} />
             )}
           </BrowserRouter>
         ) : (

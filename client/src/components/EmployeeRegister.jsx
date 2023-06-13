@@ -15,6 +15,7 @@ import DatePicker from "react-datepicker";
 import { employeeRegister } from "../api/index";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
 import "react-datepicker/dist/react-datepicker.css";
+import { reload } from "../redux/reducers/userSlice";
 
 const Body = styled.div`
   width: 100%;
@@ -274,6 +275,7 @@ const EmployeeRegister = ({ setOpenEmployeeRegister }) => {
               apierror: ""
             });
             setOpenEmployeeRegister(false);
+            dispatch(reload());
           }
         })
         .catch((err) => {

@@ -23,14 +23,6 @@ export const verifyOtp = async (otp) =>
 export const resetPassword = async (email, password) =>
   await API.put("/auth/admin/forgetpassword", { email, password });
 
-export const employeeRegister = async (data, token) =>
-  await API.post(
-    "/admin/employeeregister",
-    data,
-    { headers: { Authorization: `Bearer ${token}` } },
-    { withCredentials: true }
-  );
-
 export const findUserByEmail = async (email) =>
   await API.get(`/auth/admin/findbyemail?email=${email}`);
 
@@ -44,8 +36,28 @@ export const updateProfile = async (data, token) =>
     headers: { Authorization: `Bearer ${token}` }
   });
 
+// Admin Routes
+
+export const employeeRegister = async (data, token) =>
+  await API.post(
+    "/admin/employeeregister",
+    data,
+    { headers: { Authorization: `Bearer ${token}` } },
+    { withCredentials: true }
+  );
+
+export const getAllEmployees = async (token) =>
+  await API.get("/admin/getAllEmployees", {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
 // Employee Routes
 export const createNewTask = async (data, token) =>
   await API.post("/employee/createtask", data, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+export const getAllTasks = async (token) =>
+  await API.get("/employee/getalltasks", {
     headers: { Authorization: `Bearer ${token}` }
   });

@@ -29,6 +29,25 @@ export const createNewTask = async (req, res, next) => {
   }
 };
 
-export const getTasks = async (req, res) => {
-  res.status(200).json({ message: "getTasks" });
+export const getAllTasks = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+
+    // check if user exists and is a employee
+    const user = await User.findById(id).populate("tasks");
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+
+    if (user.role !== "employee") {
+      return next(createError(401, "You are not authorized to view this page"));
+    }
+
+    return res.status(200).json({
+      message: "Tasks fetched successfully",
+      tasks: user.tasks
+    });
+  } catch (err) {
+    return next(createError(err.statusCode, err.message));
+  }
 };

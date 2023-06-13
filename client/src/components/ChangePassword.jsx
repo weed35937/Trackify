@@ -8,7 +8,7 @@ import { CircularProgress, Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { employeeRegister } from "../api/index";
+import { updatePassword } from "../api/index";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -246,12 +246,12 @@ const ChangePassword = ({ setOpenChangePassword }) => {
     if (!buttonDisabled) {
       setLoading(true);
       setButtonDisabled(true);
-      employeeRegister(formData, token)
+      updatePassword(formData, token)
         .then((res) => {
           if (res.status === 200) {
             dispatch(
               openSnackbar({
-                message: "Employee added Successful",
+                message: "Password updated successfully!",
                 severity: "success"
               })
             );

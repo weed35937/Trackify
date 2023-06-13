@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currentUser: null,
   role: null,
-  darkMode: true
+  darkMode: true,
+  reload: false
 };
 
 export const userSlice = createSlice({
@@ -25,11 +26,14 @@ export const userSlice = createSlice({
       state.currentUser = null;
       state.role = null;
       localStorage.removeItem("trackify-token");
+    },
+    reload: (state) => {
+      state.reload = !state.reload;
     }
   }
 });
 
-export const { updateUser, setDarkMode, loginSuccess, logout } =
+export const { updateUser, setDarkMode, loginSuccess, logout, reload } =
   userSlice.actions;
 
 export default userSlice.reducer;

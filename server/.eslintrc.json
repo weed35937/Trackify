@@ -15,6 +15,7 @@
     "no-param-reassign": ["off"],
     "linebreak-style": "off",
     "quotes": ["error", "double"],
-    "comma-dangle": ["error", "never"]
+    "comma-dangle": ["error", "never"],
+    "import/extensions": ["off"]
   }
 }

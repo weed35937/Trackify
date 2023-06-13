@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/extensions */
 import express from "express";
 import dotenv from "dotenv";
@@ -40,7 +41,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/employee", employeeRoutes);
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || "Something went wrong";
   return res.status(status).json({

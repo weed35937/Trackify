@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import otpGenerator from "otp-generator";
-import { createError } from "../error";
-import User from "../models/User";
+import { createError } from "../error.js";
+import User from "../models/User.js";
 
 dotenv.config();
 
@@ -153,6 +153,57 @@ export const EmployeeLogin = async (req, res, next) => {
     };
 
     return res.status(200).json({ token, user: employeeUser });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const UpdatePassword = async (req, res, next) => {
+  try {
+    const { oldPassword, password } = req.body;
+    const { id } = req.user;
+
+    // Check we have an old password
+    if (!oldPassword) {
+      return next(createError(422, "Missing old password."));
+    }
+
+    // Check we have a new password
+    if (!password) {
+      return next(createError(422, "Missing new password."));
+    }
+
+    const user = await User.findById(id);
+
+    // Check if password is correct
+    const isPasswordCorrect = await bcrypt.compareSync(
+      oldPassword,
+      user.password
+    );
+    if (!isPasswordCorrect) {
+      return next(createError(403, "Incorrect password"));
+    }
+
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+
+    user.password = hashedPassword;
+    await user.save();
+    return res.status(200).send({ message: "OTP sent" });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const UpdateProfile = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+
+    const user = await User.findByIdAndUpdate(id, req.body, {
+      new: true
+    }).exec();
+
+    return res.status(200).json({ user });
   } catch (error) {
     return next(error);
   }

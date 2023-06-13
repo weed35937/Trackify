@@ -7,9 +7,12 @@ import {
   verifyOTP,
   createResetSession,
   resetPassword,
-  findUserByEmail
+  findUserByEmail,
+  UpdatePassword,
+  UpdateProfile
 } from "../controllers/auth.js";
 import { localVariables } from "../middleware/verifyEmail.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
@@ -21,5 +24,7 @@ router.get("/admin/createResetSession", createResetSession);
 router.put("/admin/forgetpassword", resetPassword);
 router.post("/employee/login", EmployeeLogin);
 router.get("/admin/findbyemail", findUserByEmail);
+router.put("/updatepassword", verifyToken, UpdatePassword);
+router.put("/updateprofile", verifyToken, UpdateProfile);
 
 export default router;

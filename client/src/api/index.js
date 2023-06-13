@@ -34,6 +34,16 @@ export const employeeRegister = async (data, token) =>
 export const findUserByEmail = async (email) =>
   await API.get(`/auth/admin/findbyemail?email=${email}`);
 
+export const updatePassword = async (data, token) =>
+  await API.put("/auth/updatepassword", data, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+export const updateProfile = async (data, token) =>
+  await API.put("/auth/updateprofile", data, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
 // Employee Routes
 export const createNewTask = async (data, token) =>
   await API.post("/employee/createtask", data, {

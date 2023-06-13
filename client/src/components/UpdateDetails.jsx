@@ -10,9 +10,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
-import { employeeRegister } from "../api/index";
+import { updateProfile } from "../api/index";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
 import "react-datepicker/dist/react-datepicker.css";
+import { updateUser } from "../redux/reducers/userSlice";
 
 const Body = styled.div`
   width: 100%;
@@ -193,12 +194,13 @@ const UpdateDetails = ({ setOpenUpdateDetails }) => {
     if (!buttonDisabled) {
       setLoading(true);
       setButtonDisabled(true);
-      employeeRegister(formData, token)
+      updateProfile(formData, token)
         .then((res) => {
           if (res.status === 200) {
+            dispatch(updateUser(res.data));
             dispatch(
               openSnackbar({
-                message: "Employee added Successful",
+                message: "Profile updated successfully",
                 severity: "success"
               })
             );

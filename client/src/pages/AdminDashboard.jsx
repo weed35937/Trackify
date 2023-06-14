@@ -20,6 +20,17 @@ const Container = styled.div`
   background: ${({ theme }) => theme.background};
 `;
 
+const ItemTitle = styled.div`
+  display: flex;
+  font-size: ${({ fontSize }) => fontSize || "24px"};
+  font-weight: 500;
+  color: ${({ theme }) => theme.text_primary};
+  margin-bottom: 16px;
+  @media (max-width: 768px) {
+    font-size: ${({ smallfontSize }) => smallfontSize || "18px"};
+  }
+`;
+
 const EmployeeTable = styled.div`
   width: 100%;
   display: flex;
@@ -121,6 +132,16 @@ const AdminDashboard = () => {
             <div>{error}</div>
           ) : (
             <EmployeeTable>
+              <ItemTitle
+                fontSize="20px"
+                smallfontSize="16px"
+                style={{
+                  padding: "16px 22px",
+                  margin: "0px"
+                }}
+              >
+                Employee List
+              </ItemTitle>
               <TableTop>
                 <Heading style={{ width: "30%" }} />
                 <Heading style={{ width: "80%", justifyContent: "start" }}>
@@ -135,6 +156,7 @@ const AdminDashboard = () => {
                 {employees.map((employee) => {
                   return (
                     <EmployeeTableCard key={employee._id} employee={employee} />
+                    // <EmployeeCard key={employee._id} employee={employee} />
                   );
                 })}
               </EmployeeList>

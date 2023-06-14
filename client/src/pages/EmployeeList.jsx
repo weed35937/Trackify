@@ -46,7 +46,7 @@ const EmployeeListWrapper = styled.div`
   gap: 16px;
   width: 100%;
   justify-content: start;
-  @media (max-width: 1100px) {
+  @media (max-width: 600px) {
     justify-content: center;
   }
 `;

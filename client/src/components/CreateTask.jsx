@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
+import { reload } from "../redux/reducers/userSlice";
 import "react-datepicker/dist/react-datepicker.css";
 import { createNewTask } from "../api";
 
@@ -215,6 +216,7 @@ const CreateTask = ({ setOpenCreateTask }) => {
               ...errorMessage,
               apierror: ""
             });
+            dispatch(reload());
             setOpenCreateTask(false);
           }
         })

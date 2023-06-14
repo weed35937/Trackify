@@ -23,6 +23,15 @@ const Card = styled.div`
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     transform: scale(1.02);
   }
+  @media (max-width: 768px) {
+    max-width: 300px;
+  }
+  @media (max-width: 600px) {
+    max-width: 400px;
+  }
+  @media (max-width: 500px) {
+    max-width: 94%;
+  }
 `;
 
 const AvatarImg = styled(Avatar)`

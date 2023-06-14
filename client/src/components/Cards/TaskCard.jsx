@@ -1,18 +1,25 @@
-import { AccessTimeOutlined, DateRangeOutlined } from "@mui/icons-material";
+import {
+  AccessTimeOutlined,
+  DateRangeOutlined,
+  LaptopOutlined,
+  RamenDiningOutlined,
+  VideocamOutlined
+} from "@mui/icons-material";
 import moment from "moment";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 
 const Card = styled.div`
   background-color: ${({ theme }) => theme.card};
-  border-radius: 10px;
-  padding: 18px 16px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 14px 16px 18px 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   cursor: pointer;
+  font-weight: 300;
   ${({ type, theme }) =>
     type === "meeting" &&
     `
@@ -25,13 +32,27 @@ const Card = styled.div`
     type === "work" &&
     `
   border-left: 0.01px dashed ${theme.work + 90};`}
-  @media (max-width: 768px) {
-    max-width: 100%;
+
+  @media (max-width: 1100px) {
+    max-width: 350px;
     padding: 16px;
+  }
+  @media (max-width: 768px) {
+    max-width: 94%;
+    padding: 16px;
+    margin: 0 auto;
+  }
+  transition: all 0.5s ease-in-out;
+  &:hover {
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.4);
+    transform: scale(1.02);
   }
 `;
 
 const TaskType = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 14px;
   padding: 3px 8px;
   width: fit-content;
@@ -57,8 +78,9 @@ const Task = styled.div`
   font-size: 16px;
   line-height: 1.5;
   text-align: left;
-  font-weight: 400;
+  font-weight: 300;
   margin-top: 2px;
+  color: ${({ theme }) => theme.text_primary};
 `;
 
 const Flex = styled.div`
@@ -72,24 +94,34 @@ const Text = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.text_primary + 90};
 `;
 
 const TaskCard = ({ task }) => {
-  const theme = useTheme();
   return (
     <Card type={task.task_type}>
       <TaskType type={task.task_type}>
+        {task.task_type === "meeting" && (
+          <VideocamOutlined sx={{ fontSize: "19px" }} />
+        )}
+        {task.task_type === "break" && (
+          <RamenDiningOutlined sx={{ fontSize: "16px" }} />
+        )}
+        {task.task_type === "work" && (
+          <LaptopOutlined sx={{ fontSize: "16px" }} />
+        )}
         {task.task_type.charAt(0).toUpperCase() + task.task_type.slice(1)}
       </TaskType>
       <Task>{task.task_description}</Task>
       <Flex>
-        <Text style={{ color: theme.text_secondary }}>
-          <AccessTimeOutlined sx={{ fontSize: "20px" }} />
+        <Text>
+          <AccessTimeOutlined sx={{ fontSize: "20px", color: "inherit" }} />
           {task.time_taken}&nbsp;min
         </Text>
-        <Text style={{ color: theme.text_secondary }}>
-          <DateRangeOutlined sx={{ fontSize: "20px" }} />
-          {moment(task.start_date).format("DD-MMM-YYYY")}
+        <Text>
+          <DateRangeOutlined sx={{ fontSize: "20px", color: "inherit" }} />
+          {moment(task.start_time).format("DD MMM YYYY")}
         </Text>
       </Flex>
     </Card>

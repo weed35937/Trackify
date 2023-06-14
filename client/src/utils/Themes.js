@@ -19,7 +19,10 @@ export const darkTheme = {
   white: "#FFFFFF",
   black: "#000000",
   green: "#12ff75",
-  yellow: "#ffcc00"
+  yellow: "#ffcc00",
+  work: "#0d72ff",
+  meeting: "#ff9500",
+  break: "#ff0dae"
 };
 
 export const lightTheme = {
@@ -39,5 +42,8 @@ export const lightTheme = {
   text_secondary: "#4d4c4c",
   card: "#FFFFFF",
   green: "#00ff6a",
-  yellow: "#e8ba00"
+  yellow: "#e8ba00",
+  work: "#0d72ff",
+  meeting: "#ff9500",
+  break: "#ff0dae"
 };

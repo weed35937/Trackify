@@ -18,7 +18,7 @@ const Container = styled.div`
   padding: 18px 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   @media only screen and (max-width: 600px) {
-    padding: 16px 14px;
+    padding: 10px 12px;
   }
 `;
 

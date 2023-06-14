@@ -67,13 +67,16 @@ const LogoText = styled(Link)`
   background-clip: text;
   text-fill-color: transparent;
   @media only screen and (max-width: 600px) {
-    font-size: 24px;
+    font-size: 22px;
   }
 `;
 
 const LogoImg = styled.img`
   height: 30px;
   margin-right: 10px;
+  @media only screen and (max-width: 600px) {
+    height: 22px;
+  }
 `;
 
 const Close = styled.div`
@@ -102,6 +105,11 @@ const NavLinkItem = styled(NavLink)`
     color: ${({ theme }) => theme.primary} !important;
     font-weight: 500;
   }
+
+  @media (max-width: 768px) {
+    padding: 20px 16px;
+    font-size: 16px;
+  }
 `;
 
 const Item = styled.div`
@@ -117,6 +125,11 @@ const Item = styled.div`
   margin: 0px 10px;
   &:hover {
     background-color: ${({ theme }) => theme.menu_secondary_text + 10};
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px 16px;
+    font-size: 16px;
   }
 `;
 
@@ -142,6 +155,11 @@ const Button = styled.div`
   background-color: ${({ theme }) => theme.menu_secondary_text + 20};
   &:hover {
     background-color: ${({ theme }) => theme.menu_secondary_text + 30};
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px 16px;
+    font-size: 14px;
   }
 `;
 

@@ -92,7 +92,9 @@ function App() {
                     role === "admin" ? (
                       <AdminDashboard />
                     ) : (
-                      <EmployeeDashboard />
+                      <EmployeeDashboard
+                        setOpenCreateTask={setOpenCreateTask}
+                      />
                     )
                   }
                 />
@@ -100,7 +102,10 @@ function App() {
                   <Route path="/employees" element={<EmployeeList />} />
                 )}
                 {role === "employee" && (
-                  <Route path="/tasks" element={<Tasks />} />
+                  <Route
+                    path="/tasks"
+                    element={<Tasks setOpenCreateTask={setOpenCreateTask} />}
+                  />
                 )}
                 <Route
                   path="/profile"

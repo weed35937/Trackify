@@ -62,6 +62,9 @@ const Content = styled.div`
 `;
 
 const Error = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: 16px;
   font-weight: 400;
   padding: 4px 16px;
@@ -72,7 +75,7 @@ const Error = styled.div`
     padding: 4px 18px;
   }
 `;
-const EmployeeDashboard = () => {
+const EmployeeDashboard = ({ setOpenCreateTask }) => {
   // Hooks
   const { currentUser, reload } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -146,7 +149,15 @@ const EmployeeDashboard = () => {
                             new Date(b.start_time) - new Date(a.start_time)
                         ).length === 0 ? (
                         // eslint-disable-next-line react/jsx-indent
-                        <Error>No tasks found !!</Error>
+                        <Error>
+                          No tasks found !!{" "}
+                          <TextButton
+                            style={{ fontSize: "16px" }}
+                            onClick={() => setOpenCreateTask(true)}
+                          >
+                            Add Task
+                          </TextButton>
+                        </Error>
                       ) : (
                         tasks
                           .filter((task) => {
@@ -188,7 +199,15 @@ const EmployeeDashboard = () => {
                             new Date(b.start_time) - new Date(a.start_time)
                         ).length === 0 ? (
                         // eslint-disable-next-line react/jsx-indent
-                        <Error>No tasks found !!</Error>
+                        <Error>
+                          No tasks found !!{" "}
+                          <TextButton
+                            style={{ fontSize: "16px" }}
+                            onClick={() => setOpenCreateTask(true)}
+                          >
+                            Add Task
+                          </TextButton>
+                        </Error>
                       ) : (
                         tasks
                           .slice(0, 8)

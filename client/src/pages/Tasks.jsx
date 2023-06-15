@@ -105,7 +105,34 @@ const FilterOption = styled.option`
   }
 `;
 
-const Tasks = () => {
+const TextButton = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+  transition: all 0.2s ease-in-out;
+  color: ${({ theme }) => theme.primary};
+  cursor: pointer;
+  @media (max-width: 768px) {
+    font-size: 14px;
+    padding: 0px 16px;
+  }
+`;
+
+const Error = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 4px 16px;
+  color: ${({ theme }) => theme.text_secondary};
+  margin-bottom: 16px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+    padding: 4px 18px;
+  }
+`;
+
+const Tasks = ({ setOpenCreateTask }) => {
   // Hooks
   const { currentUser, reload } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -200,7 +227,7 @@ const Tasks = () => {
       ) : (
         <div>
           {error ? (
-            <div>{error}</div>
+            <Error>{error}</Error>
           ) : (
             <Wrapper>
               <Content>
@@ -223,10 +250,36 @@ const Tasks = () => {
                         .sort(
                           (a, b) =>
                             new Date(b.start_time) - new Date(a.start_time)
-                        )
-                        .map((task) => (
-                          <TaskCard key={task._id} task={task} />
-                        ))}
+                        ).length === 0 ? (
+                        // eslint-disable-next-line react/jsx-indent
+                        <Error>
+                          No tasks found !!{" "}
+                          <TextButton
+                            style={{ fontSize: "16px" }}
+                            onClick={() => setOpenCreateTask(true)}
+                          >
+                            Add Task
+                          </TextButton>
+                        </Error>
+                      ) : (
+                        tasks
+                          .filter((task) => {
+                            const taskStartDate = new Date(task.start_time);
+                            return (
+                              taskStartDate.getDate() === today.getDate() &&
+                              taskStartDate.getMonth() === today.getMonth() &&
+                              taskStartDate.getFullYear() ===
+                                today.getFullYear()
+                            );
+                          })
+                          .sort(
+                            (a, b) =>
+                              new Date(b.start_time) - new Date(a.start_time)
+                          )
+                          .map((task) => (
+                            <TaskCard key={task._id} task={task} />
+                          ))
+                      )}
                     </Masonry>
                   </ResponsiveMasonry>
                 </div>
@@ -250,10 +303,37 @@ const Tasks = () => {
                         .sort(
                           (a, b) =>
                             new Date(b.start_time) - new Date(a.start_time)
-                        )
-                        .map((task) => (
-                          <TaskCard key={task._id} task={task} />
-                        ))}
+                        ).length === 0 ? (
+                        // eslint-disable-next-line react/jsx-indent
+                        <Error>
+                          No tasks found !!{" "}
+                          <TextButton
+                            style={{ fontSize: "16px" }}
+                            onClick={() => setOpenCreateTask(true)}
+                          >
+                            Add Task
+                          </TextButton>
+                        </Error>
+                      ) : (
+                        tasks
+                          .filter((task) => {
+                            const taskStartDate = new Date(task.start_time);
+                            return (
+                              taskStartDate.getDate() === yesterday.getDate() &&
+                              taskStartDate.getMonth() ===
+                                yesterday.getMonth() &&
+                              taskStartDate.getFullYear() ===
+                                yesterday.getFullYear()
+                            );
+                          })
+                          .sort(
+                            (a, b) =>
+                              new Date(b.start_time) - new Date(a.start_time)
+                          )
+                          .map((task) => (
+                            <TaskCard key={task._id} task={task} />
+                          ))
+                      )}
                     </Masonry>
                   </ResponsiveMasonry>
                 </div>
@@ -312,43 +392,85 @@ const Tasks = () => {
                     columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
                   >
                     <Masonry gutter="12px">
-                      {tasks
-                        .filter((task) => {
-                          if (filter.length === 0) {
-                            if (customDate) {
-                              // show tasks for current date only
-                              const cuDate = new Date(customDate);
-                              const taskDate = new Date(task.start_time);
-                              return (
-                                taskDate.getDate() === cuDate.getDate() &&
-                                taskDate.getMonth() === cuDate.getMonth() &&
-                                taskDate.getFullYear() === cuDate.getFullYear()
-                              );
-                            }
-                            // Show all tasks if no filter is applied
-                            return task.start_time;
-                            // eslint-disable-next-line no-else-return
-                          } else if (
-                            filter.length === 2 &&
-                            filter[0] &&
-                            filter[1]
-                          ) {
-                            // Check if task's start_time falls within the filter range
-                            const taskStartTime = new Date(task.start_time);
+                      {tasks.filter((task) => {
+                        if (filter.length === 0) {
+                          if (customDate) {
+                            // show tasks for current date only
+                            const cuDate = new Date(customDate);
+                            const taskDate = new Date(task.start_time);
                             return (
-                              taskStartTime >= filter[0] &&
-                              taskStartTime <= filter[1]
+                              taskDate.getDate() === cuDate.getDate() &&
+                              taskDate.getMonth() === cuDate.getMonth() &&
+                              taskDate.getFullYear() === cuDate.getFullYear()
                             );
                           }
-                          return false;
-                        })
-                        .sort(
-                          (a, b) =>
-                            new Date(b.start_time) - new Date(a.start_time)
-                        )
-                        .map((task) => (
-                          <TaskCard key={task._id} task={task} />
-                        ))}
+                          // Show all tasks if no filter is applied
+                          return task.start_time;
+                          // eslint-disable-next-line no-else-return
+                        } else if (
+                          filter.length === 2 &&
+                          filter[0] &&
+                          filter[1]
+                        ) {
+                          // Check if task's start_time falls within the filter range
+                          const taskStartTime = new Date(task.start_time);
+                          return (
+                            taskStartTime >= filter[0] &&
+                            taskStartTime <= filter[1]
+                          );
+                        }
+                        return false;
+                      }).length === 0 ? (
+                        // eslint-disable-next-line react/jsx-indent
+                        <Error>
+                          No tasks found !!{" "}
+                          <TextButton
+                            style={{ fontSize: "16px" }}
+                            onClick={() => setOpenCreateTask(true)}
+                          >
+                            Add Task
+                          </TextButton>
+                        </Error>
+                      ) : (
+                        tasks
+                          .filter((task) => {
+                            if (filter.length === 0) {
+                              if (customDate) {
+                                // show tasks for current date only
+                                const cuDate = new Date(customDate);
+                                const taskDate = new Date(task.start_time);
+                                return (
+                                  taskDate.getDate() === cuDate.getDate() &&
+                                  taskDate.getMonth() === cuDate.getMonth() &&
+                                  taskDate.getFullYear() ===
+                                    cuDate.getFullYear()
+                                );
+                              }
+                              // Show all tasks if no filter is applied
+                              return task.start_time;
+                              // eslint-disable-next-line no-else-return
+                            } else if (
+                              filter.length === 2 &&
+                              filter[0] &&
+                              filter[1]
+                            ) {
+                              // Check if task's start_time falls within the filter range
+                              const taskStartTime = new Date(task.start_time);
+                              return (
+                                taskStartTime >= filter[0] &&
+                                taskStartTime <= filter[1]
+                              );
+                            }
+                            return false;
+                          })
+                          .sort(
+                            (a, b) =>
+                              new Date(b.start_time) - new Date(a.start_time)
+                          )
+                          .map((task) => (
+                            <TaskCard key={task._id} task={task} />
+                          ))
+                      )}
                     </Masonry>
                   </ResponsiveMasonry>
                 </div>

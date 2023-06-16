@@ -15,7 +15,7 @@ const Card = styled.div`
   align-items: center;
   gap: 14px;
   background-color: ${({ theme }) => theme.card};
-  padding: 24px 24px;
+  padding: 18px 18px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
 `;
@@ -25,7 +25,7 @@ const ItemTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
   color: ${({ theme }) => theme.text_primary};
 `;
@@ -35,7 +35,7 @@ const Filter = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.text_secondary};
@@ -62,7 +62,7 @@ const FilterText = styled.div`
 `;
 
 const FilterSelect = styled.select`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   color: ${({ theme }) => theme.text_secondary};
   background-color: transparent;
@@ -77,7 +77,7 @@ const FilterSelect = styled.select`
 `;
 
 const FilterOption = styled.option`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   color: ${({ theme }) => theme.text_secondary};
   background-color: ${({ theme }) => theme.card};
@@ -234,12 +234,12 @@ const PieChart = ({ tasks, showType }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, customDate]);
+  }, [filter, customDate, tasks]);
 
   return (
     <Card>
       <ItemTitle>{title} Tasks</ItemTitle>
-      {data && <Pie data={data} />}
+      {data && <Pie data={data} style={{ margin: "12px" }} />}
       {showType !== "today" && (
         <Filter>
           <FilterText>Filter Tasks:</FilterText>

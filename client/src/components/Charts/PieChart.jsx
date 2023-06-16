@@ -200,21 +200,39 @@ const PieChart = ({ tasks, showType }) => {
       return sum;
     }
 
-    setData({
-      labels: ["Work", "Meeting", "Break"],
-      datasets: [
-        {
-          label: "Total time(minutes)",
-          data: [
-            calculateTime("work"),
-            calculateTime("meeting"),
-            calculateTime("break")
-          ],
-          backgroundColor: [theme.work, theme.meeting, theme.break],
-          hoverOffset: 4
-        }
-      ]
-    });
+    const tasksSums = [
+      calculateTime("work"),
+      calculateTime("meeting"),
+      calculateTime("break")
+    ];
+
+    if (tasksSums.every((sum) => sum === 0)) {
+      setData({
+        labels: ["No Tasks"],
+        datasets: [
+          {
+            label: "No tasks found",
+            data: [1],
+            backgroundColor: [theme.text_secondary + 90],
+            hoverOffset: 4,
+            rotation: 0
+          }
+        ]
+      });
+    } else {
+      setData({
+        labels: ["Work", "Meeting", "Break"],
+        datasets: [
+          {
+            label: "Total time(minutes)",
+            data: tasksSums,
+            backgroundColor: [theme.work, theme.meeting, theme.break],
+            hoverOffset: 8,
+            rotation: 0
+          }
+        ]
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, customDate]);
 

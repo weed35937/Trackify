@@ -8,6 +8,8 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { getAllTasks } from "../api";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
 import TaskCard from "../components/Cards/TaskCard";
+import PieChart from "../components/Charts/PieChart";
+import BarChartComponent from "../components/Charts/BarChart";
 
 const Container = styled.div`
   padding: 20px 30px;
@@ -62,8 +64,11 @@ const Content = styled.div`
 `;
 
 const Error = styled.div`
+  width: 100%;
+  height: 60%;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   font-size: 16px;
   font-weight: 400;
@@ -75,6 +80,31 @@ const Error = styled.div`
     padding: 4px 18px;
   }
 `;
+
+const Charts = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  @media (max-width: 768px) {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+`;
+
+const FlexWrap = styled.div`
+  display: flex;
+  ${({ direction }) => `
+  flex-direction: ${direction};
+  `};
+  gap: 16px;
+  flex-wrap: wrap;
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
+`;
+
 const EmployeeDashboard = ({ setOpenCreateTask }) => {
   // Hooks
   const { currentUser, reload } = useSelector((state) => state.user);
@@ -128,13 +158,13 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
           ) : (
             <Wrapper>
               <Content>
-                <div>
-                  <ItemTitle>Todays Tasks</ItemTitle>
-                  <ResponsiveMasonry
-                    columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
-                    style={{ marginBottom: "32px" }}
+                <FlexWrap>
+                  <FlexWrap
+                    direction="column"
+                    style={{ flex: "7", flexWrap: "nowrap" }}
                   >
-                    <Masonry gutter="12px">
+                    <div style={{ height: "100%" }}>
+                      <ItemTitle>Todays Tasks</ItemTitle>
                       {tasks
                         .filter((task) => {
                           const taskStartDate = new Date(task.start_time);
@@ -159,39 +189,43 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
                           </TextButton>
                         </Error>
                       ) : (
-                        tasks
-                          .filter((task) => {
-                            const taskStartDate = new Date(task.start_time);
-                            return (
-                              taskStartDate.getDate() === today.getDate() &&
-                              taskStartDate.getMonth() === today.getMonth() &&
-                              taskStartDate.getFullYear() ===
-                                today.getFullYear()
-                            );
-                          })
-                          .sort(
-                            (a, b) =>
-                              new Date(b.start_time) - new Date(a.start_time)
-                          )
-                          .map((task) => (
-                            <TaskCard key={task._id} task={task} />
-                          ))
+                        <ResponsiveMasonry
+                          columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
+                          style={{ marginBottom: "32px" }}
+                        >
+                          <Masonry gutter="12px">
+                            {tasks
+                              .filter((task) => {
+                                const taskStartDate = new Date(task.start_time);
+                                return (
+                                  taskStartDate.getDate() === today.getDate() &&
+                                  taskStartDate.getMonth() ===
+                                    today.getMonth() &&
+                                  taskStartDate.getFullYear() ===
+                                    today.getFullYear()
+                                );
+                              })
+                              .sort(
+                                (a, b) =>
+                                  new Date(b.start_time) -
+                                  new Date(a.start_time)
+                              )
+                              .map((task) => (
+                                <TaskCard key={task._id} task={task} />
+                              ))}
+                          </Masonry>
+                        </ResponsiveMasonry>
                       )}
-                    </Masonry>
-                  </ResponsiveMasonry>
-                </div>
-                <div>
-                  <ItemTitle>
-                    Recent Tasks
-                    <TextButton onClick={() => navigate("/tasks")}>
-                      View All
-                    </TextButton>
-                  </ItemTitle>
-                  <ResponsiveMasonry
-                    columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
-                    style={{ marginBottom: "32px" }}
-                  >
-                    <Masonry gutter="12px">
+                    </div>
+
+                    <div style={{ height: "100%" }}>
+                      <ItemTitle>
+                        Recent Tasks
+                        <TextButton onClick={() => navigate("/tasks")}>
+                          View All
+                        </TextButton>
+                      </ItemTitle>
+
                       {tasks
                         .slice(0, 8)
                         .sort(
@@ -209,18 +243,44 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
                           </TextButton>
                         </Error>
                       ) : (
-                        tasks
-                          .slice(0, 8)
-                          .sort(
-                            (a, b) =>
-                              new Date(b.start_time) - new Date(a.start_time)
-                          )
-                          .map((task) => (
-                            <TaskCard key={task._id} task={task} />
-                          ))
+                        <ResponsiveMasonry
+                          columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
+                          style={{ marginBottom: "32px" }}
+                        >
+                          <Masonry gutter="12px">
+                            {tasks
+                              .slice(0, 8)
+                              .sort(
+                                (a, b) =>
+                                  new Date(b.start_time) -
+                                  new Date(a.start_time)
+                              )
+                              .map((task) => (
+                                <TaskCard key={task._id} task={task} />
+                              ))}
+                          </Masonry>
+                        </ResponsiveMasonry>
                       )}
-                    </Masonry>
-                  </ResponsiveMasonry>
+                    </div>
+                  </FlexWrap>
+                  <FlexWrap
+                    direction="column"
+                    style={{ flex: "3", flexWrap: "wrap" }}
+                  >
+                    <div>
+                      <ItemTitle>Pie Chart</ItemTitle>
+                      <Charts>
+                        <PieChart showType="today" tasks={tasks} />
+                        <PieChart showType="yesterday" tasks={tasks} />
+                      </Charts>
+                    </div>
+                  </FlexWrap>
+                </FlexWrap>
+                <div>
+                  <ItemTitle>Weekly Chart</ItemTitle>
+                  <Charts>
+                    <BarChartComponent tasks={tasks} />
+                  </Charts>
                 </div>
               </Content>
             </Wrapper>

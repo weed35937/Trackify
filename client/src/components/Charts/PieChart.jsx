@@ -236,10 +236,12 @@ const PieChart = ({ tasks, showType }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, customDate, tasks]);
 
+  const options = { maintainAspectRatio: true };
+
   return (
     <Card>
       <ItemTitle>{title} Tasks</ItemTitle>
-      {data && <Pie data={data} style={{ margin: "12px" }} />}
+      {data && <Pie data={data} style={{ margin: "12px" }} options={options} />}
       {showType !== "today" && (
         <Filter>
           <FilterText>Filter Tasks:</FilterText>

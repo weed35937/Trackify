@@ -62,6 +62,16 @@ export const createNewTask = async (data, token) =>
     headers: { Authorization: `Bearer ${token}` }
   });
 
+export const updateTask = async (data, token) =>
+  await API.put("/employee/updatetask", data, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+export const deleteTask = async (id, token) =>
+  await API.delete(`/employee/deletetask?taskId=${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
 export const getAllTasks = async (token) =>
   await API.get("/employee/getalltasks", {
     headers: { Authorization: `Bearer ${token}` }

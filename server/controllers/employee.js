@@ -29,6 +29,61 @@ export const createNewTask = async (req, res, next) => {
   }
 };
 
+export const updateTask = async (req, res, next) => {
+  try {
+    // check if user exists
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+
+    // check if task exisit to that user
+    if (!user.tasks.includes(req.body._id)) {
+      return next(createError(404, "You can't update"));
+    }
+
+    // update the task
+    const task = await Task.findByIdAndUpdate(req.body._id, req.body, {
+      new: true
+    }).exec();
+
+    return res.status(200).json({
+      message: "Task updated successfully",
+      task
+    });
+  } catch (err) {
+    return next(createError(err.statusCode, err.message));
+  }
+};
+
+export const deleteTask = async (req, res, next) => {
+  try {
+    const { taskId } = req.query;
+    // check if user exists
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+
+    // check if task exisit to that user
+    if (!user.tasks.includes(taskId)) {
+      return next(createError(404, "You can't delete"));
+    }
+
+    user.tasks.pop(taskId);
+    await user.save();
+
+    // delete the task
+    await Task.findByIdAndDelete(req.body._id).exec();
+
+    return res.status(200).json({
+      message: "Task deleted successfully"
+    });
+  } catch (err) {
+    return next(createError(err.statusCode, err.message));
+  }
+};
+
 export const getAllTasks = async (req, res, next) => {
   try {
     const { id } = req.user;

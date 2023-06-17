@@ -8,6 +8,7 @@ import {
 } from "@mui/icons-material";
 import moment from "moment";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const Card = styled.div`
   background-color: ${({ theme }) => theme.card};
@@ -100,14 +101,17 @@ const Text = styled.div`
 `;
 
 const TaskCard = ({ task, setOpenUpdateTask }) => {
+  const { role } = useSelector((state) => state.user);
   return (
     <Card
       type={task.task_type}
       onClick={() => {
-        setOpenUpdateTask({
-          state: true,
-          task
-        });
+        if (role === "employee") {
+          setOpenUpdateTask({
+            state: true,
+            task
+          });
+        }
       }}
     >
       <TaskType type={task.task_type}>

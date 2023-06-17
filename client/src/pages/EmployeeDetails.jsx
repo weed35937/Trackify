@@ -12,6 +12,7 @@ import { openSnackbar } from "../redux/reducers/snackbarSlice";
 import TaskCard from "../components/Cards/TaskCard";
 import PieChart from "../components/Charts/PieChart";
 import BarChartComponent from "../components/Charts/BarChart";
+import Loader from "../components/Loader";
 
 const Container = styled.div`
   padding: 20px 30px;
@@ -257,7 +258,7 @@ const EmployeeDetails = () => {
   return (
     <Container>
       {loading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <div>
           {error ? (

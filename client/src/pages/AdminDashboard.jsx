@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { getAllEmployees } from "../api";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
 import EmployeeTableCard from "../components/Cards/EmployeeTableCard";
+import Loader from "../components/Loader";
 
 const Container = styled.div`
   padding: 20px 30px;
@@ -125,7 +126,7 @@ const AdminDashboard = () => {
   return (
     <Container>
       {loading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <div>
           {error ? (

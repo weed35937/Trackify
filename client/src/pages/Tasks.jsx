@@ -9,6 +9,7 @@ import { getAllTasks } from "../api";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
 import TaskCard from "../components/Cards/TaskCard";
 import UpdateTask from "../components/UpdateTask";
+import Loader from "../components/Loader";
 
 const Container = styled.div`
   padding: 20px 30px;
@@ -228,7 +229,7 @@ const Tasks = ({ setOpenCreateTask }) => {
   return (
     <Container>
       {loading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <div>
           {error ? (

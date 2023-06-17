@@ -1,5 +1,6 @@
 import { Avatar } from "@mui/material";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
 
 const Card = styled.div`
@@ -143,6 +144,7 @@ const Status = styled.div`
 
 const EmployeeTableCard = ({ employee }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   // generate color for avatar
   const generateColor = (name) => {
@@ -161,7 +163,8 @@ const EmployeeTableCard = ({ employee }) => {
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
   return (
-    <Card>
+    // eslint-disable-next-line no-underscore-dangle
+    <Card onClick={() => navigate(`/employee/${employee._id}`)}>
       <Info style={{ width: "30%" }}>
         <AvatarImage
           style={{

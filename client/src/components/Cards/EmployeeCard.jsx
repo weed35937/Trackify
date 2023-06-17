@@ -6,6 +6,7 @@ import {
   DateRangeRounded
 } from "@mui/icons-material";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const Card = styled.div`
   display: flex;
@@ -90,6 +91,7 @@ const Status = styled.div`
 
 const EmployeeCard = ({ employee }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   // generate color for avatar
   const generateColor = (name) => {
@@ -108,7 +110,8 @@ const EmployeeCard = ({ employee }) => {
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
   return (
-    <Card>
+    // eslint-disable-next-line no-underscore-dangle
+    <Card onClick={() => navigate(`/employee/${employee._id}`)}>
       <div
         style={{
           display: "flex",

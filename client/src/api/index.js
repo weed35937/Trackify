@@ -51,6 +51,11 @@ export const getAllEmployees = async (token) =>
     headers: { Authorization: `Bearer ${token}` }
   });
 
+export const getEmployee = async (employeeId, token) =>
+  await API.get(`/admin/getEmployee/${employeeId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
 // Employee Routes
 export const createNewTask = async (data, token) =>
   await API.post("/employee/createtask", data, {

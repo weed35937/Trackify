@@ -17,6 +17,7 @@ import UpdateDetails from "./components/UpdateDetails";
 import ChangePassword from "./components/ChangePassword";
 import EmployeeList from "./pages/EmployeeList";
 import Tasks from "./pages/Tasks";
+import EmployeeDetails from "./pages/EmployeeDetails";
 // import BottomNav from "./components/BottomNav";
 
 const Container = styled.div`
@@ -101,6 +102,14 @@ function App() {
                 {role === "admin" && (
                   <Route path="/employees" element={<EmployeeList />} />
                 )}
+
+                {role === "admin" && (
+                  <Route
+                    path="/employee/:employeeId"
+                    element={<EmployeeDetails />}
+                  />
+                )}
+
                 {role === "employee" && (
                   <Route
                     path="/tasks"

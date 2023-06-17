@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import {
   AccessTimeOutlined,
   DateRangeOutlined,
@@ -111,7 +112,7 @@ const TaskCard = ({ task }) => {
         {task.task_type === "work" && (
           <LaptopOutlined sx={{ fontSize: "16px" }} />
         )}
-        {task.task_type.charAt(0).toUpperCase() + task.task_type.slice(1)}
+        {task?.task_type?.charAt(0).toUpperCase() + task.task_type.slice(1)}
       </TaskType>
       <Task>{task.task_description}</Task>
       <Flex>

@@ -9,7 +9,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Card = styled.div`
   width: 100%;
-  max-width: 350px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,6 +18,9 @@ const Card = styled.div`
   padding: 18px 18px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
+  @media (max-width: 600px) {
+    max-width: 95%;
+  }
 `;
 
 const ItemTitle = styled.div`

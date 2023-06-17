@@ -8,7 +8,7 @@ Chart.register(...registerables);
 
 const Card = styled.div`
   width: 100%;
-  height: 20%;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,6 +19,8 @@ const Card = styled.div`
   border-radius: 12px;
   @media (max-width: 600px) {
     padding: 16px 12px;
+    max-width: 95%;
+    height: 60vh;
   }
 `;
 
@@ -30,6 +32,17 @@ const ItemTitle = styled.div`
   font-size: 16px;
   font-weight: 400;
   color: ${({ theme }) => theme.text_primary};
+`;
+
+const BarWrapper = styled.div`
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  @media (max-width: 600px) {
+    height: 55vh;
+  }
 `;
 
 const BarChartComponent = ({ tasks }) => {
@@ -122,12 +135,14 @@ const BarChartComponent = ({ tasks }) => {
     setWeekDates(weekDates);
   }, [theme, tasks]);
 
-  const options = { maintainAspectRatio: true };
+  const options = { maintainAspectRatio: false };
 
   return (
     <Card>
       <ItemTitle>This week Tasks</ItemTitle>
-      <Bar data={data} style={{ margin: "12px" }} options={options} />
+      <BarWrapper>
+        <Bar data={data} style={{ margin: "12px" }} options={options} />
+      </BarWrapper>
     </Card>
   );
 };

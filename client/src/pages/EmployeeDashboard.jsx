@@ -82,11 +82,13 @@ const Error = styled.div`
 `;
 
 const Charts = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   gap: 16px;
   margin-bottom: 32px;
   flex-wrap: wrap;
+  justify-content: center;
   @media (max-width: 768px) {
     gap: 8px;
     margin-bottom: 16px;
@@ -103,6 +105,11 @@ const FlexWrap = styled.div`
   @media (max-width: 768px) {
     gap: 8px;
   }
+  ${({ minDirection, minWidth }) => `
+  @media (max-width: ${minWidth}) {
+  flex-direction: ${minDirection};
+  }
+  `};
 `;
 
 const EmployeeDashboard = ({ setOpenCreateTask }) => {
@@ -158,10 +165,10 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
           ) : (
             <Wrapper>
               <Content>
-                <FlexWrap>
+                <FlexWrap minDirection="column" minWidth="1200px">
                   <FlexWrap
                     direction="column"
-                    style={{ flex: "7", flexWrap: "nowrap" }}
+                    style={{ flex: "8", flexWrap: "nowrap", width: "100%" }}
                   >
                     <div style={{ height: "100%" }}>
                       <ItemTitle>Todays Tasks</ItemTitle>
@@ -190,7 +197,11 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
                         </Error>
                       ) : (
                         <ResponsiveMasonry
-                          columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
+                          columnsCountBreakPoints={{
+                            400: 1,
+                            700: 2,
+                            1000: 3
+                          }}
                           style={{ marginBottom: "32px" }}
                         >
                           <Masonry gutter="12px">
@@ -244,7 +255,11 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
                         </Error>
                       ) : (
                         <ResponsiveMasonry
-                          columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
+                          columnsCountBreakPoints={{
+                            400: 1,
+                            700: 2,
+                            1000: 3
+                          }}
                           style={{ marginBottom: "32px" }}
                         >
                           <Masonry gutter="12px">
@@ -265,7 +280,7 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
                   </FlexWrap>
                   <FlexWrap
                     direction="column"
-                    style={{ flex: "3", flexWrap: "wrap" }}
+                    style={{ flex: "2", flexWrap: "wrap" }}
                   >
                     <div>
                       <ItemTitle>Pie Chart</ItemTitle>

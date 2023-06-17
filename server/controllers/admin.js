@@ -95,3 +95,38 @@ export const getAllEmployee = async (req, res, next) => {
     return next(createError(err.statusCode, err.message));
   }
 };
+
+export const getEmployee = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+    const { employeeId } = req.params;
+
+    // check if user exists and is a admin
+    const user = await User.findById(id);
+
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+
+    if (user.role !== "admin") {
+      return next(createError(401, "You are not authorized to view this page"));
+    }
+
+    // Fetch the employee with the given id
+    const employee = await User.findById(employeeId)
+      .select("-password")
+      .populate("tasks")
+      .exec();
+
+    if (!employee) {
+      return next(createError(404, "Employee not found"));
+    }
+
+    return res.status(200).json({
+      message: "Employee fetched successfully",
+      employee
+    });
+  } catch (err) {
+    return next(createError(err.statusCode, err.message));
+  }
+};

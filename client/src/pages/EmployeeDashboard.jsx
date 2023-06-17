@@ -10,6 +10,7 @@ import { openSnackbar } from "../redux/reducers/snackbarSlice";
 import TaskCard from "../components/Cards/TaskCard";
 import PieChart from "../components/Charts/PieChart";
 import BarChartComponent from "../components/Charts/BarChart";
+import UpdateTask from "../components/UpdateTask";
 
 const Container = styled.div`
   padding: 20px 30px;
@@ -119,6 +120,10 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("trackify-token");
   const [tasks, setTasks] = useState([]);
+  const [openUpdateTask, setOpenUpdateTask] = useState({
+    state: false,
+    task: null
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -222,7 +227,11 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
                                   new Date(a.start_time)
                               )
                               .map((task) => (
-                                <TaskCard key={task._id} task={task} />
+                                <TaskCard
+                                  key={task._id}
+                                  task={task}
+                                  setOpenUpdateTask={setOpenUpdateTask}
+                                />
                               ))}
                           </Masonry>
                         </ResponsiveMasonry>
@@ -271,7 +280,11 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
                                   new Date(a.start_time)
                               )
                               .map((task) => (
-                                <TaskCard key={task._id} task={task} />
+                                <TaskCard
+                                  key={task._id}
+                                  task={task}
+                                  setOpenUpdateTask={setOpenUpdateTask}
+                                />
                               ))}
                           </Masonry>
                         </ResponsiveMasonry>
@@ -301,6 +314,13 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
             </Wrapper>
           )}
         </div>
+      )}
+
+      {openUpdateTask.state && (
+        <UpdateTask
+          setOpenUpdateTask={setOpenUpdateTask}
+          task={openUpdateTask.task}
+        />
       )}
     </Container>
   );

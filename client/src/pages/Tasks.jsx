@@ -8,6 +8,7 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { getAllTasks } from "../api";
 import { openSnackbar } from "../redux/reducers/snackbarSlice";
 import TaskCard from "../components/Cards/TaskCard";
+import UpdateTask from "../components/UpdateTask";
 
 const Container = styled.div`
   padding: 20px 30px;
@@ -139,6 +140,10 @@ const Tasks = ({ setOpenCreateTask }) => {
   const theme = useTheme();
   const token = localStorage.getItem("trackify-token");
   const [tasks, setTasks] = useState([]);
+  const [openUpdateTask, setOpenUpdateTask] = useState({
+    state: false,
+    task: null
+  });
   const [filter, setFilter] = useState([]);
   const [customDate, setCustomDate] = useState(null); // [startDate, endDate
   const [loading, setLoading] = useState(true);
@@ -277,7 +282,11 @@ const Tasks = ({ setOpenCreateTask }) => {
                               new Date(b.start_time) - new Date(a.start_time)
                           )
                           .map((task) => (
-                            <TaskCard key={task._id} task={task} />
+                            <TaskCard
+                              key={task._id}
+                              task={task}
+                              setOpenUpdateTask={setOpenUpdateTask}
+                            />
                           ))
                       )}
                     </Masonry>
@@ -331,7 +340,11 @@ const Tasks = ({ setOpenCreateTask }) => {
                               new Date(b.start_time) - new Date(a.start_time)
                           )
                           .map((task) => (
-                            <TaskCard key={task._id} task={task} />
+                            <TaskCard
+                              key={task._id}
+                              task={task}
+                              setOpenUpdateTask={setOpenUpdateTask}
+                            />
                           ))
                       )}
                     </Masonry>
@@ -468,7 +481,11 @@ const Tasks = ({ setOpenCreateTask }) => {
                               new Date(b.start_time) - new Date(a.start_time)
                           )
                           .map((task) => (
-                            <TaskCard key={task._id} task={task} />
+                            <TaskCard
+                              key={task._id}
+                              task={task}
+                              setOpenUpdateTask={setOpenUpdateTask}
+                            />
                           ))
                       )}
                     </Masonry>
@@ -478,6 +495,13 @@ const Tasks = ({ setOpenCreateTask }) => {
             </Wrapper>
           )}
         </div>
+      )}
+
+      {openUpdateTask.state && (
+        <UpdateTask
+          setOpenUpdateTask={setOpenUpdateTask}
+          task={openUpdateTask.task}
+        />
       )}
     </Container>
   );

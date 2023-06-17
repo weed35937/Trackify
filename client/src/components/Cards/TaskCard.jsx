@@ -99,9 +99,17 @@ const Text = styled.div`
   color: ${({ theme }) => theme.text_primary + 90};
 `;
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task, setOpenUpdateTask }) => {
   return (
-    <Card type={task.task_type}>
+    <Card
+      type={task.task_type}
+      onClick={() => {
+        setOpenUpdateTask({
+          state: true,
+          task
+        });
+      }}
+    >
       <TaskType type={task.task_type}>
         {task.task_type === "meeting" && (
           <VideocamOutlined sx={{ fontSize: "19px" }} />

@@ -143,44 +143,43 @@ const AdminDashboard = () => {
 
   return (
     <Container>
-      {loading ? (
-        <Loader />
+      {loading || error ? (
+        <>
+          {loading && <Loader />}
+          {error && <Error style={{ color: "red" }}>Error: {error}</Error>}
+        </>
       ) : (
+        // Employee list in table format
         <div>
-          {error ? (
-            <Error style={{ color: "red" }}>Error: {error}</Error>
-          ) : (
-            <EmployeeTable>
-              <ItemTitle
-                fontSize="20px"
-                smallfontSize="16px"
-                style={{
-                  padding: "16px 22px",
-                  margin: "0px"
-                }}
-              >
-                Employee List
-              </ItemTitle>
-              <TableTop>
-                <Heading style={{ width: "30%" }} />
-                <Heading style={{ width: "80%", justifyContent: "start" }}>
-                  Username
-                </Heading>
-                <Heading>Contact No</Heading>
-                <Heading style={{ width: "50%" }}>Department</Heading>
-                <Heading>Joining Date</Heading>
-                <Heading>Status</Heading>
-              </TableTop>
-              <EmployeeList>
-                {employees.map((employee) => {
-                  return (
-                    <EmployeeTableCard key={employee._id} employee={employee} />
-                    // <EmployeeCard key={employee._id} employee={employee} />
-                  );
-                })}
-              </EmployeeList>
-            </EmployeeTable>
-          )}
+          <EmployeeTable>
+            <ItemTitle
+              fontSize="20px"
+              smallfontSize="16px"
+              style={{
+                padding: "16px 22px",
+                margin: "0px"
+              }}
+            >
+              Employee List
+            </ItemTitle>
+            <TableTop>
+              <Heading style={{ width: "30%" }} />
+              <Heading style={{ width: "80%", justifyContent: "start" }}>
+                Username
+              </Heading>
+              <Heading>Contact No</Heading>
+              <Heading style={{ width: "50%" }}>Department</Heading>
+              <Heading>Joining Date</Heading>
+              <Heading>Status</Heading>
+            </TableTop>
+            <EmployeeList>
+              {employees.map((employee) => {
+                return (
+                  <EmployeeTableCard key={employee._id} employee={employee} />
+                );
+              })}
+            </EmployeeList>
+          </EmployeeTable>
         </div>
       )}
     </Container>

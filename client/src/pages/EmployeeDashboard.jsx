@@ -162,158 +162,154 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
   }, [token, currentUser, dispatch, reload]);
   return (
     <Container>
-      {loading ? (
-        <Loader />
+      {loading || error ? (
+        <>
+          {loading && <Loader />}
+          {error && <Error style={{ color: "red" }}>Error: {error}</Error>}
+        </>
       ) : (
         <div>
-          {error ? (
-            <Error style={{ color: "red" }}>Error: {error}</Error>
-          ) : (
-            <Wrapper>
-              <Content>
-                <FlexWrap minDirection="column" minWidth="1200px">
-                  <FlexWrap
-                    direction="column"
-                    style={{ flex: "8", flexWrap: "nowrap", width: "100%" }}
-                  >
-                    <div style={{ height: "100%" }}>
-                      <ItemTitle>Todays Tasks</ItemTitle>
-                      {tasks
-                        .filter((task) => {
-                          const taskStartDate = new Date(task.start_time);
-                          return (
-                            taskStartDate.getDate() === today.getDate() &&
-                            taskStartDate.getMonth() === today.getMonth() &&
-                            taskStartDate.getFullYear() === today.getFullYear()
-                          );
-                        })
-                        .sort(
-                          (a, b) =>
-                            new Date(b.start_time) - new Date(a.start_time)
-                        ).length === 0 ? (
-                        // eslint-disable-next-line react/jsx-indent
-                        <Error>
-                          No tasks found !!{" "}
-                          <TextButton
-                            style={{ fontSize: "16px" }}
-                            onClick={() => setOpenCreateTask(true)}
-                          >
-                            Add Task
-                          </TextButton>
-                        </Error>
-                      ) : (
-                        <ResponsiveMasonry
-                          columnsCountBreakPoints={{
-                            400: 1,
-                            700: 2,
-                            1000: 3
-                          }}
-                          style={{ marginBottom: "32px" }}
+          <Wrapper>
+            <Content>
+              <FlexWrap minDirection="column" minWidth="1200px">
+                <FlexWrap
+                  direction="column"
+                  style={{ flex: "8", flexWrap: "nowrap", width: "100%" }}
+                >
+                  <div style={{ height: "100%" }}>
+                    <ItemTitle>Todays Tasks</ItemTitle>
+                    {tasks
+                      .filter((task) => {
+                        const taskStartDate = new Date(task.start_time);
+                        return (
+                          taskStartDate.getDate() === today.getDate() &&
+                          taskStartDate.getMonth() === today.getMonth() &&
+                          taskStartDate.getFullYear() === today.getFullYear()
+                        );
+                      })
+                      .sort(
+                        (a, b) =>
+                          new Date(b.start_time) - new Date(a.start_time)
+                      ).length === 0 ? (
+                      // eslint-disable-next-line react/jsx-indent
+                      <Error>
+                        No tasks found !!{" "}
+                        <TextButton
+                          style={{ fontSize: "16px" }}
+                          onClick={() => setOpenCreateTask(true)}
                         >
-                          <Masonry gutter="12px">
-                            {tasks
-                              .filter((task) => {
-                                const taskStartDate = new Date(task.start_time);
-                                return (
-                                  taskStartDate.getDate() === today.getDate() &&
-                                  taskStartDate.getMonth() ===
-                                    today.getMonth() &&
-                                  taskStartDate.getFullYear() ===
-                                    today.getFullYear()
-                                );
-                              })
-                              .sort(
-                                (a, b) =>
-                                  new Date(b.start_time) -
-                                  new Date(a.start_time)
-                              )
-                              .map((task) => (
-                                <TaskCard
-                                  key={task._id}
-                                  task={task}
-                                  setOpenUpdateTask={setOpenUpdateTask}
-                                />
-                              ))}
-                          </Masonry>
-                        </ResponsiveMasonry>
-                      )}
-                    </div>
-
-                    <div style={{ height: "100%" }}>
-                      <ItemTitle>
-                        Recent Tasks
-                        <TextButton onClick={() => navigate("/tasks")}>
-                          View All
+                          Add Task
                         </TextButton>
-                      </ItemTitle>
+                      </Error>
+                    ) : (
+                      <ResponsiveMasonry
+                        columnsCountBreakPoints={{
+                          400: 1,
+                          700: 2,
+                          1000: 3
+                        }}
+                        style={{ marginBottom: "32px" }}
+                      >
+                        <Masonry gutter="12px">
+                          {tasks
+                            .filter((task) => {
+                              const taskStartDate = new Date(task.start_time);
+                              return (
+                                taskStartDate.getDate() === today.getDate() &&
+                                taskStartDate.getMonth() === today.getMonth() &&
+                                taskStartDate.getFullYear() ===
+                                  today.getFullYear()
+                              );
+                            })
+                            .sort(
+                              (a, b) =>
+                                new Date(b.start_time) - new Date(a.start_time)
+                            )
+                            .map((task) => (
+                              <TaskCard
+                                key={task._id}
+                                task={task}
+                                setOpenUpdateTask={setOpenUpdateTask}
+                              />
+                            ))}
+                        </Masonry>
+                      </ResponsiveMasonry>
+                    )}
+                  </div>
 
-                      {tasks
-                        .slice(0, 8)
-                        .sort(
-                          (a, b) =>
-                            new Date(b.start_time) - new Date(a.start_time)
-                        ).length === 0 ? (
-                        // eslint-disable-next-line react/jsx-indent
-                        <Error>
-                          No tasks found !!{" "}
-                          <TextButton
-                            style={{ fontSize: "16px" }}
-                            onClick={() => setOpenCreateTask(true)}
-                          >
-                            Add Task
-                          </TextButton>
-                        </Error>
-                      ) : (
-                        <ResponsiveMasonry
-                          columnsCountBreakPoints={{
-                            400: 1,
-                            700: 2,
-                            1000: 3
-                          }}
-                          style={{ marginBottom: "32px" }}
+                  <div style={{ height: "100%" }}>
+                    <ItemTitle>
+                      Recent Tasks
+                      <TextButton onClick={() => navigate("/tasks")}>
+                        View All
+                      </TextButton>
+                    </ItemTitle>
+
+                    {tasks
+                      .slice(0, 8)
+                      .sort(
+                        (a, b) =>
+                          new Date(b.start_time) - new Date(a.start_time)
+                      ).length === 0 ? (
+                      // eslint-disable-next-line react/jsx-indent
+                      <Error>
+                        No tasks found !!{" "}
+                        <TextButton
+                          style={{ fontSize: "16px" }}
+                          onClick={() => setOpenCreateTask(true)}
                         >
-                          <Masonry gutter="12px">
-                            {tasks
-                              .slice(0, 8)
-                              .sort(
-                                (a, b) =>
-                                  new Date(b.start_time) -
-                                  new Date(a.start_time)
-                              )
-                              .map((task) => (
-                                <TaskCard
-                                  key={task._id}
-                                  task={task}
-                                  setOpenUpdateTask={setOpenUpdateTask}
-                                />
-                              ))}
-                          </Masonry>
-                        </ResponsiveMasonry>
-                      )}
-                    </div>
-                  </FlexWrap>
-                  <FlexWrap
-                    direction="column"
-                    style={{ flex: "2", flexWrap: "wrap" }}
-                  >
-                    <div>
-                      <ItemTitle>Pie Chart</ItemTitle>
-                      <Charts>
-                        <PieChart showType="today" tasks={tasks} />
-                        <PieChart showType="yesterday" tasks={tasks} />
-                      </Charts>
-                    </div>
-                  </FlexWrap>
+                          Add Task
+                        </TextButton>
+                      </Error>
+                    ) : (
+                      <ResponsiveMasonry
+                        columnsCountBreakPoints={{
+                          400: 1,
+                          700: 2,
+                          1000: 3
+                        }}
+                        style={{ marginBottom: "32px" }}
+                      >
+                        <Masonry gutter="12px">
+                          {tasks
+                            .slice(0, 8)
+                            .sort(
+                              (a, b) =>
+                                new Date(b.start_time) - new Date(a.start_time)
+                            )
+                            .map((task) => (
+                              <TaskCard
+                                key={task._id}
+                                task={task}
+                                setOpenUpdateTask={setOpenUpdateTask}
+                              />
+                            ))}
+                        </Masonry>
+                      </ResponsiveMasonry>
+                    )}
+                  </div>
                 </FlexWrap>
-                <div>
-                  <ItemTitle>Weekly Chart</ItemTitle>
-                  <Charts>
-                    <BarChartComponent tasks={tasks} />
-                  </Charts>
-                </div>
-              </Content>
-            </Wrapper>
-          )}
+                <FlexWrap
+                  direction="column"
+                  style={{ flex: "2", flexWrap: "wrap" }}
+                >
+                  <div>
+                    <ItemTitle>Pie Chart</ItemTitle>
+                    <Charts>
+                      <PieChart showType="today" tasks={tasks} />
+                      <PieChart showType="yesterday" tasks={tasks} />
+                    </Charts>
+                  </div>
+                </FlexWrap>
+              </FlexWrap>
+              <div>
+                <ItemTitle>Weekly Chart</ItemTitle>
+                <Charts>
+                  <BarChartComponent tasks={tasks} />
+                </Charts>
+              </div>
+            </Content>
+          </Wrapper>
         </div>
       )}
 

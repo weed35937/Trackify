@@ -257,185 +257,177 @@ const EmployeeDetails = () => {
 
   return (
     <Container>
-      {loading ? (
-        <Loader />
+      {loading || error ? (
+        <>
+          {loading && <Loader />}
+          {error && <Error style={{ color: "red" }}>Error: {error}</Error>}
+        </>
       ) : (
         <div>
-          {error ? (
-            <Error style={{ color: "red" }}>Error: {error}</Error>
-          ) : (
-            <Wrapper>
-              <Content>
-                <ProfileSection>
-                  <FlexWrap style={{ gap: "20px" }}>
-                    <AvatarImg
-                      style={{
-                        background: generateColor(employee?.username)
-                      }}
-                      src={employee?.img}
-                    >
-                      {employee?.username[0]}
-                    </AvatarImg>
-                    <ProfileInfo>
-                      <ProfileInfoName>{employee?.username}</ProfileInfoName>
-                      <Desc style={{ color: "#3483eb" }}>
-                        {employee?.email}
-                      </Desc>
-                      <Tags>
-                        <Tag>{userRole}</Tag>
-                        {employee.active ? (
-                          <Tag
-                            style={{
-                              background: `${theme.green + 20}`,
-                              color: `${theme.green}`
-                            }}
-                          >
-                            Active
-                          </Tag>
-                        ) : (
-                          <Tag
-                            style={{
-                              background: `${theme.yellow + 20}`,
-                              color: `${theme.yellow}`
-                            }}
-                          >
-                            Deactivated
-                          </Tag>
-                        )}
-                      </Tags>
-                    </ProfileInfo>
-                    <ExtraDetails>
-                      <Text>
-                        <b>Contact No: &nbsp;</b>
-                        {` ${employee.contact_number}`}
-                      </Text>
-                      <Text>
-                        <b>Department: &nbsp;</b>
-                        {` ${employee.department}`}
-                      </Text>
-                      <Text>
-                        <b>Joining Date: &nbsp;</b>
-                        {` ${moment(employee.joining_date).format(
-                          "DD-MM-YYYY"
-                        )}`}
-                      </Text>
-                    </ExtraDetails>
-                  </FlexWrap>
-                </ProfileSection>
-                <FlexWrap minDirection="column" minWidth="1200px">
-                  <FlexWrap
-                    direction="column"
-                    style={{ flex: "8", flexWrap: "nowrap", width: "100%" }}
+          <Wrapper>
+            <Content>
+              <ProfileSection>
+                <FlexWrap style={{ gap: "20px" }}>
+                  <AvatarImg
+                    style={{
+                      background: generateColor(employee?.username)
+                    }}
+                    src={employee?.img}
                   >
-                    <div style={{ height: "100%" }}>
-                      <ItemTitle>Todays Tasks</ItemTitle>
-                      {tasks
-                        .filter((task) => {
-                          const taskStartDate = new Date(task.start_time);
-                          return (
-                            taskStartDate.getDate() === today.getDate() &&
-                            taskStartDate.getMonth() === today.getMonth() &&
-                            taskStartDate.getFullYear() === today.getFullYear()
-                          );
-                        })
-                        .sort(
-                          (a, b) =>
-                            new Date(b.start_time) - new Date(a.start_time)
-                        ).length === 0 ? (
-                        // eslint-disable-next-line react/jsx-indent
-                        <Error>No tasks found !! </Error>
-                      ) : (
-                        <ResponsiveMasonry
-                          columnsCountBreakPoints={{
-                            400: 1,
-                            700: 2,
-                            1000: 3
+                    {employee?.username[0]}
+                  </AvatarImg>
+                  <ProfileInfo>
+                    <ProfileInfoName>{employee?.username}</ProfileInfoName>
+                    <Desc style={{ color: "#3483eb" }}>{employee?.email}</Desc>
+                    <Tags>
+                      <Tag>{userRole}</Tag>
+                      {employee.active ? (
+                        <Tag
+                          style={{
+                            background: `${theme.green + 20}`,
+                            color: `${theme.green}`
                           }}
-                          style={{ marginBottom: "32px" }}
                         >
-                          <Masonry gutter="12px">
-                            {tasks
-                              .filter((task) => {
-                                const taskStartDate = new Date(task.start_time);
-                                return (
-                                  taskStartDate.getDate() === today.getDate() &&
-                                  taskStartDate.getMonth() ===
-                                    today.getMonth() &&
-                                  taskStartDate.getFullYear() ===
-                                    today.getFullYear()
-                                );
-                              })
-                              .sort(
-                                (a, b) =>
-                                  new Date(b.start_time) -
-                                  new Date(a.start_time)
-                              )
-                              .map((task) => (
-                                <TaskCard key={task._id} task={task} />
-                              ))}
-                          </Masonry>
-                        </ResponsiveMasonry>
-                      )}
-                    </div>
-
-                    <div style={{ height: "100%" }}>
-                      <ItemTitle>Recent Tasks</ItemTitle>
-
-                      {tasks
-                        .slice(0, 9)
-                        .sort(
-                          (a, b) =>
-                            new Date(b.start_time) - new Date(a.start_time)
-                        ).length === 0 ? (
-                        // eslint-disable-next-line react/jsx-indent
-                        <Error>No tasks found !! </Error>
+                          Active
+                        </Tag>
                       ) : (
-                        <ResponsiveMasonry
-                          columnsCountBreakPoints={{
-                            400: 1,
-                            700: 2,
-                            1000: 3
+                        <Tag
+                          style={{
+                            background: `${theme.yellow + 20}`,
+                            color: `${theme.yellow}`
                           }}
-                          style={{ marginBottom: "32px" }}
                         >
-                          <Masonry gutter="12px">
-                            {tasks
-                              .slice(0, 9)
-                              .sort(
-                                (a, b) =>
-                                  new Date(b.start_time) -
-                                  new Date(a.start_time)
-                              )
-                              .map((task) => (
-                                <TaskCard key={task._id} task={task} />
-                              ))}
-                          </Masonry>
-                        </ResponsiveMasonry>
+                          Deactivated
+                        </Tag>
                       )}
-                    </div>
-                  </FlexWrap>
-                  <FlexWrap
-                    direction="column"
-                    style={{ flex: "2", flexWrap: "wrap" }}
-                  >
-                    <div>
-                      <ItemTitle>Pie Chart</ItemTitle>
-                      <Charts>
-                        <PieChart showType="today" tasks={tasks} />
-                        <PieChart showType="yesterday" tasks={tasks} />
-                      </Charts>
-                    </div>
-                  </FlexWrap>
+                    </Tags>
+                  </ProfileInfo>
+                  <ExtraDetails>
+                    <Text>
+                      <b>Contact No: &nbsp;</b>
+                      {` ${employee.contact_number}`}
+                    </Text>
+                    <Text>
+                      <b>Department: &nbsp;</b>
+                      {` ${employee.department}`}
+                    </Text>
+                    <Text>
+                      <b>Joining Date: &nbsp;</b>
+                      {` ${moment(employee.joining_date).format("DD-MM-YYYY")}`}
+                    </Text>
+                  </ExtraDetails>
                 </FlexWrap>
-                <div>
-                  <ItemTitle>Weekly Chart</ItemTitle>
-                  <Charts>
-                    <BarChartComponent tasks={tasks} />
-                  </Charts>
-                </div>
-              </Content>
-            </Wrapper>
-          )}
+              </ProfileSection>
+              <FlexWrap minDirection="column" minWidth="1200px">
+                <FlexWrap
+                  direction="column"
+                  style={{ flex: "8", flexWrap: "nowrap", width: "100%" }}
+                >
+                  <div style={{ height: "100%" }}>
+                    <ItemTitle>Todays Tasks</ItemTitle>
+                    {tasks
+                      .filter((task) => {
+                        const taskStartDate = new Date(task.start_time);
+                        return (
+                          taskStartDate.getDate() === today.getDate() &&
+                          taskStartDate.getMonth() === today.getMonth() &&
+                          taskStartDate.getFullYear() === today.getFullYear()
+                        );
+                      })
+                      .sort(
+                        (a, b) =>
+                          new Date(b.start_time) - new Date(a.start_time)
+                      ).length === 0 ? (
+                      // eslint-disable-next-line react/jsx-indent
+                      <Error>No tasks found !! </Error>
+                    ) : (
+                      <ResponsiveMasonry
+                        columnsCountBreakPoints={{
+                          400: 1,
+                          700: 2,
+                          1000: 3
+                        }}
+                        style={{ marginBottom: "32px" }}
+                      >
+                        <Masonry gutter="12px">
+                          {tasks
+                            .filter((task) => {
+                              const taskStartDate = new Date(task.start_time);
+                              return (
+                                taskStartDate.getDate() === today.getDate() &&
+                                taskStartDate.getMonth() === today.getMonth() &&
+                                taskStartDate.getFullYear() ===
+                                  today.getFullYear()
+                              );
+                            })
+                            .sort(
+                              (a, b) =>
+                                new Date(b.start_time) - new Date(a.start_time)
+                            )
+                            .map((task) => (
+                              <TaskCard key={task._id} task={task} />
+                            ))}
+                        </Masonry>
+                      </ResponsiveMasonry>
+                    )}
+                  </div>
+
+                  <div style={{ height: "100%" }}>
+                    <ItemTitle>Recent Tasks</ItemTitle>
+
+                    {tasks
+                      .slice(0, 9)
+                      .sort(
+                        (a, b) =>
+                          new Date(b.start_time) - new Date(a.start_time)
+                      ).length === 0 ? (
+                      // eslint-disable-next-line react/jsx-indent
+                      <Error>No tasks found !! </Error>
+                    ) : (
+                      <ResponsiveMasonry
+                        columnsCountBreakPoints={{
+                          400: 1,
+                          700: 2,
+                          1000: 3
+                        }}
+                        style={{ marginBottom: "32px" }}
+                      >
+                        <Masonry gutter="12px">
+                          {tasks
+                            .slice(0, 9)
+                            .sort(
+                              (a, b) =>
+                                new Date(b.start_time) - new Date(a.start_time)
+                            )
+                            .map((task) => (
+                              <TaskCard key={task._id} task={task} />
+                            ))}
+                        </Masonry>
+                      </ResponsiveMasonry>
+                    )}
+                  </div>
+                </FlexWrap>
+                <FlexWrap
+                  direction="column"
+                  style={{ flex: "2", flexWrap: "wrap" }}
+                >
+                  <div>
+                    <ItemTitle>Pie Chart</ItemTitle>
+                    <Charts>
+                      <PieChart showType="today" tasks={tasks} />
+                      <PieChart showType="yesterday" tasks={tasks} />
+                    </Charts>
+                  </div>
+                </FlexWrap>
+              </FlexWrap>
+              <div>
+                <ItemTitle>Weekly Chart</ItemTitle>
+                <Charts>
+                  <BarChartComponent tasks={tasks} />
+                </Charts>
+              </div>
+            </Content>
+          </Wrapper>
         </div>
       )}
     </Container>

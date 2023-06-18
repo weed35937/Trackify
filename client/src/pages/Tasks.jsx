@@ -228,23 +228,47 @@ const Tasks = ({ setOpenCreateTask }) => {
 
   return (
     <Container>
-      {loading ? (
-        <Loader />
+      {loading || error ? (
+        <>
+          {loading && <Loader />}
+          {error && <Error style={{ color: "red" }}>Error: {error}</Error>}
+        </>
       ) : (
         <div>
-          {error ? (
-            <Error>Error: {error}</Error>
-          ) : (
-            <Wrapper>
-              <Content>
-                <div>
-                  <ItemTitle>Todays Tasks</ItemTitle>
-                  <ResponsiveMasonry
-                    columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
-                    style={{ marginBottom: "32px" }}
-                  >
-                    <Masonry gutter="12px">
-                      {tasks
+          <Wrapper>
+            <Content>
+              <div>
+                <ItemTitle>Todays Tasks</ItemTitle>
+                <ResponsiveMasonry
+                  columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
+                  style={{ marginBottom: "32px" }}
+                >
+                  <Masonry gutter="12px">
+                    {tasks
+                      .filter((task) => {
+                        const taskStartDate = new Date(task.start_time);
+                        return (
+                          taskStartDate.getDate() === today.getDate() &&
+                          taskStartDate.getMonth() === today.getMonth() &&
+                          taskStartDate.getFullYear() === today.getFullYear()
+                        );
+                      })
+                      .sort(
+                        (a, b) =>
+                          new Date(b.start_time) - new Date(a.start_time)
+                      ).length === 0 ? (
+                      // eslint-disable-next-line react/jsx-indent
+                      <Error>
+                        No tasks found !!{" "}
+                        <TextButton
+                          style={{ fontSize: "16px" }}
+                          onClick={() => setOpenCreateTask(true)}
+                        >
+                          Add Task
+                        </TextButton>
+                      </Error>
+                    ) : (
+                      tasks
                         .filter((task) => {
                           const taskStartDate = new Date(task.start_time);
                           return (
@@ -256,51 +280,51 @@ const Tasks = ({ setOpenCreateTask }) => {
                         .sort(
                           (a, b) =>
                             new Date(b.start_time) - new Date(a.start_time)
-                        ).length === 0 ? (
-                        // eslint-disable-next-line react/jsx-indent
-                        <Error>
-                          No tasks found !!{" "}
-                          <TextButton
-                            style={{ fontSize: "16px" }}
-                            onClick={() => setOpenCreateTask(true)}
-                          >
-                            Add Task
-                          </TextButton>
-                        </Error>
-                      ) : (
-                        tasks
-                          .filter((task) => {
-                            const taskStartDate = new Date(task.start_time);
-                            return (
-                              taskStartDate.getDate() === today.getDate() &&
-                              taskStartDate.getMonth() === today.getMonth() &&
-                              taskStartDate.getFullYear() ===
-                                today.getFullYear()
-                            );
-                          })
-                          .sort(
-                            (a, b) =>
-                              new Date(b.start_time) - new Date(a.start_time)
-                          )
-                          .map((task) => (
-                            <TaskCard
-                              key={task._id}
-                              task={task}
-                              setOpenUpdateTask={setOpenUpdateTask}
-                            />
-                          ))
-                      )}
-                    </Masonry>
-                  </ResponsiveMasonry>
-                </div>
-                <div>
-                  <ItemTitle>Yesterdays Tasks</ItemTitle>
-                  <ResponsiveMasonry
-                    columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
-                    style={{ marginBottom: "32px" }}
-                  >
-                    <Masonry gutter="12px">
-                      {tasks
+                        )
+                        .map((task) => (
+                          <TaskCard
+                            key={task._id}
+                            task={task}
+                            setOpenUpdateTask={setOpenUpdateTask}
+                          />
+                        ))
+                    )}
+                  </Masonry>
+                </ResponsiveMasonry>
+              </div>
+              <div>
+                <ItemTitle>Yesterdays Tasks</ItemTitle>
+                <ResponsiveMasonry
+                  columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
+                  style={{ marginBottom: "32px" }}
+                >
+                  <Masonry gutter="12px">
+                    {tasks
+                      .filter((task) => {
+                        const taskStartDate = new Date(task.start_time);
+                        return (
+                          taskStartDate.getDate() === yesterday.getDate() &&
+                          taskStartDate.getMonth() === yesterday.getMonth() &&
+                          taskStartDate.getFullYear() ===
+                            yesterday.getFullYear()
+                        );
+                      })
+                      .sort(
+                        (a, b) =>
+                          new Date(b.start_time) - new Date(a.start_time)
+                      ).length === 0 ? (
+                      // eslint-disable-next-line react/jsx-indent
+                      <Error>
+                        No tasks found !!{" "}
+                        <TextButton
+                          style={{ fontSize: "16px" }}
+                          onClick={() => setOpenCreateTask(true)}
+                        >
+                          Add Task
+                        </TextButton>
+                      </Error>
+                    ) : (
+                      tasks
                         .filter((task) => {
                           const taskStartDate = new Date(task.start_time);
                           return (
@@ -313,188 +337,158 @@ const Tasks = ({ setOpenCreateTask }) => {
                         .sort(
                           (a, b) =>
                             new Date(b.start_time) - new Date(a.start_time)
-                        ).length === 0 ? (
-                        // eslint-disable-next-line react/jsx-indent
-                        <Error>
-                          No tasks found !!{" "}
-                          <TextButton
-                            style={{ fontSize: "16px" }}
-                            onClick={() => setOpenCreateTask(true)}
-                          >
-                            Add Task
-                          </TextButton>
-                        </Error>
-                      ) : (
-                        tasks
-                          .filter((task) => {
-                            const taskStartDate = new Date(task.start_time);
-                            return (
-                              taskStartDate.getDate() === yesterday.getDate() &&
-                              taskStartDate.getMonth() ===
-                                yesterday.getMonth() &&
-                              taskStartDate.getFullYear() ===
-                                yesterday.getFullYear()
-                            );
-                          })
-                          .sort(
-                            (a, b) =>
-                              new Date(b.start_time) - new Date(a.start_time)
-                          )
-                          .map((task) => (
-                            <TaskCard
-                              key={task._id}
-                              task={task}
-                              setOpenUpdateTask={setOpenUpdateTask}
-                            />
-                          ))
-                      )}
-                    </Masonry>
-                  </ResponsiveMasonry>
-                </div>
-                <div>
-                  <ItemTitle>
-                    {filter.length === 2 || customDate ? "Custom" : "All"} Tasks
-                    <Filter>
-                      <FilterText>Filter Tasks:</FilterText>
-                      <FilterSelect onChange={(e) => handlefilter(e)}>
-                        <FilterOption value="All">All</FilterOption>
-                        <FilterOption value="Last 7 Days">
-                          Last 7 Days
-                        </FilterOption>
-                        <FilterOption value="This Week">This Week</FilterOption>
-                        <FilterOption value="This Month">
-                          This Month
-                        </FilterOption>
-                        <FilterOption value="This Year">This Year</FilterOption>
-                        <FilterOption value="Custom">Custom -</FilterOption>
-                      </FilterSelect>
-                      {customDate && (
-                        <div
-                          style={{
-                            width: "90px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: `${theme.card}`,
-                            padding: "2px 6px",
-                            borderRadius: "4px",
-                            cursor: "pointer"
-                          }}
-                        >
-                          <DatePicker
-                            selected={customDate}
-                            onChange={(date) => {
-                              setCustomDate(date);
-                            }}
-                            onFocus={(e) => {
-                              e.target.readOnly = true;
-                            }}
-                            onBlur={(e) => {
-                              e.target.readOnly = false;
-                            }}
-                            placeholderText="Start Date"
-                            maxDate={new Date()}
-                            dateFormat="dd MMM yyyy"
-                            showYearDropdown
-                            scrollableYearDropdown
+                        )
+                        .map((task) => (
+                          <TaskCard
+                            key={task._id}
+                            task={task}
+                            setOpenUpdateTask={setOpenUpdateTask}
                           />
-                        </div>
-                      )}
-                    </Filter>
-                  </ItemTitle>
-                  <ResponsiveMasonry
-                    columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
-                  >
-                    <Masonry gutter="12px">
-                      {tasks.filter((task) => {
-                        if (filter.length === 0) {
-                          if (customDate) {
-                            // show tasks for current date only
-                            const cuDate = new Date(customDate);
-                            const taskDate = new Date(task.start_time);
-                            return (
-                              taskDate.getDate() === cuDate.getDate() &&
-                              taskDate.getMonth() === cuDate.getMonth() &&
-                              taskDate.getFullYear() === cuDate.getFullYear()
-                            );
-                          }
-                          // Show all tasks if no filter is applied
-                          return task.start_time;
-                          // eslint-disable-next-line no-else-return
-                        } else if (
-                          filter.length === 2 &&
-                          filter[0] &&
-                          filter[1]
-                        ) {
-                          // Check if task's start_time falls within the filter range
-                          const taskStartTime = new Date(task.start_time);
+                        ))
+                    )}
+                  </Masonry>
+                </ResponsiveMasonry>
+              </div>
+              <div>
+                <ItemTitle>
+                  {filter.length === 2 || customDate ? "Custom" : "All"} Tasks
+                  <Filter>
+                    <FilterText>Filter Tasks:</FilterText>
+                    <FilterSelect onChange={(e) => handlefilter(e)}>
+                      <FilterOption value="All">All</FilterOption>
+                      <FilterOption value="Last 7 Days">
+                        Last 7 Days
+                      </FilterOption>
+                      <FilterOption value="This Week">This Week</FilterOption>
+                      <FilterOption value="This Month">This Month</FilterOption>
+                      <FilterOption value="This Year">This Year</FilterOption>
+                      <FilterOption value="Custom">Custom -</FilterOption>
+                    </FilterSelect>
+                    {customDate && (
+                      <div
+                        style={{
+                          width: "90px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: `${theme.card}`,
+                          padding: "2px 6px",
+                          borderRadius: "4px",
+                          cursor: "pointer"
+                        }}
+                      >
+                        <DatePicker
+                          selected={customDate}
+                          onChange={(date) => {
+                            setCustomDate(date);
+                          }}
+                          onFocus={(e) => {
+                            e.target.readOnly = true;
+                          }}
+                          onBlur={(e) => {
+                            e.target.readOnly = false;
+                          }}
+                          placeholderText="Start Date"
+                          maxDate={new Date()}
+                          dateFormat="dd MMM yyyy"
+                          showYearDropdown
+                          scrollableYearDropdown
+                        />
+                      </div>
+                    )}
+                  </Filter>
+                </ItemTitle>
+                <ResponsiveMasonry
+                  columnsCountBreakPoints={{ 400: 1, 750: 2, 900: 4 }}
+                >
+                  <Masonry gutter="12px">
+                    {tasks.filter((task) => {
+                      if (filter.length === 0) {
+                        if (customDate) {
+                          // show tasks for current date only
+                          const cuDate = new Date(customDate);
+                          const taskDate = new Date(task.start_time);
                           return (
-                            taskStartTime >= filter[0] &&
-                            taskStartTime <= filter[1]
+                            taskDate.getDate() === cuDate.getDate() &&
+                            taskDate.getMonth() === cuDate.getMonth() &&
+                            taskDate.getFullYear() === cuDate.getFullYear()
                           );
                         }
-                        return false;
-                      }).length === 0 ? (
-                        // eslint-disable-next-line react/jsx-indent
-                        <Error>
-                          No tasks found !!{" "}
-                          <TextButton
-                            style={{ fontSize: "16px" }}
-                            onClick={() => setOpenCreateTask(true)}
-                          >
-                            Add Task
-                          </TextButton>
-                        </Error>
-                      ) : (
-                        tasks
-                          .filter((task) => {
-                            if (filter.length === 0) {
-                              if (customDate) {
-                                // show tasks for current date only
-                                const cuDate = new Date(customDate);
-                                const taskDate = new Date(task.start_time);
-                                return (
-                                  taskDate.getDate() === cuDate.getDate() &&
-                                  taskDate.getMonth() === cuDate.getMonth() &&
-                                  taskDate.getFullYear() ===
-                                    cuDate.getFullYear()
-                                );
-                              }
-                              // Show all tasks if no filter is applied
-                              return task.start_time;
-                              // eslint-disable-next-line no-else-return
-                            } else if (
-                              filter.length === 2 &&
-                              filter[0] &&
-                              filter[1]
-                            ) {
-                              // Check if task's start_time falls within the filter range
-                              const taskStartTime = new Date(task.start_time);
+                        // Show all tasks if no filter is applied
+                        return task.start_time;
+                        // eslint-disable-next-line no-else-return
+                      } else if (
+                        filter.length === 2 &&
+                        filter[0] &&
+                        filter[1]
+                      ) {
+                        // Check if task's start_time falls within the filter range
+                        const taskStartTime = new Date(task.start_time);
+                        return (
+                          taskStartTime >= filter[0] &&
+                          taskStartTime <= filter[1]
+                        );
+                      }
+                      return false;
+                    }).length === 0 ? (
+                      // eslint-disable-next-line react/jsx-indent
+                      <Error>
+                        No tasks found !!{" "}
+                        <TextButton
+                          style={{ fontSize: "16px" }}
+                          onClick={() => setOpenCreateTask(true)}
+                        >
+                          Add Task
+                        </TextButton>
+                      </Error>
+                    ) : (
+                      tasks
+                        .filter((task) => {
+                          if (filter.length === 0) {
+                            if (customDate) {
+                              // show tasks for current date only
+                              const cuDate = new Date(customDate);
+                              const taskDate = new Date(task.start_time);
                               return (
-                                taskStartTime >= filter[0] &&
-                                taskStartTime <= filter[1]
+                                taskDate.getDate() === cuDate.getDate() &&
+                                taskDate.getMonth() === cuDate.getMonth() &&
+                                taskDate.getFullYear() === cuDate.getFullYear()
                               );
                             }
-                            return false;
-                          })
-                          .sort(
-                            (a, b) =>
-                              new Date(b.start_time) - new Date(a.start_time)
-                          )
-                          .map((task) => (
-                            <TaskCard
-                              key={task._id}
-                              task={task}
-                              setOpenUpdateTask={setOpenUpdateTask}
-                            />
-                          ))
-                      )}
-                    </Masonry>
-                  </ResponsiveMasonry>
-                </div>
-              </Content>
-            </Wrapper>
-          )}
+                            // Show all tasks if no filter is applied
+                            return task.start_time;
+                            // eslint-disable-next-line no-else-return
+                          } else if (
+                            filter.length === 2 &&
+                            filter[0] &&
+                            filter[1]
+                          ) {
+                            // Check if task's start_time falls within the filter range
+                            const taskStartTime = new Date(task.start_time);
+                            return (
+                              taskStartTime >= filter[0] &&
+                              taskStartTime <= filter[1]
+                            );
+                          }
+                          return false;
+                        })
+                        .sort(
+                          (a, b) =>
+                            new Date(b.start_time) - new Date(a.start_time)
+                        )
+                        .map((task) => (
+                          <TaskCard
+                            key={task._id}
+                            task={task}
+                            setOpenUpdateTask={setOpenUpdateTask}
+                          />
+                        ))
+                    )}
+                  </Masonry>
+                </ResponsiveMasonry>
+              </div>
+            </Content>
+          </Wrapper>
         </div>
       )}
 

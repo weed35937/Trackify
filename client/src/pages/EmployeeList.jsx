@@ -109,25 +109,24 @@ const EmployeeList = () => {
 
   return (
     <Container>
-      {loading ? (
-        <Loader />
+      {loading || error ? (
+        <>
+          {loading && <Loader />}
+          {error && <Error style={{ color: "red" }}>Error: {error}</Error>}
+        </>
       ) : (
         <div>
-          {error ? (
-            <Error style={{ color: "red" }}>Error: {error}</Error>
-          ) : (
-            <Wrapper>
-              <ItemTitle>All Employees</ItemTitle>
-              <EmployeeListWrapper numberOfCards={employees.length}>
-                {employees.map((employee) => {
-                  return (
-                    // <EmployeeTableCard key={employee._id} employee={employee} />
-                    <EmployeeCard key={employee._id} employee={employee} />
-                  );
-                })}
-              </EmployeeListWrapper>
-            </Wrapper>
-          )}
+          <Wrapper>
+            <ItemTitle>All Employees</ItemTitle>
+            <EmployeeListWrapper numberOfCards={employees.length}>
+              {employees.map((employee) => {
+                return (
+                  // <EmployeeTableCard key={employee._id} employee={employee} />
+                  <EmployeeCard key={employee._id} employee={employee} />
+                );
+              })}
+            </EmployeeListWrapper>
+          </Wrapper>
         </div>
       )}
     </Container>

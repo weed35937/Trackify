@@ -86,6 +86,24 @@ const Heading = styled.div`
   }
 `;
 
+const Error = styled.div`
+  width: 100%;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 4px 16px;
+  color: ${({ theme }) => theme.text_secondary};
+  margin-bottom: 16px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+    padding: 4px 18px;
+  }
+`;
+
 const AdminDashboard = () => {
   // Hooks
   const { currentUser, reload } = useSelector((state) => state.user);
@@ -130,7 +148,7 @@ const AdminDashboard = () => {
       ) : (
         <div>
           {error ? (
-            <div>{error}</div>
+            <Error style={{ color: "red" }}>Error: {error}</Error>
           ) : (
             <EmployeeTable>
               <ItemTitle

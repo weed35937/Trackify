@@ -167,7 +167,7 @@ const EmployeeDashboard = ({ setOpenCreateTask }) => {
       ) : (
         <div>
           {error ? (
-            <Error style={{ color: "red" }}>{error}</Error>
+            <Error style={{ color: "red" }}>Error: {error}</Error>
           ) : (
             <Wrapper>
               <Content>

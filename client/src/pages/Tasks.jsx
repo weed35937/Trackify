@@ -233,7 +233,7 @@ const Tasks = ({ setOpenCreateTask }) => {
       ) : (
         <div>
           {error ? (
-            <Error>{error}</Error>
+            <Error>Error: {error}</Error>
           ) : (
             <Wrapper>
               <Content>

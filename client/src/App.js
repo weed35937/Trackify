@@ -18,6 +18,7 @@ import ChangePassword from "./components/ChangePassword";
 import EmployeeList from "./pages/EmployeeList";
 import Tasks from "./pages/Tasks";
 import EmployeeDetails from "./pages/EmployeeDetails";
+import withSplashScreen from "./components/withSplashScreen";
 // import BottomNav from "./components/BottomNav";
 
 const Container = styled.div`
@@ -155,4 +156,4 @@ function App() {
   );
 }
 
-export default App;
+export default withSplashScreen(App);

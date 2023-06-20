@@ -94,6 +94,7 @@ export const AdminLogin = async (req, res, next) => {
       username: user.username,
       email: user.email,
       role: user.role,
+      active: user.active,
       img: user.img,
       employees: user.employees
     };
@@ -144,6 +145,7 @@ export const EmployeeLogin = async (req, res, next) => {
       _id: user._id,
       username: user.username,
       email: user.email,
+      active: user.active,
       role: user.role,
       img: user.img,
       contact_number: user.contact_number,

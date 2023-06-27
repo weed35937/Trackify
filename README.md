@@ -1,34 +1,36 @@
-# Taskify
+# Trackify
 
-Taskify is a web application designed to streamline task management and enhance productivity in the workplace. It provides a user-friendly interface for employers to keep track of their employees' daily work activities and empowers employees to log their tasks efficiently.
+Trackify is a web application designed to streamline task management and enhance productivity in the workplace. It provides a user-friendly interface for employers to keep track of their employees' daily work activities and empowers employees to log their tasks efficiently.
 
 ## Features
 
--   User Authentication:
+- User Authentication:
 
-    -   Admin Login: Admins can access the system using their unique username and password to manage employee data and tasks.
-    -   Employee Login: Employees can log in with their credentials to add and view their tasks.
+  - Admin Login: Admins can access the system using their unique username and password to manage employee data and tasks.
+  - Employee Login: Employees can log in with their credentials to add and view their tasks.
 
--   Employee Management:
+- Employee Management:
 
-    -   Admin Dashboard: The admin has the ability to add employees, deactivate accounts, and view a list of all employees.
-    -   Employee Profile Update: Employees can update their profile information and password, except for the email ID.
+  - Admin Dashboard: The admin has the ability to add employees, deactivate accounts, and view a list of all employees.
+  - Employee Profile Update: Employees can update their profile information and password, except for the email ID.
 
--   Task Management:
-    -   Add Tasks: Employees can log tasks for each day, including task description, type (break, meeting, or work), start time, and duration.
-    -   Date Filtering: Users can filter and view tasks and associated graphical information for specific dates.
--   Graphical Information:
-    -   Pie Charts: Two pie charts display task distribution for the current day and the previous day, categorized by break, meeting, and work.
-    -   Stacked Bar Chart: A stacked bar chart provides a weekly overview, showing the distribution of not working (including breaks), working (work tasks), and meetings.
+- Task Management:
+  - Add Tasks: Employees can log tasks for each day, including task description, type (break, meeting, or work), start time, and duration.
+  - Date Filtering: Users can filter and view tasks and associated graphical information for specific dates.
+- Graphical Information:
+  - Pie Charts: Two pie charts display task distribution for the current day and the previous day, categorized by break, meeting, and work.
+  - Stacked Bar Chart: A stacked bar chart provides a weekly overview, showing the distribution of not working (including breaks), working (work tasks), and meetings.
 
 ## Getting Started
 
 ### Pre-requisites
+
 1. Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
 2. Create a [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account and set up a cluster.
 
 ### Clone the repository
-1. Clone the repository: `git clone https://github.com/rishavchanda/taskify.git`
+
+1. Clone the repository: `git clone https://github.com/rishavchanda/Trackify.git`
 
 ### Configure the client
 
@@ -65,14 +67,13 @@ MONGO_URL = <MongoDB connection string>
 
 ## Technologies Used
 
--   Front-End: ReactJS, HTML, CSS, JavaScript
--   Back-End: Node.js, Express.js
--   Database: MongoDB
-
+- Front-End: ReactJS, HTML, CSS, JavaScript
+- Back-End: Node.js, Express.js
+- Database: MongoDB
 
 ## Contributing
 
-We welcome contributions from the community to enhance Taskify. Feel free to submit bug reports, feature requests, or pull requests through the GitHub repository.
+We welcome contributions from the community to enhance Trackify. Feel free to submit bug reports, feature requests, or pull requests through the GitHub repository.
 
 ## License
 
@@ -82,4 +83,4 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 For any questions or inquiries, please reach out to the development team at [rishavchanda0@gmail.com]
 
-Enjoy using Taskify and stay productive!
+Enjoy using Trackify and stay productive!

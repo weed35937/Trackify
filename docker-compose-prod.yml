@@ -10,10 +10,10 @@ services:
       - "8080:80"
     # volumes:
     #   - ./client/src:/app/src
-    # environment:
-    #   - REACT_APP_SERVER_URL=http://localhost:8800
-    env_file:
-      - ./client/.env
+    environment:
+      - REACT_APP_SERVER_URL=http://localhost:8800
+    # env_file:
+    #   - ./client/.env
   
   server:
     build:

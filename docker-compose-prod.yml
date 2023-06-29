@@ -7,11 +7,11 @@ services:
       context: ./client
       dockerfile: Dockerfile.prod
     ports:
-      - "8080:80"
+      - "80:80"
     # volumes:
     #   - ./client/src:/app/src
     environment:
-      - REACT_APP_SERVER_URL=http://localhost:8800
+      - REACT_APP_SERVER_URL=https://trackify-w2tu.onrender.com
     # env_file:
     #   - ./client/.env
   

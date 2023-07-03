@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: `${process.env.REACT_APP_SERVER_URL}/api/`
+  baseURL: "https://trackify-server.duckdns.org/api/"
 });
 
 export const AdminRegister = async (data) =>

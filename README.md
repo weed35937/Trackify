@@ -2,12 +2,18 @@
 # Trackify
 
 Trackify is a web application designed to streamline task management and enhance productivity in the workplace. It provides a user-friendly interface for employers to keep track of their employees' daily work activities and empowers employees to log their tasks efficiently.
-
+#### Web Link: https://trackify.duckdns.org
+| Admin Credentials | Employee Credentials |
+|-----------------------------------------|-----------------------------------------|
+| Email: testadmin@gmail.com |  Email: testemployee@gmail.com |
+| Password- 123@testadmin | Password- 123@Testemployee |
+  
 |  Login                              |                                 |
 |-----------------------------------------|-----------------------------------------|
 | ![Image 1](https://github.com/rishavchanda/Trackify/assets/64485885/b8aae2e1-cb85-4d37-93f8-ca95e8141367) | ![Image 2](https://github.com/rishavchanda/Trackify/assets/64485885/eded583f-0e0e-45a2-9f41-017c3d7cb74f) |
+
 | Admin                                | Employee                                 |
-|||
+|-----------------------------------------|-----------------------------------------|
 | ![Image 3](https://github.com/rishavchanda/Trackify/assets/64485885/e1f89b04-2788-45b0-abc2-9dec616669e2) | ![Image 10](https://github.com/rishavchanda/Trackify/assets/64485885/c0abba0e-84d3-4299-9325-56c40d4b027b) |
 | ![Image 4](https://github.com/rishavchanda/Trackify/assets/64485885/27fce475-a52f-4f1f-91f4-228a5a4b08ab) | ![Image 11](https://github.com/rishavchanda/Trackify/assets/64485885/df1d5cf4-b623-4c78-9fe4-4744ca271320) |
 | ![Image 5](https://github.com/rishavchanda/Trackify/assets/64485885/39f9083d-61cb-462d-ba85-040679f598b3) | ![Image 12](https://github.com/rishavchanda/Trackify/assets/64485885/2b308d4e-c9a2-4384-9eee-0d1c45236ba5) |

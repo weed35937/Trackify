@@ -5,12 +5,12 @@ Trackify is a web application designed to streamline task management and enhance
 #### Web Link: https://trackify.duckdns.org
 | Admin Credentials | Employee Credentials |
 |-----------------------------------------|-----------------------------------------|
-| Email: testadmin@gmail.com |  Email: testemployee@gmail.com |
+| Email: chenglai.taya@gmail.com |  Email: peterpaulse100@gmail.com |
 | Password- 123@testadmin | Password- 123@Testemployee |
   
 |  Login                              |                                 |
 |-----------------------------------------|-----------------------------------------|
-| ![Image 1](https://github.com/rishavchanda/Trackify/assets/64485885/b8aae2e1-cb85-4d37-93f8-ca95e8141367) | ![Image 2](https://github.com/rishavchanda/Trackify/assets/64485885/eded583f-0e0e-45a2-9f41-017c3d7cb74f) |
+| ![Image 1](https://github.com/weed35937/Trackify/assets/64485885/b8aae2e1-cb85-4d37-93f8-ca95e8141367) | ![Image 2](https://github.com/weed35937/Trackify/assets/64485885/eded583f-0e0e-45a2-9f41-017c3d7cb74f) |
 
 | Admin                                | Employee                                 |
 |-----------------------------------------|-----------------------------------------|
